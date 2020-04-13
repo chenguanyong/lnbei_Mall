@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="spHome/public/header:: header"></head>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+
+<div class="container" style="width:90%" >
+	
+	<br />
+	
+	<div class="row">
+		<div class="col-md-12" id="cartTable">
+		
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-12 " style="    text-align: right;" >
+			<div class="my-page"></div>
+		</div>	
+	</div>
+</div>
+
+<script >
+$(function (){
+	initCartTable();
+	function initCartTable(){
+		
+		var defaultOptions = {
+				id: "cartTable", //id
+				height: $(window).height()-150,
+				showHead:false,
+				isBody:true,
+				columns:[
+					[
+						{
+							height:"20px",
+							width:"20%",
+							checkbox:false,
+							field : 'aa', 
+							title : '选择',
+							align : 'center',
+							c_x:[0],
+							c_y:[0],
+							filed_length:2,
+							colspan:[-1],
+							formatter:function(row, value, index, rootId){
+								return value;
+							},
+						}
+						],
+						
+						[
+							{
+								height:"120px",
+								width:"20%",
+								checkbox:false,
+								field : 'orderDate', 
+								title : '选择',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"80%",
+								checkbox:false,
+								field : 'orderDate', 
+								title : '选择',
+								align : 'center',
+					
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+						
+						],
+					
+					]
+				
+				
+				,//表头
+				data:[
+
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+						[{aa:""},{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"}],
+					
+				],//表数据
+			};
+		
+		
+		$.lb_table.init(defaultOptions);
+		parent.onload();
+		
+	}
+	
+})
+
+
+</script>
+</body>
+</html>

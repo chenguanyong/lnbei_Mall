@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpOrderComplainsMapper">
+    
+    <resultMap type="SpOrderComplains" id="SpOrderComplainsResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="complainType"    column="complain_type"    />
+        <result property="complainTargetId"    column="complain_target_id"    />
+        <result property="respondTargetId"    column="respond_target_id"    />
+        <result property="needRespond"    column="need_respond"    />
+        <result property="deliverRespondTime"    column="deliver_respond_time"    />
+        <result property="complainContent"    column="complain_content"    />
+        <result property="complainAnnex"    column="complain_annex"    />
+        <result property="complainStatus"    column="complain_status"    />
+        <result property="complainTime"    column="complain_time"    />
+        <result property="respondContent"    column="respond_content"    />
+        <result property="respondAnnex"    column="respond_annex"    />
+        <result property="respondTime"    column="respond_time"    />
+        <result property="finalResult"    column="final_result"    />
+        <result property="finalResultTime"    column="final_result_time"    />
+        <result property="finalHandleStaffid"    column="final_handle_staffid"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpOrderComplainsVo">
+        select mid, order_id, complain_type, complain_target_id, respond_target_id, need_respond, deliver_respond_time, complain_content, complain_annex, complain_status, complain_time, respond_content, respond_annex, respond_time, final_result, final_result_time, final_handle_staffid, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_order_complains
+    </sql>
+	
+    <select id="selectSpOrderComplainsList" parameterType="SpOrderComplains" resultMap="SpOrderComplainsResult">
+        <include refid="selectSpOrderComplainsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="complainType != null  and complainType != '' "> and complain_type = #{complainType}</if>
+             <if test="complainTargetId != null  and complainTargetId != '' "> and complain_target_id = #{complainTargetId}</if>
+             <if test="respondTargetId != null  and respondTargetId != '' "> and respond_target_id = #{respondTargetId}</if>
+             <if test="needRespond != null  and needRespond != '' "> and need_respond = #{needRespond}</if>
+             <if test="deliverRespondTime != null "> and deliver_respond_time = #{deliverRespondTime}</if>
+             <if test="complainContent != null  and complainContent != '' "> and complain_content = #{complainContent}</if>
+             <if test="complainAnnex != null  and complainAnnex != '' "> and complain_annex = #{complainAnnex}</if>
+             <if test="complainStatus != null  and complainStatus != '' "> and complain_status = #{complainStatus}</if>
+             <if test="complainTime != null "> and complain_time = #{complainTime}</if>
+             <if test="respondContent != null  and respondContent != '' "> and respond_content = #{respondContent}</if>
+             <if test="respondAnnex != null  and respondAnnex != '' "> and respond_annex = #{respondAnnex}</if>
+             <if test="respondTime != null "> and respond_time = #{respondTime}</if>
+             <if test="finalResult != null  and finalResult != '' "> and final_result = #{finalResult}</if>
+             <if test="finalResultTime != null "> and final_result_time = #{finalResultTime}</if>
+             <if test="finalHandleStaffid != null "> and final_handle_staffid = #{finalHandleStaffid}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpOrderComplainsById" parameterType="String" resultMap="SpOrderComplainsResult">
+        <include refid="selectSpOrderComplainsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpOrderComplains" parameterType="SpOrderComplains">
+              <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_order_complains
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="complainType != null  and complainType != ''  ">complain_type,</if>
+			<if test="complainTargetId != null  and complainTargetId != ''  ">complain_target_id,</if>
+			<if test="respondTargetId != null  and respondTargetId != ''  ">respond_target_id,</if>
+			<if test="needRespond != null  and needRespond != ''  ">need_respond,</if>
+			<if test="deliverRespondTime != null  ">deliver_respond_time,</if>
+			<if test="complainContent != null  and complainContent != ''  ">complain_content,</if>
+			<if test="complainAnnex != null  and complainAnnex != ''  ">complain_annex,</if>
+			<if test="complainStatus != null  and complainStatus != ''  ">complain_status,</if>
+			<if test="complainTime != null  ">complain_time,</if>
+			<if test="respondContent != null  and respondContent != ''  ">respond_content,</if>
+			<if test="respondAnnex != null  and respondAnnex != ''  ">respond_annex,</if>
+			<if test="respondTime != null  ">respond_time,</if>
+			<if test="finalResult != null  and finalResult != ''  ">final_result,</if>
+			<if test="finalResultTime != null  ">final_result_time,</if>
+			<if test="finalHandleStaffid != null  ">final_handle_staffid,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+									create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="complainType != null  and complainType != ''  ">#{complainType},</if>
+			<if test="complainTargetId != null  and complainTargetId != ''  ">#{complainTargetId},</if>
+			<if test="respondTargetId != null  and respondTargetId != ''  ">#{respondTargetId},</if>
+			<if test="needRespond != null  and needRespond != ''  ">#{needRespond},</if>
+			<if test="deliverRespondTime != null  ">#{deliverRespondTime},</if>
+			<if test="complainContent != null  and complainContent != ''  ">#{complainContent},</if>
+			<if test="complainAnnex != null  and complainAnnex != ''  ">#{complainAnnex},</if>
+			<if test="complainStatus != null  and complainStatus != ''  ">#{complainStatus},</if>
+			<if test="complainTime != null  ">#{complainTime},</if>
+			<if test="respondContent != null  and respondContent != ''  ">#{respondContent},</if>
+			<if test="respondAnnex != null  and respondAnnex != ''  ">#{respondAnnex},</if>
+			<if test="respondTime != null  ">#{respondTime},</if>
+			<if test="finalResult != null  and finalResult != ''  ">#{finalResult},</if>
+			<if test="finalResultTime != null  ">#{finalResultTime},</if>
+			<if test="finalHandleStaffid != null  ">#{finalHandleStaffid},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpOrderComplains" parameterType="SpOrderComplains">
+        update sp_order_complains
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="complainType != null  and complainType != ''  ">complain_type = #{complainType},</if>
+            <if test="complainTargetId != null  and complainTargetId != ''  ">complain_target_id = #{complainTargetId},</if>
+            <if test="respondTargetId != null  and respondTargetId != ''  ">respond_target_id = #{respondTargetId},</if>
+            <if test="needRespond != null  and needRespond != ''  ">need_respond = #{needRespond},</if>
+            <if test="deliverRespondTime != null  ">deliver_respond_time = #{deliverRespondTime},</if>
+            <if test="complainContent != null  and complainContent != ''  ">complain_content = #{complainContent},</if>
+            <if test="complainAnnex != null  and complainAnnex != ''  ">complain_annex = #{complainAnnex},</if>
+            <if test="complainStatus != null  and complainStatus != ''  ">complain_status = #{complainStatus},</if>
+            <if test="complainTime != null  ">complain_time = #{complainTime},</if>
+            <if test="respondContent != null  and respondContent != ''  ">respond_content = #{respondContent},</if>
+            <if test="respondAnnex != null  and respondAnnex != ''  ">respond_annex = #{respondAnnex},</if>
+            <if test="respondTime != null  ">respond_time = #{respondTime},</if>
+            <if test="finalResult != null  and finalResult != ''  ">final_result = #{finalResult},</if>
+            <if test="finalResultTime != null  ">final_result_time = #{finalResultTime},</if>
+            <if test="finalHandleStaffid != null  ">final_handle_staffid = #{finalHandleStaffid},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpOrderComplainsById" parameterType="String">
+        delete from sp_order_complains where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpOrderComplainsByIds" parameterType="String">
+        delete from sp_order_complains where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

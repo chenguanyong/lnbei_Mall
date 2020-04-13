@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpFavoritesMapper">
+    
+    <resultMap type="SpFavorites" id="SpFavoritesResult">
+        <result property="mid"    column="mid"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="favoriteType"    column="favorite_type"    />
+        <result property="targetId"    column="target_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpFavoritesVo">
+        select mid, member_id, favorite_type, target_id, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_favorites
+    </sql>
+	
+    <select id="selectSpFavoritesList" parameterType="SpFavorites" resultMap="SpFavoritesResult">
+        <include refid="selectSpFavoritesVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="favoriteType != null "> and favorite_type = #{favoriteType}</if>
+             <if test="targetId != null  and targetId != '' "> and target_id = #{targetId}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpFavoritesById" parameterType="String" resultMap="SpFavoritesResult">
+        <include refid="selectSpFavoritesVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpFavorites" parameterType="SpFavorites">
+        insert into sp_favorites
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="favoriteType != null  ">favorite_type,</if>
+			<if test="targetId != null  and targetId != ''  ">target_id,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="favoriteType != null  ">#{favoriteType},</if>
+			<if test="targetId != null  and targetId != ''  ">#{targetId},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSpFavorites" parameterType="SpFavorites">
+        update sp_favorites
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="favoriteType != null  ">favorite_type = #{favoriteType},</if>
+            <if test="targetId != null  and targetId != ''  ">target_id = #{targetId},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpFavoritesById" parameterType="String">
+        delete from sp_favorites where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpFavoritesByIds" parameterType="String">
+        delete from sp_favorites where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

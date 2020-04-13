@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.wf.mapper.WfWorkflowStepUserMapper">
+    
+    <resultMap type="WfWorkflowStepUser" id="WfWorkflowStepUserResult">
+        <result property="mid"    column="mid"    />
+        <result property="title"    column="title"    />
+        <result property="flowType"    column="flow_type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="workflowId"    column="workflow_id"    />
+        <result property="wfstepId"    column="wfstep_id"    />
+        <result property="status"    column="status"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="isAll"    column="is_all"    />
+        <result property="isLook"    column="is_look"    />
+        <result property="isOperate"    column="is_operate"    />
+        <result property="commissionId"    column="commission_id"    />
+        <association property="wfWorkflowUserOperate"  javaType="WfWorkflowUserOperate" resultMap="WfWorkflowUserOperateResult" />
+    </resultMap>
+	<resultMap type="WfWorkflowUserOperate" id="WfWorkflowUserOperateResult">
+        <result property="mid"    column="wuo_mid"    />
+        <result property="memberId"    column="wuo_member_id"    />
+        <result property="userId"    column="wuo_user_id"    />
+        <result property="userType"    column="wuo_user_type"    />
+        <result property="opinion"    column="wuo_opinion"    />
+
+        <result property="workflowId"    column="wuo_workflow_id"    />
+        <result property="wfstepId"    column="wuo_wfstep_id"    />
+
+        <result property="objectId"    column="wuo_object_id"    />
+        <result property="status"    column="wuo_status"    />
+    </resultMap>
+	<sql id="selectWfWorkflowStepUserVo">
+        select m.mid, m.title, m.flow_type, m.del_flag,m.commission_id, m.create_time, m.create_by, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort, m.workflow_id, m.wfstep_id, m.status, m.user_id, m.user_type, m.is_all, m.is_look, m.is_operate 
+      wuo.mid wuo_mid,  wuo.member_id wuo_member_id, wuo.user_id wuo_user_id, wuo.user_type wuo_user_type, wuo.opinion wuo_opinion, wuo. workflow_id wuo_workflow_id, wuo.wfstep_id wuo_wfstep_id, wuo.object_id wuo_object_id, wuo.status wuo_mid
+        from wf_workflow_step_user m
+        left join wf_workflow_user_operate wuo on m.user_id = wuo.user_id and m.workflow_id=wuo.workflow_id and m.wfstep_id = wuo.wfstep_id
+    </sql>
+	
+    <select id="selectWfWorkflowStepUserList" parameterType="WfWorkflowStepUser" resultMap="WfWorkflowStepUserResult">
+        <include refid="selectWfWorkflowStepUserVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="title != null  and title != '' "> and title = #{title}</if>
+             <if test="flowType != null  and flowType != '' "> and flow_type = #{flowType}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="workflowId != null  and workflowId != '' "> and workflow_id = #{workflowId}</if>
+             <if test="wfstepId != null  and wfstepId != '' "> and wfstep_id = #{wfstepId}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="userType != null  and userType != '' "> and user_type = #{userType}</if>
+             <if test="isAll != null  and isAll != '' "> and is_all = #{isAll}</if>
+             <if test="isLook != null  and isLook != '' "> and is_look = #{isLook}</if>
+             <if test="isOperate != null  and isOperate != '' "> and is_operate = #{isOperate}</if>
+         </where>
+    </select>
+    
+    <select id="selectWfWorkflowStepUserById" parameterType="String" resultMap="WfWorkflowStepUserResult">
+        <include refid="selectWfWorkflowStepUserVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertWfWorkflowStepUser" parameterType="WfWorkflowStepUser">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into wf_workflow_step_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="title != null  and title != ''  ">title,</if>
+			<if test="flowType != null  and flowType != ''  ">flow_type,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+		
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="workflowId != null  and workflowId != ''  ">workflow_id,</if>
+			<if test="wfstepId != null  and wfstepId != ''  ">wfstep_id,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="userType != null  and userType != ''  ">user_type,</if>
+			<if test="isAll != null  and isAll != ''  ">is_all,</if>
+			<if test="isLook != null  and isLook != ''  ">is_look,</if>
+			<if test="isOperate != null  and isOperate != ''  ">is_operate,</if>
+			<if test="commissionId != null  and commissionId != ''  ">commission_id,</if>
+			create_time ,
+			update_time,			
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="title != null  and title != ''  ">#{title},</if>
+			<if test="flowType != null  and flowType != ''  ">#{flowType},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+	
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="workflowId != null  and workflowId != ''  ">#{workflowId},</if>
+			<if test="wfstepId != null  and wfstepId != ''  ">#{wfstepId},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="userType != null  and userType != ''  ">#{userType},</if>
+			<if test="isAll != null  and isAll != ''  ">#{isAll},</if>
+			<if test="isLook != null  and isLook != ''  ">#{isLook},</if>
+			<if test="isOperate != null  and isOperate != ''  ">#{isOperate},</if>
+		    <if test="commissionId != null  and commissionId != ''  ">#{commissionId},</if>			
+			sysdate(),
+			sysdate(),			
+         </trim>
+    </insert>
+	 
+    <update id="updateWfWorkflowStepUser" parameterType="WfWorkflowStepUser">
+        update wf_workflow_step_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="flowType != null  and flowType != ''  ">flow_type = #{flowType},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+     
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+          
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="workflowId != null  and workflowId != ''  ">workflow_id = #{workflowId},</if>
+            <if test="wfstepId != null  and wfstepId != ''  ">wfstep_id = #{wfstepId},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userType != null  and userType != ''  ">user_type = #{userType},</if>
+            <if test="isAll != null  and isAll != ''  ">is_all = #{isAll},</if>
+            <if test="isLook != null  and isLook != ''  ">is_look = #{isLook},</if>
+            <if test="isOperate != null  and isOperate != ''  ">is_operate = #{isOperate},</if>
+            <if test="commissionId != null  and commissionId != ''  ">commission_id = #{commissionId},</if>		
+     update_time = sysdate(),            
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteWfWorkflowStepUserByConditions"  parameterType="WfWorkflowStepUser">
+        delete from wf_workflow_step_user 
+           <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="title != null  and title != '' "> and title = #{title}</if>
+             <if test="flowType != null  and flowType != '' "> and flow_type = #{flowType}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="workflowId != null  and workflowId != '' "> and workflow_id = #{workflowId}</if>
+             <if test="wfstepId != null  and wfstepId != '' "> and wfstep_id = #{wfstepId}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="userType != null  and userType != '' "> and user_type = #{userType}</if>
+             <if test="isAll != null  and isAll != '' "> and is_all = #{isAll}</if>
+             <if test="isLook != null  and isLook != '' "> and is_look = #{isLook}</if>
+             <if test="isOperate != null  and isOperate != '' "> and is_operate = #{isOperate}</if>
+         </where>
+    </delete>
+	
+	<delete id="deleteWfWorkflowStepUserById" parameterType="String">
+        delete from wf_workflow_step_user where mid = #{mid}
+    </delete>
+    <delete id="deleteWfWorkflowStepUserByIds" parameterType="String">
+        delete from wf_workflow_step_user where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

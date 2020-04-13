@@ -1,0 +1,252 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul> 
+							<li>
+								会员编号：<input type="text" name="serialNumber"/>
+							</li>						
+							<li>
+								登录名称：<input type="text" name="loginName"/>
+							</li>
+
+							<li>
+								用户名：<input type="text" name="userName"/>
+							</li>
+
+							<li>
+								手机号：<input type="text" name="userPhone"/>
+							</li>
+
+							<li>
+								邮箱：<input type="text" name="userEmail"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberUser:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-success" onclick="adds()" shiro:hasPermission="member:memberUser:adds">
+					<i class="fa fa-plus"></i> 批量添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberUser:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="activateMemberUser()" shiro:hasPermission="member:memberUser:activateMemberUser">
+					<i class="fa fa-edit"></i> 激活会员
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="resetMemberUserPaw()" shiro:hasPermission="member:memberUser:resetMemberUserPaw">
+					<i class="fa fa-edit"></i> 重置会员
+				</a>								
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberUser:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-success" onclick="activeUser()" shiro:hasPermission="member:memberUser:activeMemberUser">
+					<i class="fa fa-plus"></i> 批量激活
+				</a>				
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberUser:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberUser:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberUser:remove')}]];
+        var prefix = ctx + "member/memberUser";
+        var memberStatusType = [[${@dict.getType('member_status_type')}]];//sys_yes_no_1
+        var sysyesno1 = [[${@dict.getType('sys_yes_no_1')}]];//
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "会员",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'serialNumber', 
+					title : '会员编号',
+				},
+				{
+					field : 'loginName', 
+					title : '登录名',
+				},
+
+				{
+					field : 'userName', 
+					title : '昵称',
+				
+				},
+				{
+					field : 'trueName', 
+					title : '真实姓名',
+					
+				},
+				{
+					field : 'userPhone', 
+					title : '手机号',
+				},
+				{
+					field : 'userEmail', 
+					title : '邮箱',
+				},
+				{
+					field : 'userMoney', 
+					title : '用户余额',
+					sortable: true
+				},
+				{
+					field : 'userScore', 
+					title : '用户积分',
+					sortable: true
+				},
+				{
+					field : 'lockMoney', 
+					title : '保证金',
+				},
+				{
+					field : 'bonus', 
+					title : '奖金',
+					sortable: true
+				},
+
+				{
+					field : 'levelName', 
+					title : '用户级别',				
+				},
+
+				{
+					field : 'childCnt', 
+					title : '旗下会员',
+					sortable: true
+				},
+
+				{
+					field : 'recommendNumber', 
+					title : '推荐人编号',
+				},
+				{
+					field : 'userStatus', 
+					title : '用户状态 ',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	memberStatusType, value);
+					}
+				},
+
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+				{
+					field : 'isAuthname', 
+					title : '是否实名',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	sysyesno1, value);
+					}
+				}
+				
+				,
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+		    ]
+            };
+            $.table.init(options);
+        });
+        /**
+       	 批量添加会员
+        **/
+		function adds(){
+
+        	var url = prefix + "/adds";
+			var options = {
+				title: '批量添加',
+				width: "800",
+				url: url,
+				callBack: doSubmitAddUser
+			};
+			$.modal.openOptions(options);
+		}
+		function doSubmitAddUser(index, layero){
+			var rationWindow = layero.find("iframe")[0].contentWindow;
+			var treeData = rationWindow.submitHandler(window);	
+		}
+        /**
+      	 批量激活会员
+       **/
+		function activeUsers(){
+		    $.modal.confirm("您确定要激活会员？", function() {
+		    	var data = { "mid": "" };
+		        $.operate.post(prefix + "/activeMemberUser", data);
+		    })
+		}
+		function getIdSelections() {
+		    return $.map($("#bootstrap-table").bootstrapTable('getSelections'), function (row) {
+		        return row.mid;
+		    });
+		}
+        /**
+     	 批量激活会员
+      **/
+		function activateMemberUser(){
+			var ids = getIdSelections();
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+		    $.modal.confirm("您确定要激活会员？", function() {
+		    	var data = { "mid": ids[0],"userStatus":"1" };
+		        $.operate.post(prefix + "/activateMemberUser", data);
+		    })
+		}
+        /**
+     	 批量激活会员
+      **/
+		function resetMemberUserPaw(){
+			var ids = getIdSelections();
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+		    $.modal.confirm("您确定要重置会员？", function() {
+		    	var data = { "mid": ids[0] };
+		        $.operate.post(prefix + "/resetMemberUserPaw", data);
+		    })
+		}
+    </script>
+</body>
+</html>

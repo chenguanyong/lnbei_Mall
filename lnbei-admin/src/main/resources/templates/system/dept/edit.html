@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+	<div >
+		<form class="form-horizontal m" id="form-dept-edit" th:object="${dept}">
+			<input name="id" type="hidden" th:field="*{id}" />
+			<input id="treeId" name="parentId" type="hidden" th:field="*{parentId}" />
+			
+			
+		<table class="table table-bordered table-striped">
+		        	<tr>
+		        	
+		        		<td class="label-width">
+							<label class="col-sm-12 control-label"><span style="color: red; ">*</span>部门名称：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input class="form-control" type="text" name="name" th:field="*{name}" id="name" required>
+								</div>
+							</div>
+						</td>
+		        	
+		        	
+			        	<td class="label-width">
+			        		<label class="col-sm-12 control-label "><span style="color: red; ">*</span>上级部门：</label>
+			        	</td>
+			        	<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+								    <div class="input-group">
+										<input class="form-control" type="text" onclick="selectDeptTree()" id="treeName" readonly="true"  th:field="*{parentName}" required>
+									    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+								    </div>
+								</div>
+							</div>
+						</td>
+	
+						
+						
+					</tr>
+
+		        	<tr>
+		        		<td class="label-width">
+							<label class="col-sm-12 control-label"><span style="color: red; ">*</span>部门简称：</label>
+						</td>
+						<td class="content-width" >
+							<div class="form-group">	
+							
+									<div class="col-sm-12">
+										<input class="form-control" type="text" name="shortName" th:field="*{shortName}" required>
+									</div>									
+							
+							</div>
+						</td>
+		        	
+						<td class="label-width">
+							<label class="col-sm-12 control-label"> <span style="color: red; ">*</span>部门分类：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<select required id="depClass" name="depClass"  th:field="*{depClass}" class="form-control" th:with="type=${@dict.getType('sys_org_depart_type')}">
+									 	 <option value="">请选择</option>
+									 	 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+									  	</option>
+									</select>										
+								</div>
+							</div>
+						</td>
+	
+					</tr>
+					<tr>
+			        	<td class="label-width">
+			        	<label class="col-sm-12 control-label"><span style="color: red; ">*</span>机构类型：</label>
+			        	</td>
+			        	<td class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<select required id="type" name="type"  th:field="*{type}" class="form-control"  th:with="type=${@dict.getType('sys_org_type')}">
+									  <option value="">请选择</option>
+									  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+									  </option>
+									</select>										
+								</div>
+							</div>
+						</td>
+						<td class="label-width">
+							<label class="col-sm-12 control-label"><span style="color: red; ">*</span>机构性质：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<select required id="orgTypeFlag" name="orgTypeFlag" th:field="*{orgTypeFlag}"  class="form-control" th:with="type=${@dict.getType('sys_org_type_flag')}">
+									  <option value="">请选择</option>
+									  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+									  </option>
+									</select>										
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>		
+						<td class="label-width">
+							<label class="col-sm-12 control-label"><span style="color: red; ">*</span>机构级别：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<select required id="level" name="level" th:field="*{level}" class="form-control" th:with="type=${@dict.getType('sys_org_level')}">
+									  <option value="">请选择</option>
+									  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+									  </option>
+									</select>									
+								</div>
+							</div>
+						</td>
+
+						<td class="label-width">
+							<label class="col-sm-12 control-label"><span style="color: red; ">*</span>部门状态：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+								    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+										<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dept.status == dict.dictValue ? true : false}">
+										<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>	
+	
+					<tr>
+					
+					    <td class="label-width">
+			        		<label class="col-sm-12 control-label">编号：</label>
+			        	</td>
+			        	<td class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<input id="number" name="number" th:field="*{number}" class="form-control" type="text">
+								</div>
+							</div>
+						</td>
+					
+					
+						<td class="label-width">
+			        		<label class="col-sm-12 control-label"><span style="color: red; ">*</span>显示排序：</label>
+			        	</td>
+			        	<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input class="form-control" type="text" name="sort" th:field="*{sort}" required>
+								</div>
+							</div>
+						</td>
+
+					</tr>
+		        	<tr>
+		
+						
+			        	<td class="label-width">
+			        		<label class="col-sm-12 control-label">机构描述：</label>
+			        	</td>
+			        	<td class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<input id="desc" name="desc" th:field="*{desc}" class="form-control" type="text">
+								</div>
+							</div>
+						</td>
+		
+						<td class="label-width">
+							<label class="col-sm-12 control-label">联系电话：</label>
+						</td>
+						<td class="content-width">
+							<div class="form-group">
+								<div class="col-sm-12">
+									<input class="form-control" type="text" name="phone" th:field="*{phone}">
+								</div>
+							</div>
+						</td>
+					</tr>					
+					<tr>
+			  
+			        	<td class="label-width">
+		        			<label class="col-sm-12 control-label">数字短串ID：</label>
+			        	</td>
+			        	<td colspan=3 class="content-width">
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<input id="nid" name="nid" th:field="*{nid}" class="form-control" type="text">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+			        	<td class="label-width">
+		        			<label class="col-sm-12 control-label">备注：</label>
+			        	</td>
+			        	<td  colspan=3>
+							<div class="form-group">	
+								<div class="col-sm-12">
+									<textarea id="remark" name="remark" th:field="*{remark}" class="form-control" type="text"></textarea>
+								</div>
+							</div>
+						</td>
+					</tr>																															
+			</table>
+		
+			
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript">
+		var prefix = ctx + "system/dept";
+		
+		$("#form-dept-edit").validate({
+			rules:{
+				deptName:{
+					remote: {
+		                url: prefix + "/checkDeptNameUnique",
+		                type: "post",
+		                dataType: "json",
+		                data: {
+		                	"deptId": function() {
+		                        return $("#deptId").val();
+		                    },
+		                    "parentId": function() {
+		                        return $("input[name='parentId']").val();
+		                    },
+		        			"deptName": function() {
+		                        return $.common.trim($("#deptName").val());
+		                    }
+		                },
+		                dataFilter: function(data, type) {
+		                	return $.validate.unique(data);
+		                }
+		            }
+				},
+		  		sort:{
+        			digits:true
+        		},
+				orderNum:{
+					digits:true
+				},
+				email:{
+                    email:true,
+        		},
+        		phone:{
+        			isPhone:true,
+        		},
+			},
+			messages: {
+		        "deptName": {
+		            remote: "部门已经存在"
+		        }
+		    },
+		    focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	$.operate.save(prefix + "/edit", $('#form-dept-edit').serialize());
+	        }
+	    }
+	
+		/*部门管理-修改-选择部门树*/
+		function selectDeptTree() {
+			var deptId = $("#treeId").val();
+			if(deptId > 0) {
+			    var options = {
+					title: '部门选择',
+					width: "380",
+					url: prefix + "/selectDeptTree/" + $("#treeId").val(),
+					callBack: doSubmit
+				};
+				$.modal.openOptions(options);
+			} else {
+        		$.modal.alertError("父部门不能选择");
+        	}
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowLastLevel(tree)) {
+	   			var body = layer.getChildFrame('body', index);
+	   			$("#treeId").val(body.find('#treeId').val());
+	   			$("#treeName").val(body.find('#treeName').val());
+	   			layer.close(index);
+			}
+		}
+	</script>
+</body>
+</html>

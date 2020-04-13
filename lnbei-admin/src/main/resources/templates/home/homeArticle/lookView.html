@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-homeArticle-edit" th:object="${mArticle}">
+               <table class="table table-bordered table-striped">
+           
+           	<tr>
+           		<td class="label-width">编号：</td>
+           		<td class="content-width" th:text="*{mark}"></td>
+           		<td class="label-width">标题：</td>
+           		<td class="content-width"  th:text="*{title}"></td>
+           	</tr>
+           <tr>
+           		<td class="label-width">摘要：</td>
+           		<td class="content-width" colspan="3" th:text="*{mark}"></td>
+         
+           	</tr>
+           	<tr>
+           		<td class="label-width">图片：</td>
+           		<td class="content-width" colspan="3" ><img style="width:50px" th:src="*{img}" /></td>
+           		
+           	</tr> 
+           	<tr>
+           		<td class="label-width">类别：</td>
+           		<td class="content-width" th:text="*{classify}"></td>
+           		<td class="label-width">作者：</td>
+           		<td class="content-width" th:text="*{author}"></td>
+           	</tr>
+            <tr>
+           		<td class="label-width">发布日期：</td>
+           		<td class="content-width" th:text="${#dates.format(mArticle.releaseDate, 'yyyy-MM-dd')}"></td>
+           		<td class="label-width">状态：</td>
+           		<td class="content-width" th:if="*{status == '0'}" >启用</td>
+           		<td class="content-width" th:if="*{status == '1'}" >停用</td>
+           	</tr> 
+           	<tr>
+           		<td class="label-width">访问类型：</td>
+           		<td class="content-width" th:with="type=${@dict.getType('sys_access_type')}">
+           		<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.accessType}"> </span>
+           		</td>
+           		<td class="label-width">文章类型：</td>
+           		<td  class="content-width" th:with="type=${@dict.getType('home_article_type')}">
+           			<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.type}"> </span>
+           		</td>
+           	</tr>  
+           	<tr th:if="*{isVerify == '1'}">
+           		<td class="label-width">审核人：</td>
+           		<td class="content-width" th:text="*{auditor}"></td>
+           		<td class="label-width">审核状态：</td>
+           		<td class="content-width" th:with="type=${@dict.getType('home_article_type')}">
+           		<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.flag}"> </span>
+           		</td>
+           	</tr>
+           	<tr th:if="*{isVerify == '1'}">
+           	
+           		<td class="label-width">审核意见：</td>
+           		<td class="content-width" colspan="3" th:text="*{auditorOpinion}"></td>
+           	</tr>
+         	<tr>
+           		<td class="label-width">文章内容：</td>
+           		<td class="content-width" colspan="3" th:utext="*{mHomeArticleInfo.content}"></td>
+           		
+           	</tr>   
+           	<tr>
+           		<td class="label-width">备注：</td>
+           		<td class="content-width" colspan="3" th:txt="*{remark}"></td>
+           	</tr>        	         	          	
+           </table>
+		</form>
+    </div>
+  
+    <div th:include="include::footer"></div>
+   
+</body>
+</html>

@@ -1,0 +1,17 @@
+<div id="navbar" class="navbar navbar-default navbar-color"    th:fragment="navbar(display)" >
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid " style="width:90%">
+	
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse row" >
+		 <div class="col-sm-12">
+		       <ul class="nav navbar-nav ">
+		        <li th:each="object, objectStatus: ${@ViewShopNav.getShopNavList(6,1,$shop.mid,'sort','desc')}" ><a th:href="@{/spIndex/SpShop/category?mid=}+${object.mid}"></a></li>      
+		      </ul>  
+		  </div> 
+
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+</div>

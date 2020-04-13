@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="spshop/public/header:: header"></head>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+<div th:replace="spshop/public/nav:: nav"></div>
+<div th:replace="spindex/public/oneselfshop/search::search"></div>
+<div th:replace="spindex/public/oneselfshop/navbar:: navbar(true)"></div>
+<!-- 轮播图 -->
+
+<div class="container " style="width:100%;position:relative;" >
+
+	<div class="wst-ads" style="position:relative;">
+		<div class="wst-slide" id="wst-slide">
+			<ul class="wst-slide-items">
+				<a href="" th:each="object,objecstatus:${@ViewOTCs.getCarouselsByShopIdCode(shop.mid,'indexCs')}"><li th:style="'background: url(' + ${object.csUrl} +') center top / cover no-repeat scroll; z-index: -1; ' + 'display:' + @{(${objecstatus.count != 1} ? 'none' : 'list-item')} + ''" class="hide"></li></a>
+			</ul>
+			<div class="wst-slide-numbox">
+				<div class="wst-slide-controls">
+		  			 <span th:class="${objecstatus.count == 1? 'curr':''}" th:each="object,objecstatus:${@ViewOTCs.getCarouselsByShopIdCode(shop.mid,'indexCs')}" th:text="${objecstatus.count}"></span>
+			  		 
+				</div>
+			</div>
+		</div>
+	</div>    
+</div>
+<br>
+<div class="container" style="width:90%" th:each="object,objectstatus:${@ViewGoods.getSelfShopFloorGoodsList(6,1,'sort', 'desc',shop.mid)}" >
+	<div class="row">
+		<div class="col-sm-6">
+			<label class="bs_title" th:text="${object.catName}"></label>
+		</div>
+		<div class="col-sm-6">
+			
+		</div>	
+	</div>
+	<div class="row">
+			<div class="col-md-2 " th:each="goodsObject, goodsStatus:${object.spGoodsList}">
+						<div class="goods-box" style="width:100%">
+							<div class="goods-img">
+								<img th:src="${goodsObject.goodsImg}" />
+							</div>
+							<div class="goods-price">
+								<strong class="J_58862706123" data-done="1"><em>￥</em><i th:text="${goodsObject.shopPrice}" ></i></strong>
+							</div>
+							<div class="goods-name">
+									<a target="_blank" th:href="@{/spIndex/spGoods/detail?goodsId=}+${object.mid}" th:text="${object.goodsName}" >
+								</a>					
+							</div>															
+							<div class="goods-operate">
+								<a class="goods-o-btn focus J_focus" data-sku="100011385516" href="javascript:;" ><i></i>关注</a>
+								<a class="goods-o-btn addcart" target="_blank"  data-limit="0"><i></i>加入购物车</a>
+							</div>
+						</div>
+			</div>
+	</div>
+</div>
+<head th:include="spshop/public/footer:: footer"></head>
+<script >
+
+$(function(){
+	$.common.slides(".wst-slide");
+	$.common.Sidebar();
+});
+</script>
+</body>
+</html>

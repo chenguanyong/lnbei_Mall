@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-homeUrl-add">
+        <input id="classifyId" name="classifyId" class="form-control" th:value="${categoryId}" type="hidden">
+         <input id="classify" name="classify" class="form-control" th:value="${category}" type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">url名称：</label>
+				<div class="col-sm-8">
+					<input id="urlName" name="urlName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">url链接：</label>
+				<div class="col-sm-8">
+					<input id="url" name="url" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">网站负责人：</label>
+				<div class="col-sm-8">
+					<input id="founder" name="founder" class="form-control" type="text">
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">链接类型：</label>
+				<div class="col-sm-8">
+					<select id="urlType"  name="urlType" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_access_type')}">
+					  <option value="">所有</option>
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>	
+				</div>														
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">访问类型：</label>
+				<div class="col-sm-8">
+			
+						<select id="accessType"  name="accessType" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_access_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+						</select>						
+				</div>
+			</div>
+
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+					<div class="col-sm-8">
+					    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${true}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">网站描述：</label>
+				<div class="col-sm-8">
+					<input id="describes" name="describes" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "home/homeUrl"
+		$("#form-homeUrl-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-homeUrl-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

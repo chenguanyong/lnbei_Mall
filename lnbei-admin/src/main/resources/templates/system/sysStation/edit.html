@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-sysStation-edit" th:object="${sysStation}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+		 <table class="table table-bordered table-striped">
+        	<tr>
+        		<td>
+		        	<div class="form-group">	
+						<label class="col-sm-4 control-label">车站略号：</label>
+						<div class="col-sm-8">
+							<input id="stationNumber" name="stationNumber" th:field="*{stationNumber}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">车站名称：</label>
+						<div class="col-sm-8">
+							<input  id="name" name="name" th:field="*{name}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">道岔组数：</label>
+						<div class="col-sm-8">
+							<input id="switchForEqu"  th:field="*{switchForEqu}" name="switchForEqu" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">车站简称：</label>
+						<div class="col-sm-8">
+							<input id="shortName" name="shortName" th:field="*{shortName}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr>        
+         	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">公里标：</label>
+						<div class="col-sm-8">
+							<input id="kmmark" name="kmmark" th:field="*{kmmark}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">上下行类型 ：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="updown" name="updown" th:field="*{updown}" th:with="type=${@dict.getType('sys_updaown_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        	</tr>         
+          	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">建设年：</label>
+						<div class="col-sm-8">
+							<input id="build" name="build" th:field="*{build}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">大修年：</label>
+						<div class="col-sm-8">
+							<input id="repairHeavy" name="repairHeavy" th:field="*{repairHeavy}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr> 
+              	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">中修年：</label>
+						<div class="col-sm-8">
+							<input id="repairMiddle" name="repairMiddle" th:field="*{repairMiddle}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">车站类别：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="stationClass" th:field="*{stationClass}" name="stationClass" th:with="type=${@dict.getType('sys_station_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        	</tr>       
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">联锁类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="interlockType" th:field="*{interlockType}" name="interlockType" th:with="type=${@dict.getType('sys_station_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">计算机联锁厂家：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="interlockWork" th:field="*{interlockWork}" name="interlockWork" th:with="type=${@dict.getType('sys_computer_interlocking_manufacturer_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">计算机联锁类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="computerType" th:field="*{computerType}" name="computerType" th:with="type=${@dict.getType('sys_computer_interlocking_types')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">闭塞方式：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="blockMode" th:field="*{blockMode}" name="blockMode" th:with="type=${@dict.getType('sys_block_mode')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>	
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">轨道电路类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="trackcuitType" th:field="*{trackcuitType}" name="trackcuitType" th:with="type=${@dict.getType('sys_track_circuit_types')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">电码化方式：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="codeMode" th:field="*{codeMode}" name="codeMode"  th:with="type=${@dict.getType('sys_coding_mode')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        	</tr> 
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">电码化类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="codeType" th:field="*{codeType}" name="codeType"  th:with="type=${@dict.getType('sys_coding_modes')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">正线钢轨类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="rightRailType" th:field="*{rightRailType}" name="rightRailType"  th:with="type=${@dict.getType('sys_types_orthogonal_rails')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">侧线钢轨类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="sideRailType" th:field="*{sideRailType}" name="sideRailType" th:with="type=${@dict.getType('sys_side_rail_ypes')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">是否安装微机检测：</label>
+						<div class="col-sm-8">
+							<div class="onoffswitch">
+								 <input id="ifEds" name="ifEds" type="checkbox" th:checked="*{ifEds == '0' ? true : false}" class="onoffswitch-checkbox">
+		                         <label class="onoffswitch-label" for="ifEds">
+		                             <span class="onoffswitch-inner"></span>
+		                             <span class="onoffswitch-switch"></span>
+		                         </label>
+		                     </div>
+						</div>
+					</div>
+        		</td>
+        	</tr> 
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">监控方式：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="supMode" name="supMode" th:field="*{supMode}" th:with="type=${@dict.getType('sys_monitoring_mode')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">闭塞方式：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="blockType" name="blockType" th:field="*{blockType}" th:with="type=${@dict.getType('sys_block_mode')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">电源屏类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="powerType" name="powerType" th:field="*{powerType}" th:with="type=${@dict.getType('sys_intelligent_power_screen_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">电源屏厂家：</label>
+						<div class="col-sm-8">
+							<input id="powerWork" name="powerWork" th:field="*{powerWork}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">智能电源屏含5KVA UPS设备：</label>
+						<div class="col-sm-8">
+							<input id="powerEqu" name="powerEqu"  th:field="*{powerEqu}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">所属线别：</label>
+						<div class="col-sm-8">
+							<select class="form-control" th:field="*{lineId}" id="flag" name="lineId"  >
+							  <option value="">请选择</option>
+							  <option th:each="sysline : ${sysLineList}"  th:text="${sysline.name}+${sysline.stationSize}" th:value="${sysline.id}">
+							  </option>
+							</select>	
+						</div>
+					</div>
+        		</td>
+        	</tr> 
+			<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">车站类型:</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="flag" name="flag" th:field="*{flag}"  th:with="type=${@dict.getType('sys_station_scale_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">值班电话：</label>
+						<div class="col-sm-8">
+							<input id="phone" name="phone" class="form-control" th:field="*{phone}" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr> 
+
+			<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">车站类型：</label>
+						<div class="col-sm-8">
+							<select class="form-control" id="type" name="type" th:field="*{type}"  th:with="type=${@dict.getType('sys_stationtype')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>							
+						</div>
+					</div>
+        		</td>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">排序：</label>
+						<div class="col-sm-8">
+							<input id="sort" name="sort" class="form-control" th:field="*{sort}"  type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr>
+        	<tr>
+        		<td>
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">更新改造年：</label>
+						<div class="col-sm-8">
+							<input id="replace" name="replace" th:field="*{replace}" class="form-control" type="text">
+						</div>
+					</div>
+        		</td>
+        	</tr>
+			<tr>
+        		<td colspan="2">
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">备注：</label>
+						<div class="col-sm-8">
+							<textarea id="remark" name="remark" th:field="*{remark}" class="form-control" type="text"></textarea>
+						</div>
+					</div>
+        		</td>
+        	</tr>             	         	       	          	           
+        </table>
+
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/sysStation";
+		$("#form-sysStation-edit").validate({
+			rules:{
+				switchForEqu:{
+					required:true,
+					digits:true
+				},
+				kmmark:{
+					required:true,
+					digits:true
+				},
+				build:{
+					digits:true,
+				},
+				repairHeavy:{
+					digits:true,
+				},
+				repairMiddle:{
+					digits:true,
+				},
+				sort:{
+					digits:true,
+				},
+				replace:{
+					digits:true,
+				}
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-sysStation-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+
+input[type=file]{
+
+	display:none;
+}
+
+
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-fiBanks-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>银行名称：</label>
+				<div class="col-sm-8">
+					<input id="bankName" name="bankName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>银行LOGO：</label>
+				<div class="col-sm-3">
+					<input id="bankImg" name="bankImg" class="form-control" type="hidden">
+			
+					 <button type="button" class="btn btn-success" id="bankImgIN" >请选择图片</button>
+				</div>
+				<div class="col-sm-6" id="bankImgYL"></div>
+			</div>				
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "fi/fiBanks"
+		$("#form-fiBanks-add").validate({
+			rules:{
+				bankName:{
+					required:true,
+				},
+				status:{
+					required:true,
+				},
+				sort:{
+					required:true,
+				},				
+			},
+			focusCleanup: true
+		});
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+			$.common.uplodFile("bankImgIN","bankImg","bankImgYL",false,upload);
+		});
+		function submitHandler() {
+	        if ($.validate.form()) {
+		           // $.operate.save(prefix + "/add", $('#form-spBrands-add').serialize());
+		        	var formData = new FormData();
+					/*******************/
+					formData.append('bankName', $("#bankName").val());
+					formData.append('bankImg', $("#bankImg").val());
+					formData.append('remark', $("#remark").val());
+					formData.append('sort', $("#sort").val());
+					formData.append('status', $("input[name=status]").val());
+					/***************************/
+		
+		        	$.ajax({
+		        		url: prefix + "/add",
+		        		type: 'post',
+		        		cache: false,
+		        		data: formData,
+		        		processData: false,
+		        		contentType: false,
+		        		dataType: "json",
+		        		success: function(result) {
+		        			$.operate.successCallback(result);
+		        		}
+		        	});
+		        }
+	    }
+	</script>
+</body>
+</html>

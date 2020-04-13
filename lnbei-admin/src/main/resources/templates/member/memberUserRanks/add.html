@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberUserRanks-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>角色名称：</label>
+				<div class="col-sm-8">
+					<input id="rankName" name="rankName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>角色标识：</label>
+				<div class="col-sm-8">
+					<input id="rankKeys" name="rankKeys" class="form-control" type="text">
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开始积分：</label>
+				<div class="col-sm-8">
+					<input id="startScore" name="startScore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">结束积分：</label>
+				<div class="col-sm-8">
+					<input id="endScore" name="endScore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">角色图片：</label>
+				<div class="col-sm-8">
+					<input id="userrankImg" name="userrankImg" class="form-control" type="file">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单权限</label>
+				<div class="col-sm-8">
+					<div id="menuTrees" class="ztree"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberUserRanks"
+		$("#form-memberUserRanks-add").validate({
+			rules:{
+				rankName:{
+					required:true,
+				},
+				rankKeys:{
+					required:true,
+				},				
+			},
+			focusCleanup: true
+		});
+	    $(function() {
+			var url = ctx + "system/menu/memberRanksMenuTreeData/1";
+			var options = {
+				id: "menuTrees",
+		        url: url,
+		        check: { enable: true },
+		        expandLevel: 0
+		    };
+			$.tree.init(options);
+		});
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            //$.operate.save(prefix + "/add", $('#form-memberUserRanks-add').serialize());
+	        	var formData = new FormData();
+	        	if ($('#userrankImg')[0].files[0] != null) {
+	        	   	formData.append('file', $('#userrankImg')[0].files[0]);
+		        	//formData.append('aSize',$('#userrankImg')[0].files[0].size);//
+	        	}
+	
+				/*******************/
+				formData.append('rankName', $("#rankName").val());
+				formData.append('rankKeys', $("#rankKeys").val());
+				formData.append('startScore', $("#startScore").val());
+				formData.append('endScore', $("#endScore").val());
+				formData.append('releaseDate', $("#releaseDate").val());
+				formData.append('status', $("input[name='status']").val());
+				formData.append('sort', $("#sort").val());
+				formData.append('remark', $("#remark").val());
+				var menuIds = $.tree.getCheckedNodes();
+				formData.append('menuIds', menuIds);
+				
+				/***************************/
+	
+	        	$.ajax({
+	        		url: prefix + "/add",
+	        		type: 'post',
+	        		cache: false,
+	        		data: formData,
+	        		processData: false,
+	        		contentType: false,
+	        		dataType: "json",
+	        		success: function(result) {
+	        			$.operate.successCallback(result);
+	        		}
+	        	});
+	            
+	        }
+	    }
+	</script>
+</body>
+</html>

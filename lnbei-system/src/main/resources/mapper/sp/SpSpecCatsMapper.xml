@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpSpecCatsMapper">
+    
+    <resultMap type="SpSpecCats" id="SpSpecCatsResult">
+        <result property="mid"    column="mid"    />
+        <result property="goodsCatId"    column="goods_cat_id"    />
+        <result property="goodsCatPath"    column="goods_cat_path"    />
+        <result property="catName"    column="cat_name"    />
+        <result property="isAllowImg"    column="is_allow_img"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+  		<result property="shopId"    column="shop_id"    />
+        <result property="catType"    column="cat_type"    /> 
+        <result property="goodsCatTitle"    column="goods_cat_title"    />
+        <collection  property="spSpecItems"   javaType="java.util.List"        resultMap="SpecItemsResult" />     
+    </resultMap>
+
+	<resultMap id="SpecItemsResult" type="SpSpecItems">
+		<id     property="mid"       column="spi_mid"        />
+        <result property="shopId"    column="spi_shop_id"    />
+        <result property="catId"    column="spi_cat_id"    />
+        <result property="goodsId"    column="spi_goods_id"    />
+        <result property="itemName"    column="spi_item_name"    />
+        <result property="itemDesc"    column="spi_item_desc"    />
+        <result property="itemImg"    column="spi_item_img"    />
+	</resultMap>
+
+
+	<sql id="selectSpSpecCatsVo">
+        select m.mid, m.goods_cat_id,m.goods_cat_title, m.goods_cat_path, m.shop_id, m.cat_type, m.cat_name, m.is_allow_img,
+         m.status, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id,
+         m.dept_name, m.sort , spi.mid spi_mid, spi.shop_id spi_shop_id, spi.cat_id spi_cat_id, spi.goods_id spi_goods_id,
+          spi.item_name spi_item_name, spi.item_desc spi_item_desc, spi.item_img spi_item_img
+        from sp_spec_cats m
+    	left join sp_spec_items spi on m.mid = spi.cat_id
+    </sql>
+	<sql id="selectSpSpecCatsVo_">
+        select m.mid, m.goods_cat_id,m.goods_cat_title, m.goods_cat_path, m.shop_id, m.cat_type, m.cat_name, m.is_allow_img,
+         m.status, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id,
+         m.dept_name, m.sort , spi.mid spi_mid, spi.shop_id spi_shop_id, spi.cat_id spi_cat_id, spi.goods_id spi_goods_id,
+          spi.item_name spi_item_name, spi.item_desc spi_item_desc, spi.item_img spi_item_img
+        from sp_spec_cats m
+    	join sp_spec_items spi on m.mid = spi.cat_id
+    </sql>
+    <select id="selectSpSpecCatsAndSpecItemsList" parameterType="SpSpecCats" resultMap="SpSpecCatsResult">
+        <include refid="selectSpSpecCatsVo_"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and m.mid = #{mid}</if>
+             <if test="goodsCatId != null  and goodsCatId != '' "> and m.goods_cat_id = #{goodsCatId}</if>
+             <if test="goodsCatPath != null  and goodsCatPath != '' "> and m.goods_cat_path = #{goodsCatPath}</if>
+             <if test="catName != null  and catName != '' "> and m.cat_name = #{catName}</if>
+             <if test="isAllowImg != null  and isAllowImg != '' "> and m.is_allow_img = #{isAllowImg}</if>
+             <if test="status != null  and status != '' "> and m.status = #{status}</if>
+             <if test="delFlag != null  and delFlag != '' "> and m.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and m.create_by = #{createBy}</if>
+             <if test="createTime != null "> and m.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and m.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and m.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and m.remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and m.dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and m.dept_name = #{deptName}</if>
+             <if test="shopId != null  and shopId != '' "> and m.shop_id = #{shopId}</if>
+             <if test="catType != null  and catType != '' "> and m.cat_type = #{catType}</if>
+             <if test="goodsId != null  and goodsId != '' "> and spi.goods_id = #{goodsId}</if>
+             <if test="sort != null "> and m.sort = #{sort}</if>
+         </where>
+    </select>	
+    <select id="selectSpSpecCatsList" parameterType="SpSpecCats" resultMap="SpSpecCatsResult">
+        <include refid="selectSpSpecCatsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and m.mid = #{mid}</if>
+             <if test="goodsCatId != null  and goodsCatId != '' "> and m.goods_cat_id = #{goodsCatId}</if>
+             <if test="goodsCatPath != null  and goodsCatPath != '' "> and m.goods_cat_path = #{goodsCatPath}</if>
+             <if test="catName != null  and catName != '' "> and m.cat_name = #{catName}</if>
+             <if test="isAllowImg != null  and isAllowImg != '' "> and m.is_allow_img = #{isAllowImg}</if>
+             <if test="status != null  and status != '' "> and m.status = #{status}</if>
+             <if test="delFlag != null  and delFlag != '' "> and m.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and m.create_by = #{createBy}</if>
+             <if test="createTime != null "> and m.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and m.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and m.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and m.remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and m.dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and m.dept_name = #{deptName}</if>
+             <if test="shopId != null  and shopId != '' "> and m.shop_id = #{shopId}</if>
+             <if test="catType != null  and catType != '' "> and m.cat_type = #{catType}</if>
+             <if test="goodsId != null  and goodsId != '' "> and spi.goods_id = #{goodsId}</if>
+             <if test="sort != null "> and m.sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpSpecCatsById" parameterType="String" resultMap="SpSpecCatsResult">
+        <include refid="selectSpSpecCatsVo"/>
+        where m.mid = #{mid}
+    </select>
+      
+    <insert id="insertSpSpecCats" parameterType="SpSpecCats">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_spec_cats
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="goodsCatId != null  and goodsCatId != ''  ">goods_cat_id,</if>
+			<if test="goodsCatPath != null  and goodsCatPath != ''  ">goods_cat_path,</if>
+			<if test="catName != null  and catName != ''  ">cat_name,</if>
+			<if test="isAllowImg != null  and isAllowImg != ''  ">is_allow_img,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="catType != null  and catType != ''  ">dept_id,</if>	
+			<if test="goodsCatTitle != null  and goodsCatTitle != ''  ">goods_cat_title,</if>		
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="goodsCatId != null  and goodsCatId != ''  ">#{goodsCatId},</if>
+			<if test="goodsCatPath != null  and goodsCatPath != ''  ">#{goodsCatPath},</if>
+			<if test="catName != null  and catName != ''  ">#{catName},</if>
+			<if test="isAllowImg != null  and isAllowImg != ''  ">#{isAllowImg},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="catType != null  and catType != ''  ">#{catType},</if>
+			<if test="goodsCatTitle != null  and goodsCatTitle != ''  ">#{goodsCatTitle},</if>					
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpSpecCats" parameterType="SpSpecCats">
+        update sp_spec_cats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsCatId != null  and goodsCatId != ''  ">goods_cat_id = #{goodsCatId},</if>
+            <if test="goodsCatPath != null  and goodsCatPath != ''  ">goods_cat_path = #{goodsCatPath},</if>
+            <if test="catName != null  and catName != ''  ">cat_name = #{catName},</if>
+            <if test="isAllowImg != null  and isAllowImg != ''  ">is_allow_img = #{isAllowImg},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>      
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null and sort != 0 ">sort = #{sort},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="catType != null  and catType != ''  ">cat_type = #{catType},</if>
+            <if test="goodsCatTitle != null  and goodsCatTitle != ''  ">goods_cat_title=#{goodsCatTitle},</if>					            
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+    <update id="changeStatus" parameterType="SpSpecCats">
+        update sp_spec_cats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="isAllowImg != null  and isAllowImg != ''  ">is_allow_img = #{isAllowImg},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+	<delete id="deleteSpSpecCatsById" parameterType="String">
+        delete from sp_spec_cats where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpSpecCatsByIds" parameterType="String">
+        delete from sp_spec_cats where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

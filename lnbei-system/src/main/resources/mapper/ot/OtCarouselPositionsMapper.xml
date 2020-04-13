@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.ot.mapper.OtCarouselPositionsMapper">
+    
+    <resultMap type="OtCarouselPositions" id="OtCarouselPositionsResult">
+        <result property="mid"    column="mid"    />
+        <result property="positionType"    column="position_type"    />
+        <result property="positionName"    column="position_name"    />
+        <result property="positionWidth"    column="position_width"    />
+        <result property="positionHeight"    column="position_height"    />
+        <result property="positionCode"    column="position_code"    />
+         <result property="shopId"    column="shop_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+        <association property="otCarousel"    column="mid" javaType="OtCarousel" resultMap="OtCarouselResult" />
+    </resultMap>
+	<resultMap type="OtCarousel" id="OtCarouselResult">
+        <result property="mid"    column="oc_mid"    />
+        <result property="csPositionId"    column="oc_cs_position_id"    />
+        <result property="csFile"    column="oc_cs_file"    />
+        <result property="csName"    column="oc_cs_name"    />
+        <result property="csUrl"    column="oc_cs_url"    />
+        <result property="csStartDate"    column="oc_cs_start_date"    />
+        <result property="csEndDate"    column="oc_cs_end_date"    />
+        <result property="csClickNum"    column="oc_cs_click_num"    />
+        <result property="positionType"    column="oc_position_type"    />
+        <result property="subTitle"    column="oc_sub_title"    />
+        <result property="createTime"    column="oc_create_time"    />
+        <result property="delFlag"    column="oc_del_flag"    />
+        <result property="sort"    column="oc_sort"    />
+        <result property="status"    column="oc_status"    />
+    </resultMap>
+	<sql id="selectOtCarouselPositionsVo">
+        select m.mid, m.shop_id, m.position_type, m.position_name, m.position_width, m.position_height, m.position_code, m.create_time, m.del_flag, m.create_by, m.update_by, m.remark, m.sort, m.status, m.update_time 
+       
+        oc.mid oc_mid, oc.cs_position_id oc_cs_position_id, oc.cs_file oc_cs_file, oc.cs_name oc_cs_name, oc.cs_url oc_cs_url, oc.cs_start_date oc_cs_start_date, oc.cs_end_date oc_cs_end_date, oc.cs_click_num oc_cs_click_num,
+        
+         oc.position_type oc_position_type, oc.sub_title oc_sub_title, oc.create_time oc_create_time, oc.del_flag oc_del_flag, 
+         
+          oc.sort oc_sort, oc.status oc_status
+       
+        from ot_carousel_positions m
+        ot_carousel oc on m.mid = oc.cs_position_id
+        
+    </sql>
+	
+    <select id="selectOtCarouselPositionsList" parameterType="OtCarouselPositions" resultMap="OtCarouselPositionsResult">
+        <include refid="selectOtCarouselPositionsVo"/>
+        <where>  
+            <if test="mid != null and mid != ''  "> and m.mid = #{mid}</if>
+             <if test="positionType != null and  positionType != '' "> and m.position_type = #{positionType}</if>
+             <if test="positionName != null  and positionName != '' "> and m.position_name = #{positionName}</if>
+             <if test="positionWidth != null "> and m.position_width = #{positionWidth}</if>
+             <if test="positionHeight != null "> and m.position_height = #{positionHeight}</if>
+             <if test="positionCode != null  and positionCode != '' "> and m.position_code = #{positionCode}</if>
+             <if test="createTime != null "> and m.create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and m.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and m.create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and m.update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and m.remark = #{remark}</if>
+             <if test="status != null  and status != '' "> and m.status = #{status}</if>
+             <if test="updateTime != null "> and m.update_time = #{updateTime}</if>
+			 <if test="shopId != null and shopId != '' "> and m.shop_id = #{shopId}</if>             
+         </where>
+    </select>
+    
+    <select id="selectOtCarouselPositionsById" parameterType="String" resultMap="OtCarouselPositionsResult">
+        <include refid="selectOtCarouselPositionsVo"/>
+        where m.mid = #{mid}
+    </select>
+    <select id="selectOtCarouselPositionsByPostionCode" parameterType="String" resultMap="OtCarouselPositionsResult">
+        <include refid="selectOtCarouselPositionsVo"/>
+        where m.mid = #{mid}
+    </select>      
+    <insert id="insertOtCarouselPositions" parameterType="OtCarouselPositions">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into ot_carousel_positions
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null and mid != ''  ">mid,</if>
+			<if test="positionType != null and positionType != ''  ">position_type,</if>
+			<if test="positionName != null  and positionName != ''  ">position_name,</if>
+			<if test="positionWidth != null  and positionWidth != 0 ">position_width,</if>
+			<if test="positionHeight != null and positionHeight != 0  ">position_height,</if>
+			<if test="positionCode != null  and positionCode != ''  ">position_code,</if>
+			
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null and sort !=0  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+		update_time,
+		create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null and mid != ''  ">#{mid},</if>
+			<if test="positionType != null and positionType != ''  ">#{positionType},</if>
+			<if test="positionName != null  and positionName != ''  ">#{positionName},</if>
+			<if test="positionWidth != null and positionWidth != 0  ">#{positionWidth},</if>
+			<if test="positionHeight != null and positionHeight != 0   ">#{positionHeight},</if>
+			<if test="positionCode != null  and positionCode != ''  ">#{positionCode},</if>
+			
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  and sort !=0   ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateOtCarouselPositions" parameterType="OtCarouselPositions">
+        update ot_carousel_positions
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="positionType != null and positionType != ''   ">position_type = #{positionType},</if>
+            <if test="positionName != null  and positionName != ''  ">position_name = #{positionName},</if>
+            <if test="positionWidth != null and positionWidth != 0   ">position_width = #{positionWidth},</if>
+            <if test="positionHeight != null  and positionHeight != 0 ">position_height = #{positionHeight},</if>
+            <if test="positionCode != null  and positionCode != ''  ">position_code = #{positionCode},</if>
+           
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+           		<if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null and sort !=0    ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+           update_time = sysdate,
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteOtCarouselPositionsById" parameterType="Integer">
+        delete from ot_carousel_positions where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteOtCarouselPositionsByIds" parameterType="String">
+        delete from ot_carousel_positions where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

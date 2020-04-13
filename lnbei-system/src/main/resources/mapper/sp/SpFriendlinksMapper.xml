@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpFriendlinksMapper">
+    
+    <resultMap type="SpFriendlinks" id="SpFriendlinksResult">
+        <result property="mid"    column="mid"    />
+        <result property="friendlinkIco"    column="friendlink_ico"    />
+        <result property="friendlinkName"    column="friendlink_name"    />
+        <result property="friendlinkUrl"    column="friendlink_url"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectSpFriendlinksVo">
+        select mid, friendlink_ico, friendlink_name, friendlink_url, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort, status from sp_friendlinks
+    </sql>
+	
+    <select id="selectSpFriendlinksList" parameterType="SpFriendlinks" resultMap="SpFriendlinksResult">
+        <include refid="selectSpFriendlinksVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="friendlinkIco != null  and friendlinkIco != '' "> and friendlink_ico = #{friendlinkIco}</if>
+             <if test="friendlinkName != null  and friendlinkName != '' "> and friendlink_name = #{friendlinkName}</if>
+             <if test="friendlinkUrl != null  and friendlinkUrl != '' "> and friendlink_url = #{friendlinkUrl}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpFriendlinksById" parameterType="String" resultMap="SpFriendlinksResult">
+        <include refid="selectSpFriendlinksVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpFriendlinks" parameterType="SpFriendlinks">
+        insert into sp_friendlinks
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="friendlinkIco != null  and friendlinkIco != ''  ">friendlink_ico,</if>
+			<if test="friendlinkName != null  and friendlinkName != ''  ">friendlink_name,</if>
+			<if test="friendlinkUrl != null  and friendlinkUrl != ''  ">friendlink_url,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="friendlinkIco != null  and friendlinkIco != ''  ">#{friendlinkIco},</if>
+			<if test="friendlinkName != null  and friendlinkName != ''  ">#{friendlinkName},</if>
+			<if test="friendlinkUrl != null  and friendlinkUrl != ''  ">#{friendlinkUrl},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSpFriendlinks" parameterType="SpFriendlinks">
+        update sp_friendlinks
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="friendlinkIco != null  and friendlinkIco != ''  ">friendlink_ico = #{friendlinkIco},</if>
+            <if test="friendlinkName != null  and friendlinkName != ''  ">friendlink_name = #{friendlinkName},</if>
+            <if test="friendlinkUrl != null  and friendlinkUrl != ''  ">friendlink_url = #{friendlinkUrl},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpFriendlinksById" parameterType="String">
+        delete from sp_friendlinks where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpFriendlinksByIds" parameterType="String">
+        delete from sp_friendlinks where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

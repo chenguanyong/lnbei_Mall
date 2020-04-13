@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopApplysMapper">
+    
+    <resultMap type="SpShopApplys" id="SpShopApplysResult">
+        <result property="mid"    column="mid"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="linkPhone"    column="link_phone"    />
+        <result property="linkMan"    column="link_man"    />
+        <result property="applyIntention"    column="apply_intention"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="handleReamrk"    column="handle_reamrk"    />
+        <result property="applyStatus"    column="apply_status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="workflowId"    column="workflow_id"    />
+        <result property="stepId"    column="step_id"    />
+        <result property="isPending"    column="is_pending"    />
+    </resultMap>
+	
+	<sql id="selectSpShopApplysVo">
+        select m.mid, m.member_id, m.link_phone, m.link_man,m.is_pending,m.step_id,m.workflow_id, m.apply_intention, m.shop_name, m.handle_reamrk, m.apply_status, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort from sp_shop_applys m
+    </sql>
+	
+    <select id="selectSpShopApplysList" parameterType="SpShopApplys" resultMap="SpShopApplysResult">
+        <include refid="selectSpShopApplysVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and m.mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and m.member_id = #{memberId}</if>
+             <if test="linkPhone != null  and linkPhone != '' "> and m.link_phone = #{linkPhone}</if>
+             <if test="linkMan != null  and linkMan != '' "> and m.link_man = #{linkMan}</if>
+             <if test="shopName != null  and shopName != '' "> and m.shop_name = #{shopName}</if>
+             <if test="applyStatus != null  and applyStatus != '' "> and m.apply_status = #{applyStatus}</if>
+             <if test="delFlag != null  and delFlag != '' "> and m.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and m.create_by = #{createBy}</if>
+             <if test="createTime != null "> and m.create_time = #{createTime}</if>
+             <if test="updateTime != null "> and m.update_time = #{updateTime}</if>
+             <if test="deptId != null  and deptId != '' "> and m.dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and m.dept_name = #{deptName}</if>
+ 
+         </where>
+    </select>
+    
+    <select id="selectSpShopApplysById" parameterType="String" resultMap="SpShopApplysResult">
+        <include refid="selectSpShopApplysVo"/>
+        where m.mid = #{mid}
+    </select>
+        
+    <insert id="insertSpShopApplys" parameterType="SpShopApplys">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_shop_applys
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="linkPhone != null  and linkPhone != ''  ">link_phone,</if>
+			<if test="linkMan != null  and linkMan != ''  ">link_man,</if>
+			<if test="applyIntention != null  and applyIntention != ''  ">apply_intention,</if>
+			<if test="shopName != null  and shopName != ''  ">shop_name,</if>
+			<if test="handleReamrk != null  and handleReamrk != ''  ">handle_reamrk,</if>
+			<if test="applyStatus != null  and applyStatus != ''  ">apply_status,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+	
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+		
+			<if test="sort != null  ">sort,</if>
+			<if test="workflowId != null  and workflowId != ''  ">workflow_id,</if>
+			<if test="stepId != null  and stepId != ''  ">step_id,</if>
+			<if test="isPending != null  and isPending != ''  ">is_pending,</if>	
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="linkPhone != null  and linkPhone != ''  ">#{linkPhone},</if>
+			<if test="linkMan != null  and linkMan != ''  ">#{linkMan},</if>
+			<if test="applyIntention != null  and applyIntention != ''  ">#{applyIntention},</if>
+			<if test="shopName != null  and shopName != ''  ">#{shopName},</if>
+			<if test="handleReamrk != null  and handleReamrk != ''  ">#{handleReamrk},</if>
+			<if test="applyStatus != null  and applyStatus != ''  ">#{applyStatus},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="workflowId != null  and workflowId != ''  ">#{workflowId},</if>
+			<if test="stepId != null  and stepId != ''  ">#{stepId},</if>
+			<if test="isPending != null  and isPending != ''  ">#{isPending},</if>	
+ 			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpShopApplys" parameterType="SpShopApplys">
+        update sp_shop_applys
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="linkPhone != null  and linkPhone != ''  ">link_phone = #{linkPhone},</if>
+            <if test="linkMan != null  and linkMan != ''  ">link_man = #{linkMan},</if>
+            <if test="applyIntention != null  and applyIntention != ''  ">apply_intention = #{applyIntention},</if>
+            <if test="shopName != null  and shopName != ''  ">shop_name = #{shopName},</if>
+            <if test="handleReamrk != null  and handleReamrk != ''  ">handle_reamrk = #{handleReamrk},</if>
+            <if test="applyStatus != null  and applyStatus != ''  ">apply_status = #{applyStatus},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+           
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+          
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+			<if test="workflowId != null  and workflowId != ''  ">workflow_id = #{workflowId},</if>
+			<if test="stepId != null  and stepId != ''  ">step_id = #{stepId},</if>
+			<if test="isPending != null  and isPending != ''  ">is_pending = #{isPending},</if>	            
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopApplysById" parameterType="String">
+        delete from sp_shop_applys where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopApplysByIds" parameterType="String">
+        delete from sp_shop_applys where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

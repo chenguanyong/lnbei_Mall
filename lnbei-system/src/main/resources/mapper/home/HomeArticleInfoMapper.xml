@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.home.mapper.HomeArticleInfoMapper">
+    
+    <resultMap type="HomeArticleInfo" id="HomeArticleInfoResult">
+        <result property="mid"    column="mid"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="content"    column="content"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectHomeArticleInfoVo">
+        select mid, article_id, content, remark, create_by, create_time, update_by, update_time from home_article_info
+    </sql>
+	
+    <select id="selectHomeArticleInfoList" parameterType="HomeArticleInfo" resultMap="HomeArticleInfoResult">
+        <include refid="selectHomeArticleInfoVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="articleId != null  and articleId != '' "> and article_id = #{articleId}</if>
+             <if test="content != null  and content != '' "> and content = #{content}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>             
+         </where>
+         	${params.dataScope}  
+    
+    </select>
+    
+    <select id="selectHomeArticleInfoById" parameterType="String" resultMap="HomeArticleInfoResult">
+        <include refid="selectHomeArticleInfoVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertHomeArticleInfo" parameterType="HomeArticleInfo">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into home_article_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="articleId != null  and articleId != ''  ">article_id,</if>
+			<if test="content != null  and content != ''  ">content,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="articleId != null  and articleId != ''  ">#{articleId},</if>
+			<if test="content != null  and content != ''  ">#{content},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHomeArticleInfo" parameterType="HomeArticleInfo">
+        update home_article_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="articleId != null  and articleId != ''  ">article_id = #{articleId},</if>
+            <if test="content != null  and content != ''  ">content = #{content},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteHomeArticleInfoById" parameterType="String">
+        delete from home_article_info where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteHomeArticleInfoByIds" parameterType="String">
+        delete from home_article_info where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

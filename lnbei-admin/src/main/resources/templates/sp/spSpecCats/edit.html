@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spSpecCats-edit" th:object="${spSpecCats}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+			<input id="goodsCatPath"  th:value="*{goodsCatPath}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格类型：</label>
+				<div class="col-sm-8" id="goodsCatPathDiv">
+					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格名称：</label>
+				<div class="col-sm-8">
+					<input id="catName" name="catName"  th:field="*{catName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否允许上传图片：</label>
+				<div class="col-sm-8">
+	    				<div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="isAllowImg" th:value="${dict.dictValue}"  th:checked="${dict.dictValue == spSpecCats.isAllowImg ? true : false}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+	    				<div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.dictValue == spSpecCats.status ? true : false}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>					
+				</div>
+			</div>
+		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spSpecCats";
+		var goodsCatPath = $("#goodsCatPath").val();
+		$("#form-spSpecCats-edit").validate({
+			rules:{
+				catName:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	         	var goodsCatId = $.common.getCascadeValue("goodsCatPathDiv");;
+	        	var goodsCatPath= $.common.getCascadeLastValue("goodsCatPathDiv");
+	        	var goodsCatTitle = $.common.getCascadeTitle("goodsCatPathDiv");
+	        	var param = $('#form-spSpecCats-edit').serialize();
+	        	param += "&goodsCatId=" + goodsCatId + "&goodsCatPath=" + goodsCatPath+"&goodsCatTitle=" + goodsCatTitle;
+	            $.operate.save(prefix + "/edit", param);
+	        }
+	    }
+		initcategorySelect();
+		function initcategorySelect(){
+			var url = ctx + "home/homeCategory/getCategoryCascadeList/sp_cats";
+			debugger;
+			$.common.categoryCascade(url, "goodsCatPathDiv", "goodsCatPath",goodsCatPath);//
+		}
+	</script>
+</body>
+</html>

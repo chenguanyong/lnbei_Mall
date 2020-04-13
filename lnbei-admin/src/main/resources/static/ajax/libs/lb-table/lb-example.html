@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div ><button onclick="add()">增加行</button><button onclick="updaterow(1)">修改一行</button>
+  
+  <button onclick="remove(1)">删除</button> <button onclick="getData()">获取全部数据</button> <button onclick="getSelectionsData(1)">获取选中的数据</button> 
+  </div>
+    <div id="lnbei-table"></div>
+
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+  </body>
+  <script>
+  
+    var defaults = {
+			id: "lnbei-table", //id
+			height: $(window).height()-150,
+			showHead:true,
+			columns:[
+			{
+			height:"12",
+			width:"60",
+			checkbox:true,
+			field : 'ff', 
+			title : '选择',
+			align : 'center'
+			},
+			{
+				height:"12",
+				width:"60",
+			
+				field : 'ff1', 
+				title : '规格名称',
+				align : 'center',
+				formatter:function(row, value, index){
+					return rowInput(index, 'ff1', value);
+				},
+			},
+			
+			{
+				height:"12",
+				width:"60",
+			
+				field : 'ff2', 
+				title : '选择',
+				align : 'center',
+				formatter:function(row, value, index){
+					return "value++";
+				},
+			},
+			]
+			
+			
+			,//表头
+			data:[
+			{ff:"1",ff1:"222",ff2:"444"},
+			{ff:"2",ff1:"2221",ff2:"4443"},
+			{ff:"4",ff1:"2224",ff2:"44433"},
+			
+			],//表数据
+		};
+  $(function(){
+	$.lb_table.init(defaults);
+  });
+  var row = {ff:"4",ff1:"2224",ff2:"44433"};
+var row2 = {ff:"4",ff1:"2233324",ff2:"44433"};
+	 function add(){
+		$.lb_table.addRow(row);
+	 }
+	 function updaterow(index){
+	 
+	   $.lb_table.updataRow(index,row2);
+	 }
+	 function rowInput(index, field, value){
+	 
+		return "<input class='form-control' value='"+value+"' onblur=\"save(\'"+index+"\',this, \'"+field+"\')\" type='text'  />";
+	 
+	 }
+	 
+	 function save(index,obj, field){
+		debugger;
+		var data = $.lb_table.getData();
+		var rowData = data[index];
+		var value = $(obj).val();
+		eval("rowData." +field+"=\""+ value +'";');
+		$.lb_table.options.data[index] = rowData;
+		$.lb_table.refresh();
+	 }
+	 /***
+	 删除
+	 ***/
+	function remove(){
+	
+	$.lb_table.remove();
+	}
+	function getSelectionsData(){
+	var ff = $.lb_table.getSelections();
+	console.log(ff);
+	alert(ff);
+	}
+	function getData(){
+	var ff = $.lb_table.getData();
+	console.log(ff);
+	alert(ff);
+	}
+  /******************************************************
+  林北科技出品
+  简易表格操作函数
+  作者：陈官勇
+  日期：2020-03-01
+  邮箱：993238441@qq.com
+  *******************************************************
+  */
+  (function ($, fun){
+  	if($ == undefined){
+		throw "this is need jquery";
+	}
+	$.lb_table = fun();
+  
+  }($, function (){
+  
+  		var defaults = {
+			id: "lnbei-table", //id
+			height: $(window).height()-150,
+			showHead:true,
+			columns:{},//表头
+			data:{},//表数据
+		};
+		var defaultcolumns = {
+			height:"12",
+			width:"60",
+			checkbox:false,
+			radiobox:false,
+			field : '', 
+			title : '',
+			align : 'center',
+			formatter:function(row, value, index){
+				return false;
+			},
+		};
+		var obj = {
+			options :{},
+			init:function (options){
+				obj.options = $.extend(defaults, options);
+				debugger;
+				obj.run();
+			},
+			run:function (){
+			
+				var data = obj.options.data;
+				var tableHeard = "";//
+				if(obj.options.showHead == true){
+					tableHeard = obj.drawTrHeadElement("a");
+				}
+				var tableContent = "";
+				for(var i in data){
+					tableContent +=	obj.drawTrElement(data[i], i);
+				}
+				var tableHtml = obj.drawTableElement(tableHeard + tableContent);
+				$("#" + obj.options.id).empty();
+				$("#" + obj.options.id).html(tableHtml);
+			},
+			drawTableElement:function (tableBody){ // 绘画table元素
+			
+				return "<table id='" + obj.options.id+ "Table'>" + tableBody + "</table>";
+			},
+			drawThElement:function (column){//绘画TH元素
+				var attrWidth = "width:"+column.width+"px;";
+				var attrHeight = "height:" + column.height + "px;";
+				var attrAlign = "align-content:" + column.align + ";";
+				var tdHtml = column.title;
+				return "<td style='"+attrWidth+attrHeight+attrAlign+"'>" + tdHtml + "</td>";
+			},
+			drawTrElement:function(row, index){
+				var trContent= "";
+				trContent = obj.drawTrConent(row, index);
+				var attr = obj.setAttrLB(0, index,"tr");
+				return "<tr "+ attr +">" + trContent + "</tr>";
+			},
+			
+			drawTrConent:function(row, index){
+				var tableData = obj.options.data;
+				var columns = obj.options.columns;
+				var trContent= "";
+				for(var i in columns){
+					var value = "";
+					if(columns[i].field !='' && columns[i].checkbox != true && columns[i].radiobox != true ){
+						eval("value=row."+columns[i].field+";");
+					}
+					trContent += obj.drawTdElement(columns[i], row, value, index );
+				}
+				return trContent;
+			},
+			//绘画表头元素
+			drawTrHeadElement:function(index){
+				var columns = obj.options.columns;
+				var trContent= "";
+				for(var i in columns){
+					trContent += obj.drawThElement(columns[i]);
+				}
+				var attr = obj.setAttrLB(0, index,"tr");
+				return "<tr "+ attr +">" + trContent + "</tr>";
+			},//绘画TR元素			
+			drawTdElement:function(column, row, value, index){//绘画Td元素
+				var attrWidth = "width:"+column.width+"px;";
+				var attrHeight = "height:" + column.height + "px;";
+				var attrAlign = "align-content:" + column.align + ";";
+				var tdHtml = "";
+				if(column.checkbox == true){
+					tdHtml = obj.__checkboxHtml(index);
+				}else if(column.radiobox == true){
+					tdHtml = obj.__radioboxHtml(index);
+				}else{
+					//var column = $.extend(defaultcolumns, column);
+					if(typeof(column.formatter) == 'function' ){
+						tdHtml = column.formatter(row, value, index);
+						if(tdHtml == false){
+							tdHtml = value;
+						}
+					
+					}else {
+						tdHtml = value;
+					}
+				
+				}
+				var attr = obj.setAttrLB(value, index, column.field);
+				return "<td " + attr +" style='"+attrWidth+attrHeight+attrAlign+"'>" + tdHtml + "</td>";
+			},//设置TD标签属性
+			setAttrLB : function (value, index, field){
+				return "lb-id='" +field + index + "' lb-value='" + value + "' lb-index='" + index + "'";
+			},
+			drawTheadElement:function(strContent){//绘画Thead元素
+				return "<thead>" + strContent + "</thread>";
+			},
+			drawTbodyElement:function(strContent){//绘画Tbody元素
+				return "<tbody>" + strContent + "</tbody>";
+			},
+			drawTfootElement:function(strContent){//绘画Tfoot元素
+				return "<tfoot>" + strContent + "</tfoot>";
+			},
+			__checkboxHtml:function (index){
+				return "<input lb-defined='sys' type='checkbox' lb-index='"+index+"' lb-id='checkbox" + index + "' "  + " />";
+			},
+			__radioboxHtml:function (index){
+				return "<input lb-defined='sys' type='radio' lb-index='"+index+"' name='lb"+obj.options.id+"' lb-id='radiobox" + index + "' "  + " />";
+			},//添加行
+			addRow:function (data){
+				var tableData = obj.options.data;
+				if(data == undefined){
+				
+					throw new Error("data is not defined!!!");
+				}
+				tableData.push(data);
+				var trHtml = obj.drawTrElement(data, tableData.length);
+				$("#"+ obj.options.id).append(trHtml);
+			},
+			getData:function (){
+				return obj.options.data;
+			},
+			getOptions:function(){
+				return obj.options;
+			},
+			updataRow: function (index, data){
+			debugger;
+			    var tableData = obj.options.data;
+				if(index >= tableData.length ){
+				
+					throw new Error("Out of range");
+				}
+				var rowData = tableData[index];
+				tableData[index] = $.extend(rowData, data);
+				var trContent = obj.drawTrConent(data, index);
+				$("#"+ obj.options.id + " tr[lb-index="+index+"]").empty();
+				$("#"+ obj.options.id + " tr[lb-index="+index+"]").html(trContent);
+			},
+			getSelections:function (){
+			  
+			  var tableData = obj.options.data;
+			  var selectionData = [];
+		      var selectionIndex = obj.__getSelectionsIndex();
+			  for(var i in selectionIndex){
+				selectionData.push(tableData[selectionIndex[i]]);
+			  }
+			  return selectionData;
+			},
+			__getSelectionsIndex:function (){
+			
+			  var selection = $("#"+ obj.options.id + " input[lb-defined=sys]:checked");
+			  var selectionIndex = [];
+			  selection.each(function (){
+			  
+			  var index = $(this).attr('lb-index');
+			    selectionIndex.push(index);
+			  });
+			  return selectionIndex;
+			},
+			remove:function (){
+			debugger;
+				var selectionIndex = obj.__getSelectionsIndex();
+				var tableData = obj.options.data;
+				var temp = [];
+				for(var i in tableData){
+					if(selectionIndex.indexOf(i) == -1){
+					
+						temp.push(tableData[i]);
+					}
+				
+				}
+				obj.options.data = temp;
+				for(var i in selectionIndex){
+					$("#"+ obj.options.id + " tr[lb-index="+selectionIndex[i]+"]").detach();
+				}
+				obj.refresh();
+			},
+			refresh:function (){
+			    $("#"+ obj.options.id).empty();
+				obj.run();
+			}
+			
+		};
+  
+		return obj;
+  
+  }));
+  
+  
+  </script>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								流程id：<input type="text" name="flowId"/>
+							</li>
+
+							<li>
+								表单字段：<input type="text" name="fieldName"/>
+							</li>
+
+							<li>
+								数据类型：<input type="text" name="dataType"/>
+							</li>
+
+							<li>
+								表单标题：<input type="text" name="fieldTitle"/>
+							</li>
+
+							<li>
+								数据长度：<input type="text" name="dataLength"/>
+							</li>
+
+							<li>
+								显示排序：<input type="text" name="fieldSort"/>
+							</li>
+
+							<li>
+								是否必填，0否，1是：<input type="text" name="isRequire"/>
+							</li>
+
+							<li>
+								表单注释：<input type="text" name="fieldComment"/>
+							</li>
+
+							<li>
+								表单类型：<input type="text" name="fieldType"/>
+							</li>
+
+							<li>
+								表单属性：<input type="text" name="fieldAttr"/>
+							</li>
+
+							<li>
+								是否关联字段，0否，1是：<input type="text" name="isRelevance"/>
+							</li>
+
+							<li>
+								关联字段：<input type="text" name="fieldRelevance"/>
+							</li>
+
+							<li>
+								日期关联字段：<input type="text" name="dateRelevance"/>
+							</li>
+
+							<li>
+								时间关联字段：<input type="text" name="timeRelevance"/>
+							</li>
+
+							<li>
+								是否显示，0隐藏，1显示：<input type="text" name="isShow"/>
+							</li>
+
+							<li>
+								是否显示地图，0隐藏，1显示：<input type="text" name="isMap"/>
+							</li>
+
+							<li>
+								是否可以删除，0否，1是：<input type="text" name="isDelete"/>
+							</li>
+
+							<li>
+								是否在sp_shops表，0不是，1是：<input type="text" name="isShopsTable"/>
+							</li>
+
+							<li>
+								：<input type="text" name="delFlag"/>
+							</li>
+
+							<li>
+								创建人：<input type="text" name="createBy"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="createTime"/>
+							</li>
+
+							<li>
+								跟新人：<input type="text" name="updateBy"/>
+							</li>
+
+							<li>
+								跟新时间：<input type="text" name="updateTime"/>
+							</li>
+
+							<li>
+								备注：<input type="text" name="remark"/>
+							</li>
+
+							<li>
+								：<input type="text" name="deptId"/>
+							</li>
+
+							<li>
+								：<input type="text" name="deptName"/>
+							</li>
+
+							<li>
+								分类id：<input type="text" name="sort"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:spShopBases:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:spShopBases:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:spShopBases:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:spShopBases:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:spShopBases:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:spShopBases:remove')}]];
+        var prefix = ctx + "system/spShopBases";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "商家审核",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '自增id',
+					visible: false
+				},
+				{
+					field : 'flowId', 
+					title : '流程id',
+					sortable: true
+				},
+				{
+					field : 'fieldName', 
+					title : '表单字段',
+					sortable: true
+				},
+				{
+					field : 'dataType', 
+					title : '数据类型',
+					sortable: true
+				},
+				{
+					field : 'fieldTitle', 
+					title : '表单标题',
+					sortable: true
+				},
+				{
+					field : 'dataLength', 
+					title : '数据长度',
+					sortable: true
+				},
+				{
+					field : 'fieldSort', 
+					title : '显示排序',
+					sortable: true
+				},
+				{
+					field : 'isRequire', 
+					title : '是否必填，0否，1是',
+					sortable: true
+				},
+				{
+					field : 'fieldComment', 
+					title : '表单注释',
+					sortable: true
+				},
+				{
+					field : 'fieldType', 
+					title : '表单类型',
+					sortable: true
+				},
+				{
+					field : 'fieldAttr', 
+					title : '表单属性',
+					sortable: true
+				},
+				{
+					field : 'isRelevance', 
+					title : '是否关联字段，0否，1是',
+					sortable: true
+				},
+				{
+					field : 'fieldRelevance', 
+					title : '关联字段',
+					sortable: true
+				},
+				{
+					field : 'dateRelevance', 
+					title : '日期关联字段',
+					sortable: true
+				},
+				{
+					field : 'timeRelevance', 
+					title : '时间关联字段',
+					sortable: true
+				},
+				{
+					field : 'isShow', 
+					title : '是否显示，0隐藏，1显示',
+					sortable: true
+				},
+				{
+					field : 'isMap', 
+					title : '是否显示地图，0隐藏，1显示',
+					sortable: true
+				},
+				{
+					field : 'isDelete', 
+					title : '是否可以删除，0否，1是',
+					sortable: true
+				},
+				{
+					field : 'isShopsTable', 
+					title : '是否在sp_shops表，0不是，1是',
+					sortable: true
+				},
+				{
+					field : 'delFlag', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'createBy', 
+					title : '创建人',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+				{
+					field : 'updateBy', 
+					title : '跟新人',
+					sortable: true
+				},
+				{
+					field : 'updateTime', 
+					title : '跟新时间',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '备注',
+					sortable: true
+				},
+				{
+					field : 'deptId', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'deptName', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'sort', 
+					title : '分类id',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="sphome/public/header:: header"></head>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+
+<style>
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #ff4406;
+    background-color: #fff;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+ color: #000;
+  text-decoration: none;
+  background-color: #fff;
+}
+.nav-pills > li > a{
+ 	color: #000;
+	width:150px
+}
+.wrap-line {
+    clear: both;
+    background: #e6e6e6;
+    height: 2px;
+    position: relative;
+}
+.wrap-line .floater {
+    background: #f40;
+    height: 2px;
+    width: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+.text-amount{
+	display: inline;
+    width: 50px;
+    height:30px;
+    padding:5px 5px;
+    margin-left: -3px;
+}
+.J_Minus{
+    height:30px;
+    padding:5px 5px;
+	width:20px;
+	border: 1px solid #D5D5D5;
+}
+.J_Plus{
+    height:30px;
+    padding:5px 5px;
+	width:20px;
+	border: 1px solid #D5D5D5;
+	 margin-left: -4px;
+}
+</style>
+<div th:replace="sphome/public/nav:: nav"></div>
+<div th:replace="sphome/public/search::search"></div>
+
+	  <div class="container-fluid" style="width:90%">
+		<ul class="nav nav-pills" role="tablist">
+		  <li i="1"  class="active"><a href="#">所有商品 <span class="badge">42</span></a></li>
+		  <li i="2" ><a href="#">库存紧张商品 <span class="badge">3</span> </a></li>
+		  <li i="3" ><a href="#">降价商品 <span class="badge">3</span></a></li>
+		</ul>
+	  </div>	
+	<div class="container-fluid" style="width:90%">
+		<div class="wrap-line"><div class="floater" style="width: 150px; left: -1px;"></div></div>
+	</div>	
+<div class="container-fluid" style="width:90%">
+	<br />
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-1"><input type="checkbox" />全选</div>
+				<div class="col-md-6">商品信息</div>
+				<div class="col-md-1">单价</div>
+				<div class="col-md-2">数量</div>
+				<div class="col-md-1">金额</div>
+				<div class="col-md-1">操作</div>
+			</div>
+		</div>
+	</div>
+	<div class="space-4"></div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div class="col-md-1"><input type="checkbox" /><img src="https://img.alicdn.com/tfs/TB18_6NaEuF3KVjSZK9XXbVtXXa-24-20.png" />商店1</div>
+				<div class="col-md-6">商品信息</div>
+
+			</div>
+			
+			
+			<div class="col-md-12" style="    border: 1px #333 solid;">
+				<div class="row"  style="    border-bottom: 1px #333 solid; " >
+					<div class="col-md-12"><div>满减活动</div></div>
+
+				</div>			
+				<div class="row">
+					
+					<div class="col-md-7">
+					
+						<div class="row">
+							
+							<div class="col-md-2">
+								<div class="row">
+								
+									<div class="col-md-3"><input type="checkbox" /></div>
+									<div class="col-md-9">
+									
+										<div class="item-pic J_ItemPic img-loaded">
+											<a href="//detail.tmall.com/item.htm?id=567447113747" target="_blank" data-title="ESP8266 ESP-01S Relay模块 继电器 WIFI智能插座/开关 兼Arduino" class="J_MakePoint J_GoldReport" data-point="tbcart.8.12"><img src="https://img.alicdn.com/bao/uploaded/i2/2208586675/O1CN01GAZc9K1zBCKHe3v6v_!!2208586675.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+										</div>
+									
+									
+									
+									
+									
+									</div>	
+								
+								
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div>
+									<span>ESP8266 ESP-01S Relay模块 继电器 WIFI智能插座/开关 兼Arduino</span>
+								</div>
+							</div>
+							<div class="col-md-5">
+							
+								<div>
+									<span>颜色分类：ESP-01S</span>
+								</div>
+							
+							
+							</div>
+						</div>
+					
+					
+					</div>
+					<div class="col-md-1"><span ><i>￥</i>9.9</span></div>
+					<div class="col-md-2">
+						<div class="amount-wrapper ">
+							<div class="item-amount ">
+								<a href="#" class="J_Minus ">-</a>
+								<input type="text" value="1" class=" text-amount " data-max="8953" data-now="1" autocomplete="off">
+								<a href="#" class="J_Plus ">+</a></div>
+						</div>
+					
+					</div>
+					<div class="col-md-1"><span>$25</span></div>
+					<div class="col-md-1">
+					
+						<div class="row">
+							<div class="col-md-12"><a href="#">移入收藏夹</a></div>
+							<div class="col-md-12"><a href="#">删除商品</a></div>
+						</div>
+					
+					
+					</div>
+				</div>
+			</div>
+			
+				<div class="col-md-12" style="  border-bottom: 1px #333 solid;    border-left: 1px #333 solid; border-right: 1px #333 solid;">
+				<div class="row" style="    border-bottom: 1px #333 solid; " >
+					<div class="col-md-12"><div>满减活动</div></div>
+
+				</div>			
+				<div class="row">
+					
+					<div class="col-md-7">
+					
+						<div class="row">
+							
+							<div class="col-md-2">
+								<div class="row">
+								
+									<div class="col-md-3"><input type="checkbox" /></div>
+									<div class="col-md-9">
+									
+										<div class="item-pic J_ItemPic img-loaded">
+											<a href="//detail.tmall.com/item.htm?id=567447113747" target="_blank" data-title="ESP8266 ESP-01S Relay模块 继电器 WIFI智能插座/开关 兼Arduino" class="J_MakePoint J_GoldReport" data-point="tbcart.8.12"><img src="https://img.alicdn.com/bao/uploaded/i2/2208586675/O1CN01GAZc9K1zBCKHe3v6v_!!2208586675.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+										</div>
+									
+									
+									
+									
+									
+									</div>	
+								
+								
+								</div>
+							</div>
+							<div class="col-md-5">
+								<div>
+									<span>ESP8266 ESP-01S Relay模块 继电器 WIFI智能插座/开关 兼Arduino</span>
+								</div>
+							</div>
+							<div class="col-md-5">
+							
+								<div>
+									<span>颜色分类：ESP-01S</span>
+								</div>
+							
+							
+							</div>
+						</div>
+					
+					
+					</div>
+					<div class="col-md-1"><span ><i>￥</i>9.9</span></div>
+					<div class="col-md-2">
+						<div class="amount-wrapper ">
+							<div class="item-amount ">
+								<a href="#" class="J_Minus ">-</a>
+								<input type="text" value="1" class=" text-amount " data-max="8953" data-now="1" autocomplete="off">
+								<a href="#" class="J_Plus ">+</a></div>
+						</div>
+					
+					</div>
+					<div class="col-md-1"><span>$25</span></div>
+					<div class="col-md-1">
+					
+						<div class="row">
+							<div class="col-md-12"><a href="#">移入收藏夹</a></div>
+							<div class="col-md-12"><a href="#">删除商品</a></div>
+						</div>
+					
+					
+					</div>
+				</div>
+			</div>		
+			
+			
+			
+		</div>
+
+	
+	
+	
+ </div>
+
+
+			
+	</div>
+	
+	
+	
+	
+	
+	</div>
+</div>	
+</div>
+<head th:include="spshop/public/footer:: footer"></head>
+<script >
+$(function (){
+	
+	$(".nav-pills li:eq(1)").hover(function (){
+		
+		$(".floater").css("left","160px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","340px");}break;
+		}
+		
+	});
+	$(".nav-pills li:eq(2)").hover(function (){
+		
+		$(".floater").css("left","320px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","340px");}break;
+		}
+	});
+	$(".nav-pills li:eq(0)").hover(function (){
+		
+		$(".floater").css("left","-1px");
+		
+	},function (){
+		
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","340px");}break;
+		}
+	});
+	/**
+	选择事件
+	**/
+	$(".nav-pills > li").on("click",
+		function (){
+			$(".nav-pills > li").attr("class","");
+			$(this).attr("class","active");
+		}
+	);
+});
+</script>
+</body>
+</html>

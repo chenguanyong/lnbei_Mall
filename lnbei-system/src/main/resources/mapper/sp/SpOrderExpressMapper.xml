@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpOrderExpressMapper">
+    
+    <resultMap type="SpOrderExpress" id="SpOrderExpressResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="ordergoodsId"    column="ordergoods_id"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="isExpress"    column="is_express"    />
+        <result property="expressId"    column="express_id"    />
+        <result property="expressNo"    column="express_no"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpOrderExpressVo">
+        select mid, order_id, ordergoods_id, delivery_time, is_express, express_id, express_no, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_order_express
+    </sql>
+	
+    <select id="selectSpOrderExpressList" parameterType="SpOrderExpress" resultMap="SpOrderExpressResult">
+        <include refid="selectSpOrderExpressVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="ordergoodsId != null  and ordergoodsId != '' "> and ordergoods_id = #{ordergoodsId}</if>
+             <if test="deliveryTime != null "> and delivery_time = #{deliveryTime}</if>
+             <if test="isExpress != null  and isExpress != '' "> and is_express = #{isExpress}</if>
+             <if test="expressId != null  and expressId != '' "> and express_id = #{expressId}</if>
+             <if test="expressNo != null  and expressNo != '' "> and express_no = #{expressNo}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpOrderExpressById" parameterType="String" resultMap="SpOrderExpressResult">
+        <include refid="selectSpOrderExpressVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpOrderExpress" parameterType="SpOrderExpress">
+              <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_order_express
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="ordergoodsId != null  and ordergoodsId != ''  ">ordergoods_id,</if>
+			<if test="deliveryTime != null  ">delivery_time,</if>
+			<if test="isExpress != null  and isExpress != ''  ">is_express,</if>
+			<if test="expressId != null  and expressId != ''  ">express_id,</if>
+			<if test="expressNo != null  and expressNo != ''  ">express_no,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,			
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="ordergoodsId != null  and ordergoodsId != ''  ">#{ordergoodsId},</if>
+			<if test="deliveryTime != null  ">#{deliveryTime},</if>
+			<if test="isExpress != null  and isExpress != ''  ">#{isExpress},</if>
+			<if test="expressId != null  and expressId != ''  ">#{expressId},</if>
+			<if test="expressNo != null  and expressNo != ''  ">#{expressNo},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpOrderExpress" parameterType="SpOrderExpress">
+        update sp_order_express
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="ordergoodsId != null  and ordergoodsId != ''  ">ordergoods_id = #{ordergoodsId},</if>
+            <if test="deliveryTime != null  ">delivery_time = #{deliveryTime},</if>
+            <if test="isExpress != null  and isExpress != ''  ">is_express = #{isExpress},</if>
+            <if test="expressId != null  and expressId != ''  ">express_id = #{expressId},</if>
+            <if test="expressNo != null  and expressNo != ''  ">express_no = #{expressNo},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+         
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+        
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpOrderExpressById" parameterType="String">
+        delete from sp_order_express where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpOrderExpressByIds" parameterType="String">
+        delete from sp_order_express where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

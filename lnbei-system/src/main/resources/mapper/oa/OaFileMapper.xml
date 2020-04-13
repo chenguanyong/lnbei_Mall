@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.oa.mapper.OaFileMapper">
+    
+    <resultMap type="OaFile" id="OaFileResult">
+        <result property="mid"    column="mid"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="fileSize"    column="file_size"    />
+        <result property="fileNum"    column="file_num"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="remark"    column="remark"    />
+        <result property="downSize"    column="down_size"    />
+        <result property="fileUrl"    column="file_url"    />
+        <result property="accessType"    column="access_type"    />
+        <result property="quote"    column="quote"    />
+        <result property="classifyId"    column="classify_id"    />
+        <result property="classify"    column="classify"    />
+        <result property="attentionSize"    column="attention_size"    /> 
+       <result property="sourceId"    column="source_id"    />   
+               <result property="fileSuffix"    column="file_suffix"    />   
+    </resultMap>
+	
+	<sql id="selectOaFileVo">
+        select mid, file_name,quote,source_id,classify_id,file_suffix,classify,attention_size, file_path, file_size, file_num, file_type, create_time, create_by, update_time, update_by, del_flag, remark, down_size, file_url, access_type from oa_file
+    </sql>
+	
+    <select id="selectOaFileList" parameterType="OaFile" resultMap="OaFileResult">
+        <include refid="selectOaFileVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="fileName != null  and fileName != '' "> and file_name = #{fileName}</if>
+             <if test="filePath != null  and filePath != '' "> and file_path = #{filePath}</if>
+         
+             <if test="fileNum != null  and fileNum != '' "> and file_num = #{fileNum}</if>
+             <if test="fileType != null  and fileType != '' "> and file_type = #{fileType}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         
+             <if test="fileUrl != null  and fileUrl != '' "> and file_url = #{fileUrl}</if>
+             <if test="accessType != null  and accessType != '' "> and access_type = #{accessType}</if>
+ 			 <if test="classifyId != null  and classifyId != '' "> and classify_id = #{classifyId}</if>
+             <if test="classify != null  and classify != '' "> and classify = #{classify}</if>
+             <if test="sourceId != null  and sourceId != '' "> and source_id = #{sourceId}</if>
+         </where>
+    </select>
+    
+    <select id="selectOaFileById" parameterType="String" resultMap="OaFileResult">
+        <include refid="selectOaFileVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertOaFile" parameterType="OaFile">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into oa_file
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="fileName != null  and fileName != ''  ">file_name,</if>
+			<if test="filePath != null  and filePath != ''  ">file_path,</if>
+			<if test="fileSize != null  ">file_size,</if>
+			<if test="fileNum != null  and fileNum != ''  ">file_num,</if>
+			<if test="fileType != null  and fileType != ''  ">file_type,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="downSize != null  ">down_size,</if>
+			<if test="fileUrl != null  and fileUrl != ''  ">file_url,</if>
+			<if test="accessType != null  and accessType != ''  ">access_type,</if>
+			<if test="classifyId != null  and classifyId != '' ">classify_id,</if>
+            <if test="classify != null  and classify != '' "> classify,</if>
+            <if test="quote != null  and quote != 0 ">quote, </if>    
+            <if test="attentionSize != null  and attentionSize != 0 ">attention_size, </if>   
+            <if test="sourceId != null  and sourceId != '' ">source_id, </if>     
+            <if test="fileSuffix != null  and fileSuffix != '' ">file_suffix, </if> 	
+            	create_time, 
+            			update_time, 		
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="fileName != null  and fileName != ''  ">#{fileName},</if>
+			<if test="filePath != null  and filePath != ''  ">#{filePath},</if>
+			<if test="fileSize != null  ">#{fileSize},</if>
+			<if test="fileNum != null  and fileNum != ''  ">#{fileNum},</if>
+			<if test="fileType != null  and fileType != ''  ">#{fileType},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="downSize != null  ">#{downSize},</if>	
+			<if test="fileUrl != null  and fileUrl != ''  ">#{fileUrl},</if>
+			<if test="accessType != null  and accessType != ''  ">#{accessType},</if>
+			<if test="classifyId != null  and classifyId != '' ">#{classifyId},</if>
+            <if test="classify != null  and classify != '' "> #{classify},</if>
+           <if test="quote != null  and quote != 0 ">#{quote}, </if>  
+            <if test="attentionSize != null  and attentionSize != 0 ">#{attentionSize}, </if>  
+ 			<if test="sourceId != null  and sourceId != '' ">#{sourceId}, </if>  
+ 			 <if test="fileSuffix != null  and fileSuffix != '' ">#{fileSuffix}, </if> 
+ 			  sysdate(),
+            sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateOaFile" parameterType="OaFile">
+        update oa_file
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="fileName != null  and fileName != ''  ">file_name = #{fileName},</if>
+            <if test="filePath != null  and filePath != ''  ">file_path = #{filePath},</if>
+            <if test="fileSize != null and fileSize != 0 ">file_size = #{fileSize},</if>
+            <if test="fileNum != null  and fileNum != ''  ">file_num = #{fileNum},</if>
+            <if test="fileType != null  and fileType != ''  ">file_type = #{fileType},</if>
+        
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="downSize != null and downSize != 0 ">down_size = #{downSize},</if>
+            <if test="fileUrl != null  and fileUrl != ''  ">file_url = #{fileUrl},</if>
+            <if test="accessType != null  and accessType != ''  ">access_type = #{accessType},</if>
+            <if test="classifyId != null  and classifyId != '' ">classify_id=#{classifyId},</if>
+            <if test="classify != null  and classify != '' "> classify=#{classify},</if>
+           <if test="quote != null  and quote != 0 ">quote=#{quote}, </if> 
+           <if test="attentionSize != null  and attentionSize != 0 ">attention_size=#{attentionSize}, </if> 
+ 			<if test="sourceId != null  and sourceId != '' ">source_id=#{sourceId}, </if>  
+ 			<if test="fileSuffix != null  and fileSuffix != '' ">file_suffix=#{fileSuffix}, </if>   
+             update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+  	<update id="updateOaFileINC" parameterType="OaFile">
+        update oa_file
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="downSize != null  and downSize != 0  "> down_size = down_size+#{downSize},</if>
+           <if test="quote != null  and quote != 0 ">quote=quote+#{quote}, </if> 
+           <if test="attentionSize != null  and attentionSize != 0 ">attention_size=attention_size+#{attentionSize}, </if>  
+        </trim>
+        where mid = #{mid}
+    </update>
+
+  	<update id="updateOaFileDEC" parameterType="OaFile">
+        update oa_file
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="downSize != null  and downSize != 0  "> down_size = down_size-#{downSize},</if>
+           <if test="quote != null  and quote != 0 ">quote=quote-#{quote}, </if> 
+           <if test="attentionSize != null  and attentionSize != 0 ">attention_size=attention_size-#{attentionSize}, </if>  
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteOaFileById" parameterType="String">
+        delete from oa_file where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteOaFileByIds" parameterType="String">
+        delete from oa_file where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

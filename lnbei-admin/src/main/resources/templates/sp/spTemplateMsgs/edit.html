@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spTemplateMsgs-edit" th:object="${spTemplateMsgs}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+		<div class="form-group">	
+				<label class="col-sm-3 control-label">模板类型：</label>
+				<div class="col-sm-8">
+					<select id="tplType" th:field="*{tplType}"  name="tplType" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${@dict.getType('sp_tpl_type')}">
+					  <option value="">所有</option>
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>	
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板标题：</label>
+				<div class="col-sm-8">
+					<input id="tplTitle" name="tplTitle"  th:field="*{tplTitle}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板编码：</label>
+				<div class="col-sm-8">
+					<input id="tplCode" name="tplCode"  th:field="*{tplCode}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板内容：</label>
+				<div class="col-sm-8">
+					<input id="tplContent" name="tplContent"  th:field="*{tplContent}" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">模板描述：</label>
+				<div class="col-sm-8">
+					<input id="tplDesc" name="tplDesc"  th:field="*{tplDesc}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+						<div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.dictValue == spTemplateMsgs.status ? true : false}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>	
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark"  th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort"  th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spTemplateMsgs";
+		$("#form-spTemplateMsgs-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-spTemplateMsgs-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

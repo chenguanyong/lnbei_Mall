@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								店铺编号：<input type="text" name="shopSn"/>
+							</li>
+
+							<li>
+								店铺归属地：<input type="text" name="areaId"/>
+							</li>
+
+							<li>
+								店铺名称：<input type="text" name="shopName"/>
+							</li>
+
+							<li>
+								店主：<input type="text" name="shopKeeper"/>
+							</li>
+
+						
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="spadmin:spShops:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editTab()" shiro:hasPermission="spadmin:spShops:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="spadmin:spShops:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="spadmin:spShops:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "spadmin/spShops";
+		var shopStatus = [[${@dict.getType('sp_shop_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "店铺",
+		        showExport: false,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'shopSn', 
+					title : '店铺编号',
+				},
+	
+				{
+					field : 'areaId', 
+					title : '店铺归属地',
+				},
+				{
+					field : 'isSelf', 
+					title : '自营店',
+					
+				},
+				{
+					field : 'shopName', 
+					title : '店铺名称',
+					
+				},
+				{
+					field : 'shopKeeper', 
+					title : '店主',
+					
+				},
+				{
+					field : 'telephone', 
+					title : '负责人手机',
+					
+				},
+				{
+					field : 'shopCompany', 
+					title : '店主公司',
+					
+				},
+				{
+					field : 'shopImg', 
+					title : '店铺LOGO',
+					
+				},
+				{
+					field : 'shopTel', 
+					title : '店铺电话',
+					
+				},
+				{
+					field : 'shopQq', 
+					title : '店铺QQ',
+					
+				},
+			
+				{
+					field : 'shopStatus', //
+					title : '店铺状态',
+		            formatter: function(value, item, index) {
+		            	return $.table.selectDictLabel(shopStatus, value);
+		            }
+				},
+				
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+			
+		       ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

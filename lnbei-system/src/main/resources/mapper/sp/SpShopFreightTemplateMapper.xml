@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopFreightTemplateMapper">
+    
+    <resultMap type="SpShopFreightTemplate" id="SpShopFreightTemplateResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopExpressId"    column="shop_express_id"    />
+        <result property="tempName"    column="temp_name"    />
+        <result property="tempType"    column="temp_type"    />
+        <result property="provinceIds"    column="province_ids"    />
+        <result property="cityIds"    column="city_ids"    />
+        <result property="buyNumStart"    column="buy_num_start"    />
+        <result property="buyNumStartPrice"    column="buy_num_start_price"    />
+        <result property="buyNumContinue"    column="buy_num_continue"    />
+        <result property="buyNumContinuePrice"    column="buy_num_continue_price"    />
+        <result property="weightStart"    column="weight_start"    />
+        <result property="weightStartprice"    column="weight_startprice"    />
+        <result property="weightContinue"    column="weight_continue"    />
+        <result property="weightContinueprice"    column="weight_continueprice"    />
+        <result property="volumeStart"    column="volume_start"    />
+        <result property="volumeStartprice"    column="volume_startprice"    />
+        <result property="volumeContinue"    column="volume_continue"    />
+        <result property="volumeContinueprice"    column="volume_continueprice"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpShopFreightTemplateVo">
+        select mid, shop_express_id, temp_name, temp_type, province_ids, city_ids, buy_num_start, buy_num_start_price, buy_num_continue, buy_num_continue_price, weight_start, weight_startprice, weight_continue, weight_continueprice, volume_start, volume_startprice, volume_continue, volume_continueprice, shop_id, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_shop_freight_template
+    </sql>
+	
+    <select id="selectSpShopFreightTemplateList" parameterType="SpShopFreightTemplate" resultMap="SpShopFreightTemplateResult">
+        <include refid="selectSpShopFreightTemplateVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopExpressId != null "> and shop_express_id = #{shopExpressId}</if>
+             <if test="tempName != null  and tempName != '' "> and temp_name = #{tempName}</if>
+             <if test="tempType != null  and tempType != '' "> and temp_type = #{tempType}</if>
+             <if test="provinceIds != null  and provinceIds != '' "> and province_ids = #{provinceIds}</if>
+             <if test="cityIds != null  and cityIds != '' "> and city_ids = #{cityIds}</if>
+             <if test="buyNumStart != null "> and buy_num_start = #{buyNumStart}</if>
+             <if test="buyNumStartPrice != null "> and buy_num_start_price = #{buyNumStartPrice}</if>
+             <if test="buyNumContinue != null "> and buy_num_continue = #{buyNumContinue}</if>
+             <if test="buyNumContinuePrice != null "> and buy_num_continue_price = #{buyNumContinuePrice}</if>
+             <if test="weightStart != null "> and weight_start = #{weightStart}</if>
+             <if test="weightStartprice != null "> and weight_startprice = #{weightStartprice}</if>
+             <if test="weightContinue != null "> and weight_continue = #{weightContinue}</if>
+             <if test="weightContinueprice != null "> and weight_continueprice = #{weightContinueprice}</if>
+             <if test="volumeStart != null "> and volume_start = #{volumeStart}</if>
+             <if test="volumeStartprice != null "> and volume_startprice = #{volumeStartprice}</if>
+             <if test="volumeContinue != null "> and volume_continue = #{volumeContinue}</if>
+             <if test="volumeContinueprice != null "> and volume_continueprice = #{volumeContinueprice}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpShopFreightTemplateById" parameterType="String" resultMap="SpShopFreightTemplateResult">
+        <include refid="selectSpShopFreightTemplateVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpShopFreightTemplate" parameterType="SpShopFreightTemplate">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_shop_freight_template
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopExpressId != null  ">shop_express_id,</if>
+			<if test="tempName != null  and tempName != ''  ">temp_name,</if>
+			<if test="tempType != null  and tempType != ''  ">temp_type,</if>
+			<if test="provinceIds != null  and provinceIds != ''  ">province_ids,</if>
+			<if test="cityIds != null  and cityIds != ''  ">city_ids,</if>
+			<if test="buyNumStart != null  ">buy_num_start,</if>
+			<if test="buyNumStartPrice != null  ">buy_num_start_price,</if>
+			<if test="buyNumContinue != null  ">buy_num_continue,</if>
+			<if test="buyNumContinuePrice != null  ">buy_num_continue_price,</if>
+			<if test="weightStart != null  ">weight_start,</if>
+			<if test="weightStartprice != null  ">weight_startprice,</if>
+			<if test="weightContinue != null  ">weight_continue,</if>
+			<if test="weightContinueprice != null  ">weight_continueprice,</if>
+			<if test="volumeStart != null  ">volume_start,</if>
+			<if test="volumeStartprice != null  ">volume_startprice,</if>
+			<if test="volumeContinue != null  ">volume_continue,</if>
+			<if test="volumeContinueprice != null  ">volume_continueprice,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopExpressId != null  ">#{shopExpressId},</if>
+			<if test="tempName != null  and tempName != ''  ">#{tempName},</if>
+			<if test="tempType != null  and tempType != ''  ">#{tempType},</if>
+			<if test="provinceIds != null  and provinceIds != ''  ">#{provinceIds},</if>
+			<if test="cityIds != null  and cityIds != ''  ">#{cityIds},</if>
+			<if test="buyNumStart != null  ">#{buyNumStart},</if>
+			<if test="buyNumStartPrice != null  ">#{buyNumStartPrice},</if>
+			<if test="buyNumContinue != null  ">#{buyNumContinue},</if>
+			<if test="buyNumContinuePrice != null  ">#{buyNumContinuePrice},</if>
+			<if test="weightStart != null  ">#{weightStart},</if>
+			<if test="weightStartprice != null  ">#{weightStartprice},</if>
+			<if test="weightContinue != null  ">#{weightContinue},</if>
+			<if test="weightContinueprice != null  ">#{weightContinueprice},</if>
+			<if test="volumeStart != null  ">#{volumeStart},</if>
+			<if test="volumeStartprice != null  ">#{volumeStartprice},</if>
+			<if test="volumeContinue != null  ">#{volumeContinue},</if>
+			<if test="volumeContinueprice != null  ">#{volumeContinueprice},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpShopFreightTemplate" parameterType="SpShopFreightTemplate">
+        update sp_shop_freight_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopExpressId != null  ">shop_express_id = #{shopExpressId},</if>
+            <if test="tempName != null  and tempName != ''  ">temp_name = #{tempName},</if>
+            <if test="tempType != null  and tempType != ''  ">temp_type = #{tempType},</if>
+            <if test="provinceIds != null  and provinceIds != ''  ">province_ids = #{provinceIds},</if>
+            <if test="cityIds != null  and cityIds != ''  ">city_ids = #{cityIds},</if>
+            <if test="buyNumStart != null  ">buy_num_start = #{buyNumStart},</if>
+            <if test="buyNumStartPrice != null  ">buy_num_start_price = #{buyNumStartPrice},</if>
+            <if test="buyNumContinue != null  ">buy_num_continue = #{buyNumContinue},</if>
+            <if test="buyNumContinuePrice != null  ">buy_num_continue_price = #{buyNumContinuePrice},</if>
+            <if test="weightStart != null  ">weight_start = #{weightStart},</if>
+            <if test="weightStartprice != null  ">weight_startprice = #{weightStartprice},</if>
+            <if test="weightContinue != null  ">weight_continue = #{weightContinue},</if>
+            <if test="weightContinueprice != null  ">weight_continueprice = #{weightContinueprice},</if>
+            <if test="volumeStart != null  ">volume_start = #{volumeStart},</if>
+            <if test="volumeStartprice != null  ">volume_startprice = #{volumeStartprice},</if>
+            <if test="volumeContinue != null  ">volume_continue = #{volumeContinue},</if>
+            <if test="volumeContinueprice != null  ">volume_continueprice = #{volumeContinueprice},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+           
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+         
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopFreightTemplateById" parameterType="String">
+        delete from sp_shop_freight_template where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopFreightTemplateByIds" parameterType="String">
+        delete from sp_shop_freight_template where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

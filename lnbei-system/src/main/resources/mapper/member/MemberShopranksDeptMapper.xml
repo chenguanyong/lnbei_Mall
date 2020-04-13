@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.member.mapper.MemberShopranksDeptMapper">
+    
+    <resultMap type="MemberShopranksDept" id="MemberShopranksDeptResult">
+        <result property="ranksId"    column="ranks_id"    />
+        <result property="deptId"    column="dept_id"    />
+    </resultMap>
+	
+	<sql id="selectMemberShopranksDeptVo">
+        select ranks_id, dept_id from member_shopranks_dept
+    </sql>
+	
+    <select id="selectMemberShopranksDeptList" parameterType="MemberShopranksDept" resultMap="MemberShopranksDeptResult">
+        <include refid="selectMemberShopranksDeptVo"/>
+        <where>  
+            <if test="ranksId != null  and ranksId != '' "> and ranks_id = #{ranksId}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberShopranksDeptById" parameterType="String" resultMap="MemberShopranksDeptResult">
+        <include refid="selectMemberShopranksDeptVo"/>
+        where ranks_id = #{ranksId}
+    </select>
+        
+    <insert id="insertMemberShopranksDept" parameterType="MemberShopranksDept">
+        insert into member_shopranks_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ranksId != null  and ranksId != ''  ">ranks_id,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ranksId != null  and ranksId != ''  ">#{ranksId},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberShopranksDept" parameterType="MemberShopranksDept">
+        update member_shopranks_dept
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+        </trim>
+        where ranks_id = #{ranksId}
+    </update>
+
+	<delete id="deleteMemberShopranksDeptById" parameterType="String">
+        delete from member_shopranks_dept where ranks_id = #{ranksId}
+    </delete>	
+    <delete id="deleteMemberShopranksDeptByIds" parameterType="String">
+        delete from member_shopranks_dept where ranks_id in 
+        <foreach item="ranksId" collection="array" open="(" separator="," close=")">
+            #{ranksId}
+        </foreach>
+    </delete>
+    	<insert id="batchRoleDept" useGeneratedKeys="false">
+		insert all
+		<foreach item="item" index="index" collection="list">
+			into member_shopranks_dept(ranks_id, dept_id) values (#{item.ranksId},#{item.deptId})
+		</foreach>
+		SELECT 1 FROM DUAL
+	</insert>
+</mapper>

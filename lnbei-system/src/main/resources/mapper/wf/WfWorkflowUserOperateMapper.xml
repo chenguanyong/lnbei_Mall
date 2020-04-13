@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.wf.mapper.WfWorkflowUserOperateMapper">
+    
+    <resultMap type="WfWorkflowUserOperate" id="WfWorkflowUserOperateResult">
+        <result property="mid"    column="mid"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userType"    column="user_type"    />
+        <result property="opinion"    column="opinion"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="workflowId"    column="workflow_id"    />
+        <result property="wfstepId"    column="wfstep_id"    />
+        <result property="sort"    column="sort"    />
+        <result property="objectId"    column="object_id"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectWfWorkflowUserOperateVo">
+        select mid, member_id, user_id, user_type, opinion, create_by, create_time, update_by, update_time, remark, workflow_id, wfstep_id, sort, object_id, status from wf_workflow_user_operate
+    </sql>
+	
+    <select id="selectWfWorkflowUserOperateList" parameterType="WfWorkflowUserOperate" resultMap="WfWorkflowUserOperateResult">
+        <include refid="selectWfWorkflowUserOperateVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="userType != null  and userType != '' "> and user_type = #{userType}</if>
+             <if test="opinion != null  and opinion != '' "> and opinion = #{opinion}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="workflowId != null  and workflowId != '' "> and workflow_id = #{workflowId}</if>
+             <if test="wfstepId != null  and wfstepId != '' "> and wfstep_id = #{wfstepId}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="objectId != null  and objectId != '' "> and object_id = #{objectId}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectWfWorkflowUserOperateById" parameterType="String" resultMap="WfWorkflowUserOperateResult">
+        <include refid="selectWfWorkflowUserOperateVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertWfWorkflowUserOperate" parameterType="WfWorkflowUserOperate">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into wf_workflow_user_operate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="userType != null  and userType != ''  ">user_type,</if>
+			<if test="opinion != null  and opinion != ''  ">opinion,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="workflowId != null  and workflowId != ''  ">workflow_id,</if>
+			<if test="wfstepId != null  and wfstepId != ''  ">wfstep_id,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="objectId != null  and objectId != ''  ">object_id,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			create_time ,
+			update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="userType != null  and userType != ''  ">#{userType},</if>
+			<if test="opinion != null  and opinion != ''  ">#{opinion},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="workflowId != null  and workflowId != ''  ">#{workflowId},</if>
+			<if test="wfstepId != null  and wfstepId != ''  ">#{wfstepId},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="objectId != null  and objectId != ''  ">#{objectId},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate(),			
+         </trim>
+    </insert>
+	 
+    <update id="updateWfWorkflowUserOperate" parameterType="WfWorkflowUserOperate">
+        update wf_workflow_user_operate
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userType != null  and userType != ''  ">user_type = #{userType},</if>
+            <if test="opinion != null  and opinion != ''  ">opinion = #{opinion},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="workflowId != null  and workflowId != ''  ">workflow_id = #{workflowId},</if>
+            <if test="wfstepId != null  and wfstepId != ''  ">wfstep_id = #{wfstepId},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="objectId != null  and objectId != ''  ">object_id = #{objectId},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+    		 update_time = sysdate(),            
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteWfWorkflowUserOperateById" parameterType="String">
+        delete from wf_workflow_user_operate where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteWfWorkflowUserOperateByIds" parameterType="String">
+        delete from wf_workflow_user_operate where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

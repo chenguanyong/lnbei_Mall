@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								商品编号：<input type="text" name="goodsSn"/>
+							</li>
+
+							<li>
+								商品名称：<input type="text" name="goodsName"/>
+							</li>
+
+							<li>
+								归属店铺：<input type="text" id="shopId" name="shopId"/>
+								<input type="hidden" id="shopName" name="shopName"/>
+							</li>
+
+							<li>
+								商品分类：<input type="text" name="goodsCatId"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="spadmin:spGoods:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editTab()" shiro:hasPermission="spadmin:spGoods:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="spadmin:spGoods:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="spadmin:spGoods:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+ 
+        var prefix = ctx + "spadmin/spGoods";
+        var goodsType = [[${@dict.getType('sp_goods_type')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "商品",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'goodsSn', 
+					title : '商品编号',
+					width : '80',
+				},
+				{
+					field : 'productNo', 
+					title : '商品货号',
+					width : '80',
+				},
+				{
+					field : 'goodsName', 
+					title : '商品名称',
+					width : '100',
+				},
+				{
+					field : 'goodsImg', 
+					title : '商品图片',
+					width : '80',
+				  	formatter: function (value, row, index) {
+		        		return $.operate.imgHtml(value);
+		        	}
+				},
+				{
+					field : 'shopName', 
+					title : '归属店铺',
+					width : '100',
+				},
+				{
+					field : 'goodsType', 
+					title : '商品类型',
+					width : '40',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	goodsType, value);
+					}
+					
+				},
+				{
+					field : 'marketPrice', 
+					title : '市场价',
+					width : '40',
+					sortable: true
+				},
+				{
+					field : 'shopPrice', 
+					title : '商铺价格',
+					width : '40',
+					sortable: true
+				},
+				{
+					field : 'warnStock', 
+					title : '警告库存',
+					width : '40',
+					sortable: true
+				},
+				{
+					field : 'goodsStock', 
+					title : '商品库存',
+					width : '40',
+					sortable: true
+				},
+				{
+					field : 'goodsUnit', 
+					title : '商品单位',
+					width : '40',
+				},
+
+				{
+					field : 'isSale', 
+					title : '上架',
+					width : '40',
+					formatter: function(value, row, index) {
+						if(value == "0"){
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isSale\',\'1\')' >未上架</a>";
+						}else{
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isSale\',\'0\')' >已上架</a>";
+						}
+					}
+				},
+				{
+					field : 'isBest', 
+					title : '精品',
+					width : '40',
+					formatter: function(value, row, index) {
+						if(value == "0"){
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isBest\',\'1\')' >否</a>";
+						}else{
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isBest\',\'0\')' >是</a>";
+						}
+					}
+				},
+				{
+					field : 'isHot', 
+					title : '热销',
+					width : '40',
+					formatter: function(value, row, index) {
+						if(value == "0"){
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isHot\',\'1\')' >否</a>";
+						}else{
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isHot\',\'0\')' >是</a>";
+						}
+					}
+				},
+				{
+					field : 'isNew', 
+					title : '新品',
+					width : '40',
+					formatter: function(value, row, index) {
+						if(value == "0"){
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isNew\',\'1\')' >否</a>";
+						}else{
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isNew\',\'0\')' >是</a>";
+						}
+					}
+				},
+				{
+					field : 'isRecom', 
+					title : '推荐',
+					width : '40',
+					formatter: function(value, row, index) {
+						if(value == "0"){
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isRecom\',\'1\')' >未推荐</a>";
+						}else{
+							return "<a onclick='changeGoodsAttr(\'"+row.mid+"\',\'isRecom\',\'0\')' >已推荐</a>";
+						}
+					}
+				},
+				{
+					field : 'goodscatId', 
+					title : '商品分类',
+					width : '100',
+				},
+			
+				{
+					field : 'brandId', 
+					title : '品牌',
+					width : '100',
+				},
+				{
+					field : 'goodsStatus', 
+					title : '状态',
+					width : '40',
+				  	formatter: function (value, row, index) {
+		        		return $.operate.statusTools(row);
+		        	}
+				},
+				{
+					field : 'saleNum', 
+					title : '销量',
+					width : '40',
+				},
+				{
+					field : 'visitNum', 
+					title : '浏览量',
+					width : '40',
+				},
+				{
+					field : 'appraiseNum', 
+					title : '评价量',
+					width : '40',
+					sortable: true
+				},
+
+				{
+					field : 'isFreeshipping', 
+					title : '是否包邮',
+					width : '40',
+					sortable: true
+				},
+
+				{
+					field : 'costPrice', 
+					title : '成本价',
+					width : '40',
+					sortable: true
+				},
+
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					width : '60',
+					sortable: true
+				},
+				]
+            };
+            $.table.init(options);
+        });
+        function changeGoodsAttr(mid,name,value){
+        	
+        	$.operate.post(prefix + "/changeGoodsAttr",{"mid":mid,name:value});
+        }
+        
+    </script>
+</body>
+</html>

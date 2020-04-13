@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpOrderServicesMapper">
+    
+    <resultMap type="SpOrderServices" id="SpOrderServicesResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="goodsServiceType"    column="goods_service_type"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="serviceRemark"    column="service_remark"    />
+        <result property="serviceAnnex"    column="service_annex"    />
+        <result property="refundScore"    column="refund_score"    />
+        <result property="useScoreMoney"    column="use_score_money"    />
+        <result property="getScoreMoney"    column="get_score_money"    />
+        <result property="refundMoney"    column="refund_money"    />
+        <result property="refundableMoney"    column="refundable_money"    />
+        <result property="isShopAgree"    column="is_shop_agree"    />
+        <result property="disagreeRemark"    column="disagree_remark"    />
+        <result property="userAddressId"    column="user_address_id"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="areaIdPath"    column="area_id_path"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userAddress"    column="user_address"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="shopAreaId"    column="shop_area_id"    />
+        <result property="shopAreaIdPath"    column="shop_area_id_path"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopAddress"    column="shop_address"    />
+        <result property="shopPhone"    column="shop_phone"    />
+        <result property="isUserSendGoods"    column="is_user_send_goods"    />
+        <result property="expressType"    column="express_type"    />
+        <result property="expressId"    column="express_id"    />
+        <result property="expressNo"    column="express_no"    />
+        <result property="isShopAccept"    column="is_shop_accept"    />
+        <result property="shopRejectType"    column="shop_reject_type"    />
+        <result property="shopRejectOther"    column="shop_reject_other"    />
+        <result property="shopRejectImg"    column="shop_reject_img"    />
+        <result property="isShopSend"    column="is_shop_send"    />
+        <result property="shopExpressType"    column="shop_express_type"    />
+        <result property="shopExpressId"    column="shop_express_id"    />
+        <result property="shopExpressNo"    column="shop_express_no"    />
+        <result property="isUserAccept"    column="is_user_accept"    />
+        <result property="userRejectType"    column="user_reject_type"    />
+        <result property="userRejectOther"    column="user_reject_other"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="isClose"    column="is_close"    />
+        <result property="serviceStatus"    column="service_status"    />
+        <result property="shopAcceptExpireTime"    column="shop_accept_expire_time"    />
+        <result property="userSendExpireTime"    column="user_send_expire_time"    />
+        <result property="shopReceiveExpireTime"    column="shop_receive_expire_time"    />
+        <result property="getScoreVal"    column="get_score_val"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpOrderServicesVo">
+        select mid, order_id, goods_service_type, service_type, service_remark, service_annex, refund_score, use_score_money, get_score_money, refund_money, refundable_money, is_shop_agree, disagree_remark, user_address_id, area_id, area_id_path, user_name, user_address, user_phone, shop_area_id, shop_area_id_path, shop_name, shop_address, shop_phone, is_user_send_goods, express_type, express_id, express_no, is_shop_accept, shop_reject_type, shop_reject_other, shop_reject_img, is_shop_send, shop_express_type, shop_express_id, shop_express_no, is_user_accept, user_reject_type, user_reject_other, create_time, is_close, service_status, shop_accept_expire_time, user_send_expire_time, shop_receive_expire_time, get_score_val, del_flag, create_by, update_by, update_time, remark, dept_id, dept_name, sort from sp_order_services
+    </sql>
+	
+    <select id="selectSpOrderServicesList" parameterType="SpOrderServices" resultMap="SpOrderServicesResult">
+        <include refid="selectSpOrderServicesVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="goodsServiceType != null  and goodsServiceType != '' "> and goods_service_type = #{goodsServiceType}</if>
+             <if test="serviceType != null "> and service_type = #{serviceType}</if>
+             <if test="serviceRemark != null  and serviceRemark != '' "> and service_remark = #{serviceRemark}</if>
+             <if test="serviceAnnex != null  and serviceAnnex != '' "> and service_annex = #{serviceAnnex}</if>
+             <if test="refundScore != null "> and refund_score = #{refundScore}</if>
+             <if test="useScoreMoney != null "> and use_score_money = #{useScoreMoney}</if>
+             <if test="getScoreMoney != null "> and get_score_money = #{getScoreMoney}</if>
+             <if test="refundMoney != null "> and refund_money = #{refundMoney}</if>
+             <if test="refundableMoney != null "> and refundable_money = #{refundableMoney}</if>
+             <if test="isShopAgree != null  and isShopAgree != '' "> and is_shop_agree = #{isShopAgree}</if>
+             <if test="disagreeRemark != null  and disagreeRemark != '' "> and disagree_remark = #{disagreeRemark}</if>
+             <if test="userAddressId != null  and userAddressId != '' "> and user_address_id = #{userAddressId}</if>
+             <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
+             <if test="areaIdPath != null  and areaIdPath != '' "> and area_id_path = #{areaIdPath}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userAddress != null  and userAddress != '' "> and user_address = #{userAddress}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="shopAreaId != null  and shopAreaId != '' "> and shop_area_id = #{shopAreaId}</if>
+             <if test="shopAreaIdPath != null  and shopAreaIdPath != '' "> and shop_area_id_path = #{shopAreaIdPath}</if>
+             <if test="shopName != null  and shopName != '' "> and shop_name = #{shopName}</if>
+             <if test="shopAddress != null  and shopAddress != '' "> and shop_address = #{shopAddress}</if>
+             <if test="shopPhone != null  and shopPhone != '' "> and shop_phone = #{shopPhone}</if>
+             <if test="isUserSendGoods != null  and isUserSendGoods != '' "> and is_user_send_goods = #{isUserSendGoods}</if>
+             <if test="expressType != null  and expressType != '' "> and express_type = #{expressType}</if>
+             <if test="expressId != null  and expressId != '' "> and express_id = #{expressId}</if>
+             <if test="expressNo != null  and expressNo != '' "> and express_no = #{expressNo}</if>
+             <if test="isShopAccept != null  and isShopAccept != '' "> and is_shop_accept = #{isShopAccept}</if>
+             <if test="shopRejectType != null "> and shop_reject_type = #{shopRejectType}</if>
+             <if test="shopRejectOther != null  and shopRejectOther != '' "> and shop_reject_other = #{shopRejectOther}</if>
+             <if test="shopRejectImg != null  and shopRejectImg != '' "> and shop_reject_img = #{shopRejectImg}</if>
+             <if test="isShopSend != null  and isShopSend != '' "> and is_shop_send = #{isShopSend}</if>
+             <if test="shopExpressType != null  and shopExpressType != '' "> and shop_express_type = #{shopExpressType}</if>
+             <if test="shopExpressId != null  and shopExpressId != '' "> and shop_express_id = #{shopExpressId}</if>
+             <if test="shopExpressNo != null  and shopExpressNo != '' "> and shop_express_no = #{shopExpressNo}</if>
+             <if test="isUserAccept != null  and isUserAccept != '' "> and is_user_accept = #{isUserAccept}</if>
+             <if test="userRejectType != null  and userRejectType != '' "> and user_reject_type = #{userRejectType}</if>
+             <if test="userRejectOther != null  and userRejectOther != '' "> and user_reject_other = #{userRejectOther}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="isClose != null  and isClose != '' "> and is_close = #{isClose}</if>
+             <if test="serviceStatus != null  and serviceStatus != '' "> and service_status = #{serviceStatus}</if>
+             <if test="shopAcceptExpireTime != null "> and shop_accept_expire_time = #{shopAcceptExpireTime}</if>
+             <if test="userSendExpireTime != null "> and user_send_expire_time = #{userSendExpireTime}</if>
+             <if test="shopReceiveExpireTime != null "> and shop_receive_expire_time = #{shopReceiveExpireTime}</if>
+             <if test="getScoreVal != null "> and get_score_val = #{getScoreVal}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpOrderServicesById" parameterType="String" resultMap="SpOrderServicesResult">
+        <include refid="selectSpOrderServicesVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpOrderServices" parameterType="SpOrderServices">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_order_services
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="goodsServiceType != null  and goodsServiceType != ''  ">goods_service_type,</if>
+			<if test="serviceType != null  ">service_type,</if>
+			<if test="serviceRemark != null  and serviceRemark != ''  ">service_remark,</if>
+			<if test="serviceAnnex != null  and serviceAnnex != ''  ">service_annex,</if>
+			<if test="refundScore != null  ">refund_score,</if>
+			<if test="useScoreMoney != null  ">use_score_money,</if>
+			<if test="getScoreMoney != null  ">get_score_money,</if>
+			<if test="refundMoney != null  ">refund_money,</if>
+			<if test="refundableMoney != null  ">refundable_money,</if>
+			<if test="isShopAgree != null  and isShopAgree != ''  ">is_shop_agree,</if>
+			<if test="disagreeRemark != null  and disagreeRemark != ''  ">disagree_remark,</if>
+			<if test="userAddressId != null  and userAddressId != ''  ">user_address_id,</if>
+			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userAddress != null  and userAddress != ''  ">user_address,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="shopAreaId != null  and shopAreaId != ''  ">shop_area_id,</if>
+			<if test="shopAreaIdPath != null  and shopAreaIdPath != ''  ">shop_area_id_path,</if>
+			<if test="shopName != null  and shopName != ''  ">shop_name,</if>
+			<if test="shopAddress != null  and shopAddress != ''  ">shop_address,</if>
+			<if test="shopPhone != null  and shopPhone != ''  ">shop_phone,</if>
+			<if test="isUserSendGoods != null  and isUserSendGoods != ''  ">is_user_send_goods,</if>
+			<if test="expressType != null  and expressType != ''  ">express_type,</if>
+			<if test="expressId != null  and expressId != ''  ">express_id,</if>
+			<if test="expressNo != null  and expressNo != ''  ">express_no,</if>
+			<if test="isShopAccept != null  and isShopAccept != ''  ">is_shop_accept,</if>
+			<if test="shopRejectType != null  ">shop_reject_type,</if>
+			<if test="shopRejectOther != null  and shopRejectOther != ''  ">shop_reject_other,</if>
+			<if test="shopRejectImg != null  and shopRejectImg != ''  ">shop_reject_img,</if>
+			<if test="isShopSend != null  and isShopSend != ''  ">is_shop_send,</if>
+			<if test="shopExpressType != null  and shopExpressType != ''  ">shop_express_type,</if>
+			<if test="shopExpressId != null  and shopExpressId != ''  ">shop_express_id,</if>
+			<if test="shopExpressNo != null  and shopExpressNo != ''  ">shop_express_no,</if>
+			<if test="isUserAccept != null  and isUserAccept != ''  ">is_user_accept,</if>
+			<if test="userRejectType != null  and userRejectType != ''  ">user_reject_type,</if>
+			<if test="userRejectOther != null  and userRejectOther != ''  ">user_reject_other,</if>
+			
+			<if test="isClose != null  and isClose != ''  ">is_close,</if>
+			<if test="serviceStatus != null  and serviceStatus != ''  ">service_status,</if>
+			<if test="shopAcceptExpireTime != null  ">shop_accept_expire_time,</if>
+			<if test="userSendExpireTime != null  ">user_send_expire_time,</if>
+			<if test="shopReceiveExpireTime != null  ">shop_receive_expire_time,</if>
+			<if test="getScoreVal != null  ">get_score_val,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+	
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="goodsServiceType != null  and goodsServiceType != ''  ">#{goodsServiceType},</if>
+			<if test="serviceType != null  ">#{serviceType},</if>
+			<if test="serviceRemark != null  and serviceRemark != ''  ">#{serviceRemark},</if>
+			<if test="serviceAnnex != null  and serviceAnnex != ''  ">#{serviceAnnex},</if>
+			<if test="refundScore != null  ">#{refundScore},</if>
+			<if test="useScoreMoney != null  ">#{useScoreMoney},</if>
+			<if test="getScoreMoney != null  ">#{getScoreMoney},</if>
+			<if test="refundMoney != null  ">#{refundMoney},</if>
+			<if test="refundableMoney != null  ">#{refundableMoney},</if>
+			<if test="isShopAgree != null  and isShopAgree != ''  ">#{isShopAgree},</if>
+			<if test="disagreeRemark != null  and disagreeRemark != ''  ">#{disagreeRemark},</if>
+			<if test="userAddressId != null  and userAddressId != ''  ">#{userAddressId},</if>
+			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">#{areaIdPath},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userAddress != null  and userAddress != ''  ">#{userAddress},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="shopAreaId != null  and shopAreaId != ''  ">#{shopAreaId},</if>
+			<if test="shopAreaIdPath != null  and shopAreaIdPath != ''  ">#{shopAreaIdPath},</if>
+			<if test="shopName != null  and shopName != ''  ">#{shopName},</if>
+			<if test="shopAddress != null  and shopAddress != ''  ">#{shopAddress},</if>
+			<if test="shopPhone != null  and shopPhone != ''  ">#{shopPhone},</if>
+			<if test="isUserSendGoods != null  and isUserSendGoods != ''  ">#{isUserSendGoods},</if>
+			<if test="expressType != null  and expressType != ''  ">#{expressType},</if>
+			<if test="expressId != null  and expressId != ''  ">#{expressId},</if>
+			<if test="expressNo != null  and expressNo != ''  ">#{expressNo},</if>
+			<if test="isShopAccept != null  and isShopAccept != ''  ">#{isShopAccept},</if>
+			<if test="shopRejectType != null  ">#{shopRejectType},</if>
+			<if test="shopRejectOther != null  and shopRejectOther != ''  ">#{shopRejectOther},</if>
+			<if test="shopRejectImg != null  and shopRejectImg != ''  ">#{shopRejectImg},</if>
+			<if test="isShopSend != null  and isShopSend != ''  ">#{isShopSend},</if>
+			<if test="shopExpressType != null  and shopExpressType != ''  ">#{shopExpressType},</if>
+			<if test="shopExpressId != null  and shopExpressId != ''  ">#{shopExpressId},</if>
+			<if test="shopExpressNo != null  and shopExpressNo != ''  ">#{shopExpressNo},</if>
+			<if test="isUserAccept != null  and isUserAccept != ''  ">#{isUserAccept},</if>
+			<if test="userRejectType != null  and userRejectType != ''  ">#{userRejectType},</if>
+			<if test="userRejectOther != null  and userRejectOther != ''  ">#{userRejectOther},</if>
+		
+			<if test="isClose != null  and isClose != ''  ">#{isClose},</if>
+			<if test="serviceStatus != null  and serviceStatus != ''  ">#{serviceStatus},</if>
+			<if test="shopAcceptExpireTime != null  ">#{shopAcceptExpireTime},</if>
+			<if test="userSendExpireTime != null  ">#{userSendExpireTime},</if>
+			<if test="shopReceiveExpireTime != null  ">#{shopReceiveExpireTime},</if>
+			<if test="getScoreVal != null  ">#{getScoreVal},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpOrderServices" parameterType="SpOrderServices">
+        update sp_order_services
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="goodsServiceType != null  and goodsServiceType != ''  ">goods_service_type = #{goodsServiceType},</if>
+            <if test="serviceType != null  ">service_type = #{serviceType},</if>
+            <if test="serviceRemark != null  and serviceRemark != ''  ">service_remark = #{serviceRemark},</if>
+            <if test="serviceAnnex != null  and serviceAnnex != ''  ">service_annex = #{serviceAnnex},</if>
+            <if test="refundScore != null  ">refund_score = #{refundScore},</if>
+            <if test="useScoreMoney != null  ">use_score_money = #{useScoreMoney},</if>
+            <if test="getScoreMoney != null  ">get_score_money = #{getScoreMoney},</if>
+            <if test="refundMoney != null  ">refund_money = #{refundMoney},</if>
+            <if test="refundableMoney != null  ">refundable_money = #{refundableMoney},</if>
+            <if test="isShopAgree != null  and isShopAgree != ''  ">is_shop_agree = #{isShopAgree},</if>
+            <if test="disagreeRemark != null  and disagreeRemark != ''  ">disagree_remark = #{disagreeRemark},</if>
+            <if test="userAddressId != null  and userAddressId != ''  ">user_address_id = #{userAddressId},</if>
+            <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path = #{areaIdPath},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userAddress != null  and userAddress != ''  ">user_address = #{userAddress},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="shopAreaId != null  and shopAreaId != ''  ">shop_area_id = #{shopAreaId},</if>
+            <if test="shopAreaIdPath != null  and shopAreaIdPath != ''  ">shop_area_id_path = #{shopAreaIdPath},</if>
+            <if test="shopName != null  and shopName != ''  ">shop_name = #{shopName},</if>
+            <if test="shopAddress != null  and shopAddress != ''  ">shop_address = #{shopAddress},</if>
+            <if test="shopPhone != null  and shopPhone != ''  ">shop_phone = #{shopPhone},</if>
+            <if test="isUserSendGoods != null  and isUserSendGoods != ''  ">is_user_send_goods = #{isUserSendGoods},</if>
+            <if test="expressType != null  and expressType != ''  ">express_type = #{expressType},</if>
+            <if test="expressId != null  and expressId != ''  ">express_id = #{expressId},</if>
+            <if test="expressNo != null  and expressNo != ''  ">express_no = #{expressNo},</if>
+            <if test="isShopAccept != null  and isShopAccept != ''  ">is_shop_accept = #{isShopAccept},</if>
+            <if test="shopRejectType != null  ">shop_reject_type = #{shopRejectType},</if>
+            <if test="shopRejectOther != null  and shopRejectOther != ''  ">shop_reject_other = #{shopRejectOther},</if>
+            <if test="shopRejectImg != null  and shopRejectImg != ''  ">shop_reject_img = #{shopRejectImg},</if>
+            <if test="isShopSend != null  and isShopSend != ''  ">is_shop_send = #{isShopSend},</if>
+            <if test="shopExpressType != null  and shopExpressType != ''  ">shop_express_type = #{shopExpressType},</if>
+            <if test="shopExpressId != null  and shopExpressId != ''  ">shop_express_id = #{shopExpressId},</if>
+            <if test="shopExpressNo != null  and shopExpressNo != ''  ">shop_express_no = #{shopExpressNo},</if>
+            <if test="isUserAccept != null  and isUserAccept != ''  ">is_user_accept = #{isUserAccept},</if>
+            <if test="userRejectType != null  and userRejectType != ''  ">user_reject_type = #{userRejectType},</if>
+            <if test="userRejectOther != null  and userRejectOther != ''  ">user_reject_other = #{userRejectOther},</if>
+           
+            <if test="isClose != null  and isClose != ''  ">is_close = #{isClose},</if>
+            <if test="serviceStatus != null  and serviceStatus != ''  ">service_status = #{serviceStatus},</if>
+            <if test="shopAcceptExpireTime != null  ">shop_accept_expire_time = #{shopAcceptExpireTime},</if>
+            <if test="userSendExpireTime != null  ">user_send_expire_time = #{userSendExpireTime},</if>
+            <if test="shopReceiveExpireTime != null  ">shop_receive_expire_time = #{shopReceiveExpireTime},</if>
+            <if test="getScoreVal != null  ">get_score_val = #{getScoreVal},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+           
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpOrderServicesById" parameterType="String">
+        delete from sp_order_services where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpOrderServicesByIds" parameterType="String">
+        delete from sp_order_services where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

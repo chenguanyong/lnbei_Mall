@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								支付编码：<input type="text" name="payCode"/>
+							</li>
+
+							<li>
+								支付名称：<input type="text" name="payName"/>
+							</li>
+
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="fi:fiPayments:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="fi:fiPayments:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="fi:fiPayments:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="fi:fiPayments:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('fi:fiPayments:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('fi:fiPayments:remove')}]];
+        var prefix = ctx + "fi/fiPayments";
+        var yesOrNo = [[${@dict.getType('sys_yes_no_1')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "支付方式",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'payCode', 
+					title : '支付编码',
+				
+				},
+				{
+					field : 'payName', 
+					title : '支付名称',
+					sortable: true
+				},
+				{
+					field : 'payDesc', 
+					title : '支付描述',
+					
+				},
+
+				{
+					field : 'payConfig', 
+					title : '参数配置',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+				  	formatter: function (value, row, index) {
+		        		return $.operate.statusTools(row);
+		        	}
+				},
+				{
+					field : 'isOnline', 
+					title : '允许在线支付',
+					sortable: true,
+				  	formatter: function (value, row, index) {
+				  		return $.table.selectDictLabel(	yesOrNo, value);
+		        	}
+				},
+				
+				{
+					field : 'createTime', 
+					title : '创建时间',
+					sortable: true
+				},
+
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+
+		      ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

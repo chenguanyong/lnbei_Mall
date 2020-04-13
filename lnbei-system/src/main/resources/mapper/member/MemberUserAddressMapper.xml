@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.member.mapper.MemberUserAddressMapper">
+    
+    <resultMap type="MemberUserAddress" id="MemberUserAddressResult">
+        <result property="mid"    column="mid"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="areaidPath"    column="areaId_path"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="areas"    column="areas"    />
+        <result property="userAddress"    column="user_address"    />
+        <result property="isDefault"    column="isDefault"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectMemberUserAddressVo">
+        select mid, user_id, user_name, user_phone, areaId_path, area_id, areas, user_address, isDefault, del_flag, create_time, create_by, update_time, update_by, remark, sort from member_user_address
+    </sql>
+	
+    <select id="selectMemberUserAddressList" parameterType="MemberUserAddress" resultMap="MemberUserAddressResult">
+        <include refid="selectMemberUserAddressVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+             <if test="userPhone != null  and userPhone != '' "> and user_phone = #{userPhone}</if>
+             <if test="areaidPath != null  and areaidPath != '' "> and areaId_path = #{areaidPath}</if>
+             <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
+             <if test="areas != null  and areas != '' "> and areas = #{areas}</if>
+             <if test="userAddress != null  and userAddress != '' "> and user_address = #{userAddress}</if>
+             <if test="isDefault != null  and isDefault != '' "> and isDefault = #{isDefault}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+          
+         </where>
+         	${params.dataScope}  
+    </select>
+    
+    <select id="selectMemberUserAddressById" parameterType="String" resultMap="MemberUserAddressResult">
+        <include refid="selectMemberUserAddressVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertMemberUserAddress" parameterType="MemberUserAddress">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into member_user_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="areaidPath != null  and areaidPath != ''  ">areaId_path,</if>
+			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="areas != null  and areas != ''  ">areas,</if>
+			<if test="userAddress != null  and userAddress != ''  ">user_address,</if>
+			<if test="isDefault != null  and isDefault != ''  ">isDefault,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="areaidPath != null  and areaidPath != ''  ">#{areaidPath},</if>
+			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="areas != null  and areas != ''  ">#{areas},</if>
+			<if test="userAddress != null  and userAddress != ''  ">#{userAddress},</if>
+			<if test="isDefault != null  and isDefault != ''  ">#{isDefault},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberUserAddress" parameterType="MemberUserAddress">
+        update member_user_address
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="areaidPath != null  and areaidPath != ''  ">areaId_path = #{areaidPath},</if>
+            <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="areas != null  and areas != ''  ">areas = #{areas},</if>
+            <if test="userAddress != null  and userAddress != ''  ">user_address = #{userAddress},</if>
+            <if test="isDefault != null  and isDefault != ''  ">isDefault = #{isDefault},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteMemberUserAddressById" parameterType="String">
+        delete from member_user_address where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteMemberUserAddressByIds" parameterType="String">
+        delete from member_user_address where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

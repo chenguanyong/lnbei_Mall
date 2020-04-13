@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopsMapper">
+    
+    <resultMap type="SpShops" id="SpShopsResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopSn"    column="shop_sn"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="areaIdPath"    column="area_id_path"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="isSelf"    column="is_self"    />
+        <result property="shopName"    column="shop_name"    />
+        <result property="shopKeeper"    column="shop_keeper"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="shopCompany"    column="shop_company"    />
+        <result property="shopImg"    column="shop_img"    />
+        <result property="shopTel"    column="shop_tel"    />
+        <result property="shopQq"    column="shop_qq"    />
+        <result property="shopWangWang"    column="shop_wang_wang"    />
+        <result property="shopAddress"    column="shop_address"    />
+        <result property="bankId"    column="bank_id"    />
+        <result property="bankNo"    column="bank_no"    />
+        <result property="bankUserName"    column="bank_user_name"    />
+        <result property="isInvoice"    column="is_invoice"    />
+        <result property="invoiceRemarks"    column="invoice_remarks"    />
+        <result property="serviceStartTime"    column="service_start_time"    />
+        <result property="serviceEndTime"    column="service_end_time"    />
+        <result property="freight"    column="freight"    />
+        <result property="shopAtive"    column="shop_ative"    />
+        <result property="shopStatus"    column="shop_status"    />
+        <result property="statusDesc"    column="status_desc"    />
+        <result property="shopMoney"    column="shop_money"    />
+        <result property="lockMoney"    column="lock_money"    />
+        <result property="noSettledOrderNum"    column="no_settled_order_num"    />
+        <result property="noSettledOrderFee"    column="no_settled_order_fee"    />
+        <result property="paymentMoney"    column="payment_money"    />
+        <result property="bankAreaId"    column="bank_area_id"    />
+        <result property="bankAreaidPath"    column="bank_areaid_path"    />
+        <result property="applyStatus"    column="apply_status"    />
+        <result property="applyDesc"    column="apply_desc"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="applyStep"    column="apply_step"    />
+        <result property="shopNotice"    column="shop_notice"    />
+        <result property="rechargeMoney"    column="recharge_money"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="mapLevel"    column="map_level"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpShopsVo">
+        select mid, shop_sn, member_id, area_id_path, area_id, is_self, shop_name, shop_keeper, telephone, shop_company, shop_img, shop_tel, shop_qq, shop_wang_wang, shop_address, bank_id, bank_no, bank_user_name, is_invoice, invoice_remarks, service_start_time, service_end_time, freight, shop_ative, shop_status, status_desc, shop_money, lock_money, no_settled_order_num, no_settled_order_fee, payment_money, bank_area_id, bank_areaid_path, apply_status, apply_desc, apply_time, apply_step, shop_notice, recharge_money, longitude, latitude, map_level, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_shops
+    </sql>
+	
+    <select id="selectSpShopsList" parameterType="SpShops" resultMap="SpShopsResult">
+        <include refid="selectSpShopsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopSn != null  and shopSn != '' "> and shop_sn = #{shopSn}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="areaIdPath != null  and areaIdPath != '' "> and area_id_path = #{areaIdPath}</if>
+             <if test="areaId != null  and areaId != '' "> and area_id = #{areaId}</if>
+             <if test="isSelf != null  and isSelf != '' "> and is_self = #{isSelf}</if>
+             <if test="shopName != null  and shopName != '' "> and shop_name = #{shopName}</if>
+             <if test="shopKeeper != null  and shopKeeper != '' "> and shop_keeper = #{shopKeeper}</if>
+             <if test="telephone != null  and telephone != '' "> and telephone = #{telephone}</if>
+             <if test="shopCompany != null  and shopCompany != '' "> and shop_company = #{shopCompany}</if>
+             <if test="shopImg != null  and shopImg != '' "> and shop_img = #{shopImg}</if>
+             <if test="shopTel != null  and shopTel != '' "> and shop_tel = #{shopTel}</if>
+             <if test="shopQq != null  and shopQq != '' "> and shop_qq = #{shopQq}</if>
+             <if test="shopWangWang != null  and shopWangWang != '' "> and shop_wang_wang = #{shopWangWang}</if>
+             <if test="shopAddress != null  and shopAddress != '' "> and shop_address = #{shopAddress}</if>
+             <if test="bankId != null  and bankId != '' "> and bank_id = #{bankId}</if>
+             <if test="bankNo != null  and bankNo != '' "> and bank_no = #{bankNo}</if>
+             <if test="bankUserName != null  and bankUserName != '' "> and bank_user_name = #{bankUserName}</if>
+             <if test="isInvoice != null  and isInvoice != '' "> and is_invoice = #{isInvoice}</if>
+             <if test="invoiceRemarks != null  and invoiceRemarks != '' "> and invoice_remarks = #{invoiceRemarks}</if>
+             <if test="serviceStartTime != null "> and service_start_time = #{serviceStartTime}</if>
+             <if test="serviceEndTime != null "> and service_end_time = #{serviceEndTime}</if>
+             <if test="freight != null "> and freight = #{freight}</if>
+             <if test="shopAtive != null  and shopAtive != '' "> and shop_ative = #{shopAtive}</if>
+             <if test="shopStatus != null  and shopStatus != '' "> and shop_status = #{shopStatus}</if>
+             <if test="statusDesc != null  and statusDesc != '' "> and status_desc = #{statusDesc}</if>
+             <if test="shopMoney != null "> and shop_money = #{shopMoney}</if>
+             <if test="lockMoney != null "> and lock_money = #{lockMoney}</if>
+             <if test="noSettledOrderNum != null "> and no_settled_order_num = #{noSettledOrderNum}</if>
+             <if test="noSettledOrderFee != null "> and no_settled_order_fee = #{noSettledOrderFee}</if>
+             <if test="paymentMoney != null "> and payment_money = #{paymentMoney}</if>
+             <if test="bankAreaId != null and  bankAreaId != '' "> and bank_area_id = #{bankAreaId}</if>
+             <if test="bankAreaidPath != null  and bankAreaidPath != '' "> and bank_areaid_path = #{bankAreaidPath}</if>
+             <if test="applyStatus != null  and applyStatus != '' "> and apply_status = #{applyStatus}</if>
+             <if test="applyDesc != null  and applyDesc != '' "> and apply_desc = #{applyDesc}</if>
+             <if test="applyTime != null "> and apply_time = #{applyTime}</if>
+             <if test="applyStep != null  and applyStep != '' "> and apply_step = #{applyStep}</if>
+             <if test="shopNotice != null  and shopNotice != '' "> and shop_notice = #{shopNotice}</if>
+             <if test="rechargeMoney != null "> and recharge_money = #{rechargeMoney}</if>
+             <if test="longitude != null "> and longitude = #{longitude}</if>
+             <if test="latitude != null "> and latitude = #{latitude}</if>
+             <if test="mapLevel != null "> and map_level = #{mapLevel}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpShopsById" parameterType="String" resultMap="SpShopsResult">
+        <include refid="selectSpShopsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpShops" parameterType="SpShops">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_shops
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopSn != null  and shopSn != ''  ">shop_sn,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path,</if>
+			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="isSelf != null  and isSelf != ''  ">is_self,</if>
+			<if test="shopName != null  and shopName != ''  ">shop_name,</if>
+			<if test="shopKeeper != null  and shopKeeper != ''  ">shop_keeper,</if>
+			<if test="telephone != null  and telephone != ''  ">telephone,</if>
+			<if test="shopCompany != null  and shopCompany != ''  ">shop_company,</if>
+			<if test="shopImg != null  and shopImg != ''  ">shop_img,</if>
+			<if test="shopTel != null  and shopTel != ''  ">shop_tel,</if>
+			<if test="shopQq != null  and shopQq != ''  ">shop_qq,</if>
+			<if test="shopWangWang != null  and shopWangWang != ''  ">shop_wang_wang,</if>
+			<if test="shopAddress != null  and shopAddress != ''  ">shop_address,</if>
+			<if test="bankId != null  and bankId != ''  ">bank_id,</if>
+			<if test="bankNo != null  and bankNo != ''  ">bank_no,</if>
+			<if test="bankUserName != null  and bankUserName != ''  ">bank_user_name,</if>
+			<if test="isInvoice != null  and isInvoice != ''  ">is_invoice,</if>
+			<if test="invoiceRemarks != null  and invoiceRemarks != ''  ">invoice_remarks,</if>
+			<if test="serviceStartTime != null  ">service_start_time,</if>
+			<if test="serviceEndTime != null  ">service_end_time,</if>
+			<if test="freight != null  ">freight,</if>
+			<if test="shopAtive != null  and shopAtive != ''  ">shop_ative,</if>
+			<if test="shopStatus != null  and shopStatus != ''  ">shop_status,</if>
+			<if test="statusDesc != null  and statusDesc != ''  ">status_desc,</if>
+			<if test="shopMoney != null  ">shop_money,</if>
+			<if test="lockMoney != null  ">lock_money,</if>
+			<if test="noSettledOrderNum != null  ">no_settled_order_num,</if>
+			<if test="noSettledOrderFee != null  ">no_settled_order_fee,</if>
+			<if test="paymentMoney != null  ">payment_money,</if>
+			<if test="bankAreaId != null and  bankAreaId != ''  ">bank_area_id,</if>
+			<if test="bankAreaidPath != null  and bankAreaidPath != ''  ">bank_areaid_path,</if>
+			<if test="applyStatus != null  and applyStatus != ''  ">apply_status,</if>
+			<if test="applyDesc != null  and applyDesc != ''  ">apply_desc,</if>
+			<if test="applyTime != null  ">apply_time,</if>
+			<if test="applyStep != null  and applyStep != ''  ">apply_step,</if>
+			<if test="shopNotice != null  and shopNotice != ''  ">shop_notice,</if>
+			<if test="rechargeMoney != null  ">recharge_money,</if>
+			<if test="longitude != null  ">longitude,</if>
+			<if test="latitude != null  ">latitude,</if>
+			<if test="mapLevel != null  ">map_level,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+	
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopSn != null  and shopSn != ''  ">#{shopSn},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">#{areaIdPath},</if>
+			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="isSelf != null  and isSelf != ''  ">#{isSelf},</if>
+			<if test="shopName != null  and shopName != ''  ">#{shopName},</if>
+			<if test="shopKeeper != null  and shopKeeper != ''  ">#{shopKeeper},</if>
+			<if test="telephone != null  and telephone != ''  ">#{telephone},</if>
+			<if test="shopCompany != null  and shopCompany != ''  ">#{shopCompany},</if>
+			<if test="shopImg != null  and shopImg != ''  ">#{shopImg},</if>
+			<if test="shopTel != null  and shopTel != ''  ">#{shopTel},</if>
+			<if test="shopQq != null  and shopQq != ''  ">#{shopQq},</if>
+			<if test="shopWangWang != null  and shopWangWang != ''  ">#{shopWangWang},</if>
+			<if test="shopAddress != null  and shopAddress != ''  ">#{shopAddress},</if>
+			<if test="bankId != null  and bankId != ''  ">#{bankId},</if>
+			<if test="bankNo != null  and bankNo != ''  ">#{bankNo},</if>
+			<if test="bankUserName != null  and bankUserName != ''  ">#{bankUserName},</if>
+			<if test="isInvoice != null  and isInvoice != ''  ">#{isInvoice},</if>
+			<if test="invoiceRemarks != null  and invoiceRemarks != ''  ">#{invoiceRemarks},</if>
+			<if test="serviceStartTime != null  ">#{serviceStartTime},</if>
+			<if test="serviceEndTime != null  ">#{serviceEndTime},</if>
+			<if test="freight != null  ">#{freight},</if>
+			<if test="shopAtive != null  and shopAtive != ''  ">#{shopAtive},</if>
+			<if test="shopStatus != null  and shopStatus != ''  ">#{shopStatus},</if>
+			<if test="statusDesc != null  and statusDesc != ''  ">#{statusDesc},</if>
+			<if test="shopMoney != null  ">#{shopMoney},</if>
+			<if test="lockMoney != null  ">#{lockMoney},</if>
+			<if test="noSettledOrderNum != null  ">#{noSettledOrderNum},</if>
+			<if test="noSettledOrderFee != null  ">#{noSettledOrderFee},</if>
+			<if test="paymentMoney != null  ">#{paymentMoney},</if>
+			<if test="bankAreaId != null and  bankAreaId != ''  ">#{bankAreaId},</if>
+			<if test="bankAreaidPath != null  and bankAreaidPath != ''  ">#{bankAreaidPath},</if>
+			<if test="applyStatus != null  and applyStatus != ''  ">#{applyStatus},</if>
+			<if test="applyDesc != null  and applyDesc != ''  ">#{applyDesc},</if>
+			<if test="applyTime != null  ">#{applyTime},</if>
+			<if test="applyStep != null  and applyStep != ''  ">#{applyStep},</if>
+			<if test="shopNotice != null  and shopNotice != ''  ">#{shopNotice},</if>
+			<if test="rechargeMoney != null  ">#{rechargeMoney},</if>
+			<if test="longitude != null  ">#{longitude},</if>
+			<if test="latitude != null  ">#{latitude},</if>
+			<if test="mapLevel != null  ">#{mapLevel},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpShops" parameterType="SpShops">
+        update sp_shops
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopSn != null  and shopSn != ''  ">shop_sn = #{shopSn},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path = #{areaIdPath},</if>
+            <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="isSelf != null  and isSelf != ''  ">is_self = #{isSelf},</if>
+            <if test="shopName != null  and shopName != ''  ">shop_name = #{shopName},</if>
+            <if test="shopKeeper != null  and shopKeeper != ''  ">shop_keeper = #{shopKeeper},</if>
+            <if test="telephone != null  and telephone != ''  ">telephone = #{telephone},</if>
+            <if test="shopCompany != null  and shopCompany != ''  ">shop_company = #{shopCompany},</if>
+            <if test="shopImg != null  and shopImg != ''  ">shop_img = #{shopImg},</if>
+            <if test="shopTel != null  and shopTel != ''  ">shop_tel = #{shopTel},</if>
+            <if test="shopQq != null  and shopQq != ''  ">shop_qq = #{shopQq},</if>
+            <if test="shopWangWang != null  and shopWangWang != ''  ">shop_wang_wang = #{shopWangWang},</if>
+            <if test="shopAddress != null  and shopAddress != ''  ">shop_address = #{shopAddress},</if>
+            <if test="bankId != null  and bankId != ''  ">bank_id = #{bankId},</if>
+            <if test="bankNo != null  and bankNo != ''  ">bank_no = #{bankNo},</if>
+            <if test="bankUserName != null  and bankUserName != ''  ">bank_user_name = #{bankUserName},</if>
+            <if test="isInvoice != null  and isInvoice != ''  ">is_invoice = #{isInvoice},</if>
+            <if test="invoiceRemarks != null  and invoiceRemarks != ''  ">invoice_remarks = #{invoiceRemarks},</if>
+            <if test="serviceStartTime != null  ">service_start_time = #{serviceStartTime},</if>
+            <if test="serviceEndTime != null  ">service_end_time = #{serviceEndTime},</if>
+            <if test="freight != null  ">freight = #{freight},</if>
+            <if test="shopAtive != null  and shopAtive != ''  ">shop_ative = #{shopAtive},</if>
+            <if test="shopStatus != null  and shopStatus != ''  ">shop_status = #{shopStatus},</if>
+            <if test="statusDesc != null  and statusDesc != ''  ">status_desc = #{statusDesc},</if>
+            <if test="shopMoney != null  ">shop_money = #{shopMoney},</if>
+            <if test="lockMoney != null  ">lock_money = #{lockMoney},</if>
+            <if test="noSettledOrderNum != null  ">no_settled_order_num = #{noSettledOrderNum},</if>
+            <if test="noSettledOrderFee != null  ">no_settled_order_fee = #{noSettledOrderFee},</if>
+            <if test="paymentMoney != null  ">payment_money = #{paymentMoney},</if>
+            <if test="bankAreaId != null and  bankAreaId != '' ">bank_area_id = #{bankAreaId},</if>
+            <if test="bankAreaidPath != null  and bankAreaidPath != ''  ">bank_areaid_path = #{bankAreaidPath},</if>
+            <if test="applyStatus != null  and applyStatus != ''  ">apply_status = #{applyStatus},</if>
+            <if test="applyDesc != null  and applyDesc != ''  ">apply_desc = #{applyDesc},</if>
+            <if test="applyTime != null  ">apply_time = #{applyTime},</if>
+            <if test="applyStep != null  and applyStep != ''  ">apply_step = #{applyStep},</if>
+            <if test="shopNotice != null  and shopNotice != ''  ">shop_notice = #{shopNotice},</if>
+            <if test="rechargeMoney != null  ">recharge_money = #{rechargeMoney},</if>
+            <if test="longitude != null  ">longitude = #{longitude},</if>
+            <if test="latitude != null  ">latitude = #{latitude},</if>
+            <if test="mapLevel != null  ">map_level = #{mapLevel},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+         
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+          
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopsById" parameterType="String">
+        delete from sp_shops where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopsByIds" parameterType="String">
+        delete from sp_shops where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

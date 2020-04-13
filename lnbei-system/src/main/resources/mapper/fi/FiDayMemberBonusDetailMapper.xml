@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.fi.mapper.FiDayMemberBonusDetailMapper">
+    
+    <resultMap type="FiDayMemberBonusDetail" id="FiDayMemberBonusDetailResult">
+        <result property="mid"    column="mid"    />
+        <result property="userId"    column="user_id"    />
+        <result property="today"    column="today"    />
+        <result property="total"    column="total"    />
+        <result property="jichajiang"    column="jichajiang"    />
+        <result property="fanlijiang"    column="fanlijiang"    />
+        <result property="ztone"    column="ztone"    />
+        <result property="zttwo"    column="zttwo"    />
+        <result property="gdndfenhongjiang"    column="gdndfenhongjiang"    />
+        <result property="fanyongjiang"    column="fanyongjiang"    />
+        <result property="shopshouru"    column="shopshouru"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+	
+	<sql id="selectFiDayMemberBonusDetailVo">
+        select mid, user_id, today, total, jichajiang, fanlijiang, ztone, zttwo, gdndfenhongjiang, fanyongjiang, shopshouru, create_time, update_time, del_flag, create_by, update_by, remark, sort, status from fi_day_member_bonus_detail
+    </sql>
+	
+    <select id="selectFiDayMemberBonusDetailList" parameterType="FiDayMemberBonusDetail" resultMap="FiDayMemberBonusDetailResult">
+        <include refid="selectFiDayMemberBonusDetailVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="today != null "> and today = #{today}</if>
+             <if test="total != null "> and total = #{total}</if>
+             <if test="jichajiang != null "> and jichajiang = #{jichajiang}</if>
+             <if test="fanlijiang != null "> and fanlijiang = #{fanlijiang}</if>
+             <if test="ztone != null "> and ztone = #{ztone}</if>
+             <if test="zttwo != null "> and zttwo = #{zttwo}</if>
+             <if test="gdndfenhongjiang != null "> and gdndfenhongjiang = #{gdndfenhongjiang}</if>
+             <if test="fanyongjiang != null "> and fanyongjiang = #{fanyongjiang}</if>
+             <if test="shopshouru != null "> and shopshouru = #{shopshouru}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+         </where>
+    </select>
+    
+    <select id="selectFiDayMemberBonusDetailById" parameterType="String" resultMap="FiDayMemberBonusDetailResult">
+        <include refid="selectFiDayMemberBonusDetailVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertFiDayMemberBonusDetail" parameterType="FiDayMemberBonusDetail">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into fi_day_member_bonus_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="today != null  ">today,</if>
+			<if test="total != null  ">total,</if>
+			<if test="jichajiang != null  ">jichajiang,</if>
+			<if test="fanlijiang != null  ">fanlijiang,</if>
+			<if test="ztone != null  ">ztone,</if>
+			<if test="zttwo != null  ">zttwo,</if>
+			<if test="gdndfenhongjiang != null  ">gdndfenhongjiang,</if>
+			<if test="fanyongjiang != null  ">fanyongjiang,</if>
+			<if test="shopshouru != null  ">shopshouru,</if>
+
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			update_time,
+			create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="today != null  ">#{today},</if>
+			<if test="total != null  ">#{total},</if>
+			<if test="jichajiang != null  ">#{jichajiang},</if>
+			<if test="fanlijiang != null  ">#{fanlijiang},</if>
+			<if test="ztone != null  ">#{ztone},</if>
+			<if test="zttwo != null  ">#{zttwo},</if>
+			<if test="gdndfenhongjiang != null  ">#{gdndfenhongjiang},</if>
+			<if test="fanyongjiang != null  ">#{fanyongjiang},</if>
+			<if test="shopshouru != null  ">#{shopshouru},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateFiDayMemberBonusDetail" parameterType="FiDayMemberBonusDetail">
+        update fi_day_member_bonus_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="today != null  ">today = #{today},</if>
+            <if test="total != null  ">total = #{total},</if>
+            <if test="jichajiang != null  ">jichajiang = #{jichajiang},</if>
+            <if test="fanlijiang != null  ">fanlijiang = #{fanlijiang},</if>
+            <if test="ztone != null  ">ztone = #{ztone},</if>
+            <if test="zttwo != null  ">zttwo = #{zttwo},</if>
+            <if test="gdndfenhongjiang != null  ">gdndfenhongjiang = #{gdndfenhongjiang},</if>
+            <if test="fanyongjiang != null  ">fanyongjiang = #{fanyongjiang},</if>
+            <if test="shopshouru != null  ">shopshouru = #{shopshouru},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+
+       update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteFiDayMemberBonusDetailById" parameterType="String">
+        delete from fi_day_member_bonus_detail where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteFiDayMemberBonusDetailByIds" parameterType="String">
+        delete from fi_day_member_bonus_detail where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

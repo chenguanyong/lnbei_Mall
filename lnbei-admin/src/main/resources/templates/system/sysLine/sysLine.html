@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse" style="display: none; ">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								线路代码：<input type="text" name="number"/>
+							</li>
+
+							<li>
+								线路名称：<input type="text" name="name"/>
+							</li>
+
+							<li>
+								线路等级：<input type="text" name="classid"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:sysLine:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:sysLine:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:sysLine:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<!-- <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:sysLine:export">
+						<i class="fa fa-download"></i> 导出
+				 </a> -->
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:sysLine:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:sysLine:remove')}]];
+        var prefix = ctx + "system/sysLine";
+        var lineType = [[${@dict.getType('sys_line_type')}]];
+        var lineGrade = [[${@dict.getType('sys_line_grade')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "线别管理",
+		        showExport: false,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'id', 
+					title : '序号',
+					visible: false
+				},
+				{
+					field : 'number', 
+					title : '线路代码',
+				},
+				{
+					field : 'name', 
+					title : '线路名称',
+				},
+				{
+					field : 'shortName', 
+					title : '线路简称',
+				},
+				{
+					field : 'stationSize', 
+					title : '车站数量',
+				},
+				{
+					field : 'classid', 
+					title : '线路等级',
+					formatter: function(value, row, index) {
+					    return $.table.selectDictLabel(lineGrade, value);
+					}
+				},
+	
+				{
+					field : 'lineNumber', 
+					title : '线路类型',
+					formatter: function(value, row, index) {
+					    return $.table.selectDictLabel(lineType, value);
+					}
+				},
+	
+				{
+					field : 'remark', 
+					title : '备注',
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

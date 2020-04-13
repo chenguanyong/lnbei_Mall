@@ -1,0 +1,510 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+
+input[type=file]{
+
+display:none;
+}
+div img{
+width:100px;
+
+}
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spShops-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户名字：</label>
+				<div class="col-sm-8">
+					<input id="loginName" name="loginName" class="form-control" type="text">
+				</div>
+			</div>        
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">店铺编号：</label>
+				<div class="col-sm-8">
+					<input id="shopSn" name="shopSn" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司名称：</label>
+				<div class="col-sm-8">
+					<input id="shopCompany" name="shopCompany" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司所在地：</label>
+				<div class="col-sm-8" id="areaIdPathDIV">
+					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司详细地址：</label>
+				<div class="col-sm-8">
+					<input id="shopAddress" name="shopAddress" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司电话：</label>
+				<div class="col-sm-8">
+					<input id="shopTel" name="shopTel" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司紧急联系人：</label>
+				<div class="col-sm-8">
+					<input id="shopKeeper" name="shopKeeper" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">公司紧急联系人手机：</label>
+				<div class="col-sm-8">
+					<input id="telephone" name="telephone" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">执照类型：</label>
+				<div class="col-sm-8">
+				<select id="businessLicenceType"  name="businessLicenceType" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${@dict.getType('sp_zhizhao_type')}">
+					  <option value="">所有</option>
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+				</select>					
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业执照注册号：</label>
+				<div class="col-sm-8">
+					<input id="businessLicence" name="businessLicence" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">法定代表人姓名：</label>
+				<div class="col-sm-8">
+					<input id="legalPersonName" name="legalPersonName" class="form-control" type="text">
+				</div>
+			</div>		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业执照所在地：</label>
+				<div class="col-sm-8" id="businessAreaPathDiv">
+					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业执照详细地址：</label>
+				<div class="col-sm-8">
+					<input id="licenseAddress" name="licenseAddress" class="form-control" type="text">
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">成立日期：</label>
+				<div class="col-sm-8">
+					<input id="establishmentDate" name="establishmentDate" class="form-control time-input" type="text">
+				</div>
+			</div>		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业期限：</label>
+				<div class="col-sm-8">
+					<input id="businessStartDate" name="businessStartDate" class="form-control time-input input-inline" type="text">至
+					<input id="businessEndDate" name="businessEndDate" class="form-control time-input input-inline" type="text">
+	    			<label class="check-box">
+					        
+					            <input type="checkbox"  id="isLongbusinessDate" >
+					        
+	 					       长期</label>					
+				</div>
+			</div>		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">注册资本（万元）：</label>
+				<div class="col-sm-8">
+					<input id="registeredCapital" name="registeredCapital" class="form-control" type="text">
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">经营范围：</label>
+				<div class="col-sm-8">
+					<textarea id="empiricalRange" name="empiricalRange" class="form-control" rows="10" cols="80" ></textarea>					
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">法人代表证件类型：</label>
+				<div class="col-sm-8">
+					<select id="legalCertificateType"  name="legalCertificateType" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sp_frdbzj_type')}">
+						  <option value="">所有</option>
+						  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+						  </option>
+					</select>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">法定代表人证件号：</label>
+				<div class="col-sm-8">
+					<input id="legalCertificate" name="legalCertificate" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">法定代表人证件有效期：</label>
+				<div class="col-sm-8">
+					<input id="legalCertificateStartDate" name="legalCertificateStartDate" class="form-control time-input input-inline" type="text">至
+					<input id="legalCertificateEndDate" name="legalCertificateEndDate" class="form-control time-input input-inline" type="text">
+	    			<label class="check-box">
+					        
+					            <input type="checkbox"  id="isLonglegalCertificateDate" >
+					       
+	 					       长期</label>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">法人证件电子版：</label>
+				<div class="col-sm-3">
+				    <input id="legalCertificateImg" name="legalCertificateImg" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="legalCertificateImgIN" >请选择文件</button>
+				</div>
+					<div class="col-sm-6 layer-photos-demo" id="legalCertificateImgYL">
+				  
+				</div>
+			</div>															
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业执照电子版：</label>
+				<div class="col-sm-3">
+					<input id="businessLicenceImg" name="businessLicenceImg" class="form-control" type="hidden">
+			
+					 <button type="button" class="btn btn-success" id="businessLicenceImgIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6" id="businessLicenceImgYL"></div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行开户许可证电子版：</label>
+				<div class="col-sm-3">
+			
+					<input id="bankAccountPermitImg" name="bankAccountPermitImg" class="form-control" type="hidden">
+					
+    <button type="button" class="btn btn-success" id="bankAccountPermitImgIN" >请选择文件</button>					
+				</div>
+				<div class="col-sm-6" id="bankAccountPermitImgYL"></div>				
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">组织机构代码：</label>
+				<div class="col-sm-8">
+					<input id="organizationCode" name="organizationCode" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">组织机构代码证有效期：</label>
+				<div class="col-sm-8">
+					<input id="organizationCodeStartDate" name="organizationCodeStartDate" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">组织机构代码证有效期：</label>
+				<div class="col-sm-8">
+					<input id="organizationCodeStartDate" name="organizationCodeStartDate" class="form-control time-input input-inline" type="text">至
+					<input id="organizationCodeEndDate" name="organizationCodeEndDate" class="form-control time-input input-inline" type="text">
+	    			<label class="check-box">
+					     
+					            <input type="checkbox"  id="isLongOrganizationCodeDate" >
+					    
+	 					       长期</label>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">组织机构代码证电子版：</label>
+				<div class="col-sm-3">
+				
+				    <button type="button" class="btn btn-success" id="organizationCodeImgIN" >请选择文件</button>
+					<input id="organizationCodeImg" name="organizationCodeImg" class="form-control" type="hidden">
+				</div>
+				<div class="col-sm-6" id="organizationCodeImgYL"></div>	
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">纳税人类型：</label>
+				<div class="col-sm-8">
+					
+					<select id="taxpayerType"  name="taxpayerType" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${@dict.getType('sp_nsr_type')}">
+						 
+						  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+						  </option>
+					</select>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">纳税人识别号：</label>
+				<div class="col-sm-8">
+					<input id="taxpayerNo" name="taxpayerNo" class="form-control" type="text">三证合一的请填写统一社会信用代码
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">税务登记证电子版：</label>
+				<div class="col-sm-3">
+				  
+				    <button type="button" class="btn btn-success" id="taxRegistrationCertificateImgIN" >请选择文件</button>
+					<input id="taxRegistrationCertificateImg" name="taxRegistrationCertificateImg" class="form-control" type="hidden">请同时上传国税、地税的税务登记证，两者缺一不可，复印件加盖公司红章，如贵司所在地区已推行“三证合一”，此处请上传营业执照副本电子版。【最多只能上传三张图片】
+				</div>
+				<div class="col-sm-6" id="taxRegistrationCertificateImgYL"></div>					
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">一般纳税人资格证电子版：</label>
+				<div class="col-sm-3">
+				  
+					<input id="taxpayerQualificationImg" name="taxpayerQualificationImg" class="form-control" type="hidden">三证合一地区请上传税务局网站上一般纳税人截图，复印件需加盖公司红章。
+					<button type="button"  class="btn btn-success" id="taxpayerQualificationImgIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6" id="taxpayerQualificationImgYL"></div>					
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系人姓名：</label>
+				<div class="col-sm-8">
+					<input id="applyLinkMan" name="applyLinkMan" class="form-control" type="text">
+				</div>
+			</div>		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系人手机：</label>
+				<div class="col-sm-8">
+					<input id="applyLinkTel" name="applyLinkTel" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">联系人电子邮箱：</label>
+				<div class="col-sm-8">
+					<input id="applyLinkEmail" name="applyLinkEmail" class="form-control" type="text">用于入驻过程中接收商城审核结果，请务必正确填写。
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">对接商城招商人员：</label>
+				<div class="col-sm-8">
+							<label >
+					        
+					            <input type="radio" checked onclick=" $.common.showHide(1,'investmentStaffDIV')"  value="0" name="isInvestment" >
+					       
+	 					    有</label>
+							<label   >
+					       
+					            <input type="radio" onclick=" $.common.showHide(0,'investmentStaffDIV')"   value="1" name="isInvestment" >
+					        
+	 					       无</label>	 
+	 					       如果没有联系过商城招商人员请选择“无”。					       
+				</div>
+			</div>			
+			<div class="form-group" id="investmentStaffDIV">	
+				<label class="col-sm-3 control-label">对接商城招商人员姓名：</label>
+				<div class="col-sm-8">
+					<input id="investmentStaff" name="investmentStaff" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">银行开户名：</label>
+				<div class="col-sm-8">
+					<input id="bankUserName" name="bankUserName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">对公结算银行账号：</label>
+				<div class="col-sm-8">
+					<input id="bankNo" name="bankNo" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开户银行名称：</label>
+				<div class="col-sm-8">
+					
+					<select id="bankId"  name="bankId" class="form-control select_font" style="border: 1px solid #ddd;"  >
+						 
+						  <option th:each="dict : ${mmBanks}" th:text="${dict.bankName}" th:value="${dict.mid}">
+						  </option>
+					</select>						
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开户银行支行所在地：</label>
+				<div class="col-sm-8" id="bankAreaIdPathDIV">
+					
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">服务时间：</label>
+				<div class="col-sm-8">
+					<select class="form-control input-inline"  id="serviceStartTime" name="serviceStartTime" v=""><option value="0:00">0:00</option><option value="0:30">0:30</option><option value="1:00">1:00</option><option value="1:30">1:30</option><option value="2:00">2:00</option><option value="2:30">2:30</option><option value="3:00">3:00</option><option value="3:30">3:30</option><option value="4:00">4:00</option><option value="4:30">4:30</option><option value="5:00">5:00</option><option value="5:30">5:30</option><option value="6:00">6:00</option><option value="6:30">6:30</option><option value="7:00">7:00</option><option value="7:30">7:30</option><option value="8:00">8:00</option><option value="8:30">8:30</option><option value="9:00">9:00</option><option value="9:30">9:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option></select>
+				至
+				<select class="form-control input-inline"  id="serviceEndTime" name="serviceEndTime" v=""><option value="0:00">0:00</option><option value="0:30">0:30</option><option value="1:00">1:00</option><option value="1:30">1:30</option><option value="2:00">2:00</option><option value="2:30">2:30</option><option value="3:00">3:00</option><option value="3:30">3:30</option><option value="4:00">4:00</option><option value="4:30">4:30</option><option value="5:00">5:00</option><option value="5:30">5:30</option><option value="6:00">6:00</option><option value="6:30">6:30</option><option value="7:00">7:00</option><option value="7:30">7:30</option><option value="8:00">8:00</option><option value="8:30">8:30</option><option value="9:00">9:00</option><option value="9:30">9:30</option><option value="10:00">10:00</option><option value="10:30">10:30</option><option value="11:00">11:00</option><option value="11:30">11:30</option><option value="12:00">12:00</option><option value="12:30">12:30</option><option value="13:00">13:00</option><option value="13:30">13:30</option><option value="14:00">14:00</option><option value="14:30">14:30</option><option value="15:00">15:00</option><option value="15:30">15:30</option><option value="16:00">16:00</option><option value="16:30">16:30</option><option value="17:00">17:00</option><option value="17:30">17:30</option><option value="18:00">18:00</option><option value="18:30">18:30</option><option value="19:00">19:00</option><option value="19:30">19:30</option><option value="20:00">20:00</option><option value="20:30">20:30</option><option value="21:00">21:00</option><option value="21:30">21:30</option><option value="22:00">22:00</option><option value="22:30">22:30</option><option value="23:00">23:00</option><option value="23:30">23:30</option></select>
+				</div>
+			</div>																																					
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">认证类型：</label>
+				<div class="col-sm-8">
+					
+		   			<div required class="check-box" th:each="dict : ${mSpAccreds}">
+						<input type="checkbox"  th:id="${dict.mid}" name="accredIds" th:value="${dict.mid}"  th:checked=" ${true}">
+						<label  th:text="${dict.accredName}"></label>
+					</div>						
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">店铺名称：</label>
+				<div class="col-sm-8">
+				   
+					<input id="shopName" name="shopName" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">店铺LOGO：</label>
+	
+				<div class="col-sm-3">
+				 
+				        <button type="button" class="btn btn-success" id="shopImgIN" >请选择文件</button>		
+					<input id="shopImg" name="shopImg" class="form-control" type="hidden">
+				</div>
+				<div class="col-sm-6" id="shopImgYL"></div>					
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">店铺经营类目：</label>
+				<div class="col-sm-8">
+					<div required class="check-box" th:each="dict : ${mmCategories}">
+						<input type="checkbox" lb-name="goodsCatIds" th:value="${dict.mid}"  >
+						<label  th:text="${dict.category}"></label>
+					</div>	
+				</div>
+			</div>		
+						
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">客服QQ：</label>
+				<div class="col-sm-8">
+					<input id="shopQq" name="shopQq" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">阿里旺旺：</label>
+				<div class="col-sm-8">
+					<input id="shopWangWang" name="shopWangWang" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否提供发票：</label>
+				<div class="col-sm-8">
+					
+		   			<div required class="radio-box" th:each="dict : ${@dict.getType('sp_fp_status')}">
+						<input type="radio" th:id="${dict.dictCode}" name="isInvoice1" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>						
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">营业状态：</label>
+				<div class="col-sm-8">
+		   			<div required class="radio-box" th:each="dict : ${@dict.getType('sp_working_status')}">
+						<input type="radio" th:id="${dict.dictCode}" name="shopAtive" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>						
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">默认运费(元)：</label>
+				<div class="col-sm-8">
+					<input id="freight" name="freight" class="form-control" type="text">
+				</div>
+			</div>
+		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>	
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spShops"
+		$("#form-spShops-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	      //  if ($.validate.form()) {
+	    	  debugger;
+	        	var isLongbusinessDate = $.common.getCheckboxValue("isLongbusinessDate");//
+	        	var isLonglegalCertificateDate = $.common.getCheckboxValue("isLonglegalCertificateDate");//
+	        	var isLongOrganizationCodeDate = $.common.getCheckboxValue("isLongOrganizationCodeDate");//
+	        	var goodsCatIds = "";//
+	        	$("input[lb-name=goodsCatIds]").each(function (){
+	        		
+	        		goodsCatIds += "," + $(this).val();
+	        		
+	        	});
+	        	goodsCatIds = $.common.trimStr(goodsCatIds,",")
+	        	var accredIds = "";//accredIds
+	        	$("input[lb-name=accredIds]").each(function (){
+	        		
+	        		accredIds += "," + $(this).val();
+	        		
+	        	});
+	        	accredIds = $.common.trimStr(accredIds,",")	        	
+	        	var businessAreaPath = $.common.getCascadeValue("businessAreaPathDiv");
+	        	var bankAreaIdPath = $.common.getCascadeValue("bankAreaIdPathDIV");
+	        	var bankAreaId = $.common.getCascadeLastValue("bankAreaIdPathDIV");
+	        	var areaIdPath = $.common.getCascadeValue("areaIdPathDIV");
+	        	var areaId = $.common.getCascadeLastValue("areaIdPathDIV");
+	        	var param =  $('#form-spShops-add').serialize();
+	        	param += "&isLongbusinessDate="+isLongbusinessDate+"&isLonglegalCertificateDate="+isLonglegalCertificateDate+"&isLongOrganizationCodeDate="+isLongOrganizationCodeDate+"&goodsCatIds="+goodsCatIds;
+	           	param += "&accredIds="+accredIds+"&areaId="+areaId+"&bankAreaId="+bankAreaId+"&businessAreaPath="+ businessAreaPath+"&bankAreaIdPath="+bankAreaIdPath+"&areaIdPath+"+areaIdPath;
+	        	$.operate.save(prefix + "/add",param);
+	       // }
+	    }
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+			$.common.uplodFile("legalCertificateImgIN","legalCertificateImg","legalCertificateImgYL",false,upload);
+			$.common.uplodFile("shopImgIN","shopImg","shopImgYL",false,upload);
+			//$.common.imgYL("shopImgYL", 5);
+			$.common.uplodFile("businessLicenceImgIN","businessLicenceImg","businessLicenceImgYL",false,upload);
+			//$.common.imgYL("businessLicenceImgYL", 5);
+			$.common.uplodFile("bankAccountPermitImgIN","bankAccountPermitImg","bankAccountPermitImgYL",false,upload);
+			//$.common.imgYL("bankAccountPermitImgYL", 5);
+			$.common.uplodFile("organizationCodeImgIN","organizationCodeImg","organizationCodeImgYL",false,upload);
+			//$.common.imgYL("organizationCodeImgYL", 5);
+			$.common.uplodFile("taxRegistrationCertificateImgIN","taxRegistrationCertificateImg","taxRegistrationCertificateImgYL",false,upload);
+			//$.common.imgYL("taxRegistrationCertificateImgYL", 5);
+			$.common.uplodFile("taxpayerQualificationImgIN","taxpayerQualificationImg","taxpayerQualificationImgYL",false,upload);
+			//$.common.imgYL("taxpayerQualificationImgYL", 5);
+			$.common.uplodFile("taxRegistrationCertificateImgIN","taxRegistrationCertificateImg","taxRegistrationCertificateImgYL",false,upload);
+			//$.common.imgYL("taxRegistrationCertificateImgYL", 5);
+		});
+		$(function (){
+			
+	
+		});
+		/**
+		初始化区域选择旗
+		**/
+		function initAreaSelect(){
+			var url = ctx + "system/areas/cascadeList";
+			$.common.areaCascade(url, "businessAreaPathDiv", "businessAreaPath","0");//
+			$.common.areaCascade(url, "bankAreaIdPathDIV", "bankAreaIdPath","0");//
+			$.common.areaCascade(url, "areaIdPathDIV", "areaIdPath","0");//
+		}
+		initAreaSelect();
+	</script>
+</body>
+</html>

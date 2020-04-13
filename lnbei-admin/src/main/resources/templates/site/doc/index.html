@@ -1,0 +1,46 @@
+{include file="public\header" /}
+<div class="space-30"></div>
+<div class="main-container" id="top">
+		<style>
+			ul {
+				list-style: none;
+			}
+			ul li{
+				padding: 2px 5px;
+			}
+
+			</style>
+	<div class="container-fluid" style="min-height: 540px;">
+
+		<div class="row">
+			<div class="col-md-2"
+				style="padding-right: 0px; height: 540px; position:fixed; right:0;left:0;">
+				<div class="space-20"></div>
+				<div style="     border-bottom: 1px solid #23232336; padding-bottom: 8px;
+				">
+					<span  style="padding-left: 29px;"> 导航 </span>
+				</div>
+				
+				<div style="text-align: left;     padding-top: 9px">
+					<ul>
+						{$docTree}
+					</ul>
+				</div>
+			</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-10"
+				style="padding-left: 19px; ">
+					<div class="space-30" ></div>
+					<h1 id="overview" class="page-header"><a class="anchorjs-link " href="#overview" aria-label="Anchor link for: overview" data-anchorjs-icon="" style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; line-height: inherit; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>概览</h1>
+					<p class="lead">深入了解 lnbei底层结构的关键部分，包括我们让 web 开发变得更好、更快、更强壮的最佳实践。</p>
+					<h2 id="overview-doctype"><a class="anchorjs-link " href="#overview-doctype" aria-label="Anchor link for: overview doctype" data-anchorjs-icon="" style="font-family: anchorjs-icons; font-style: normal; font-variant: normal; font-weight: normal; line-height: inherit; position: absolute; margin-left: -1em; padding-right: 0.5em;"></a>HTML5 文档类型</h2>
+					<p>Bootstrap 使用到的某些 HTML 元素和 CSS 属性需要将页面设置为 HTML5 文档类型。在你项目中的每个页面都要参照下面的格式进行设置。</p>
+						<figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
+						<span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"zh-CN"</span><span class="nt">&gt;</span>
+						  ...
+						<span class="nt">&lt;/html&gt;</span></code></pre></figure>
+			</div>
+		</div>
+	</div>
+</div>
+{include file="public\footer" /}

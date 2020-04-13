@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.oa.mapper.OaSystenInterfaceMapper">
+    
+    <resultMap type="OaSystenInterface" id="OaSystenInterfaceResult">
+        <result property="id"    column="id"    />
+        <result property="systemId"    column="system_id"    />
+        <result property="interfaceName"    column="Interface_name"    />
+        <result property="param"    column="param"    />
+        <result property="url"    column="url"    />
+        <result property="status"    column="status"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="type"    column="type"    />
+        <result property="method"    column="method"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="cjId"    column="cj_id"    />
+        <result property="cjName"    column="cj_name"    />
+        <result property="gqId"    column="gq_id"    />
+        <result property="gqName"    column="gq_name"    />  
+    </resultMap>
+	
+	<sql id="selectOaSystenInterfaceVo">
+        select id, system_id, Interface_name, param, url, status, del_flag, create_by, create_time, update_by, update_time, remark,sort,type,method, dept_id, dept_name, cj_id, cj_name, gq_id, gq_name from oa_systen_interface
+    </sql>
+	
+    <select id="selectOaSystenInterfaceList" parameterType="OaSystenInterface" resultMap="OaSystenInterfaceResult">
+        <include refid="selectOaSystenInterfaceVo"/>
+        <where>  
+        	del_flag='0'
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="systemId != null  and systemId != '' "> and system_id = #{systemId}</if>
+             <if test="interfaceName != null  and interfaceName != '' "> and Interface_name = #{interfaceName}</if>
+             <if test="param != null  and param != '' "> and param = #{param}</if>
+             <if test="url != null  and url != '' "> and url = #{url}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         </where>
+    </select>
+    
+    <select id="selectOaSystenInterfaceById" parameterType="String" resultMap="OaSystenInterfaceResult">
+        <include refid="selectOaSystenInterfaceVo"/>
+        where id = #{id} 
+    </select>
+     <select id="selectOaSystenInterfaceBySystemID"  resultMap="OaSystenInterfaceResult">
+        <include refid="selectOaSystenInterfaceVo"/>
+        where system_id = #{systemId} and type=#{type} and del_flag='0'
+    </select>       
+    <insert id="insertOaSystenInterface" parameterType="OaSystenInterface">
+       <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into oa_systen_interface
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="systemId != null  and systemId != ''  ">system_id,</if>
+			<if test="interfaceName != null  and interfaceName != ''  ">Interface_name,</if>
+			<if test="param != null  and param != ''  ">param,</if>
+			<if test="url != null  and url != ''  ">url,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null   ">sort,</if>
+			<if test="type != null   ">type,</if>
+			<if test="method != null   ">method,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="cjId != null  and cjId != ''  ">cj_id,</if>
+			<if test="cjName != null  and cjName != ''  ">cj_name,</if>
+			<if test="gqId != null  and gqId != ''  ">gq_id,</if>
+			<if test="gqName != null  and gqName != ''  ">gq_name,</if>			
+						create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="systemId != null  and systemId != ''  ">#{systemId},</if>
+			<if test="interfaceName != null  and interfaceName != ''  ">#{interfaceName},</if>
+			<if test="param != null  and param != ''  ">#{param},</if>
+			<if test="url != null  and url != ''  ">#{url},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="type != null  ">#{type},</if>
+			<if test="method != null   ">#{method},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="cjId != null  and cjId != ''  ">#{cjId},</if>
+			<if test="cjName != null  and cjName != ''  ">#{cjName},</if>
+			<if test="gqId != null  and gqId != ''  ">#{gqId},</if>
+			<if test="gqName != null  and gqName != ''  ">#{gqName},</if>			
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateOaSystenInterface" parameterType="OaSystenInterface">
+        update oa_systen_interface
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="systemId != null  and systemId != ''  ">system_id = #{systemId},</if>
+            <if test="interfaceName != null  and interfaceName != ''  ">Interface_name = #{interfaceName},</if>
+            <if test="param != null  and param != ''  ">param = #{param},</if>
+            <if test="url != null  and url != ''  ">url = #{url},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null ">sort = #{sort},</if>
+            <if test="type != null ">type = #{type},</if>
+            <if test="method != null ">method = #{method},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="cjId != null  and cjId != ''  ">cj_id = #{cjId},</if>
+            <if test="cjName != null  and cjName != ''  ">cj_name = #{cjName},</if>
+            <if test="gqId != null  and gqId != ''  ">gq_id = #{gqId},</if>
+            <if test="gqName != null  and gqName != ''  ">gq_name = #{gqName},</if>            
+             update_by = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+	<update id="deleteOaSystenInterfaceById" parameterType="String">
+        update oa_systen_interface
+        <trim prefix="SET" suffixOverrides=",">
+            del_flag = '2',
+        </trim>
+        where id = #{id}
+    </update>
+    <update id="deleteOaSystenInterfaceByIds" parameterType="String">
+        update oa_systen_interface SET del_flag = '2' where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpCatShopsMapper">
+    
+    <resultMap type="SpCatShops" id="SpCatShopsResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="catId"    column="cat_id"    />
+    </resultMap>
+	
+	<sql id="selectSpCatShopsVo">
+        select mid, shop_id, cat_id from sp_cat_shops
+    </sql>
+	
+    <select id="selectSpCatShopsList" parameterType="SpCatShops" resultMap="SpCatShopsResult">
+        <include refid="selectSpCatShopsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="catId != null  and catId != '' "> and cat_id = #{catId}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpCatShopsById" parameterType="String" resultMap="SpCatShopsResult">
+        <include refid="selectSpCatShopsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpCatShops" parameterType="SpCatShops">
+        insert into sp_cat_shops
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="catId != null  and catId != ''  ">cat_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="catId != null  and catId != ''  ">#{catId},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateSpCatShops" parameterType="SpCatShops">
+        update sp_cat_shops
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="catId != null  and catId != ''  ">cat_id = #{catId},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpCatShopsById" parameterType="String">
+        delete from sp_cat_shops where mid = #{mid}
+    </delete>
+	<delete id="deleteSpCatShopsByShopId" parameterType="String">
+        delete from sp_cat_shops where shop_id = #{shopId}
+    </delete>	
+    <delete id="deleteSpCatShopsByIds" parameterType="String">
+        delete from sp_cat_shops where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

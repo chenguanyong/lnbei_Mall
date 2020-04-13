@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-homeCategory-edit" th:object="${homeCategory}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+              
+         		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">编号：</label>
+				<div class="col-sm-8">
+					<input id="mark" name="mark" th:field="*{mark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分类名称：</label>
+				<div class="col-sm-8">
+					<input id="category" name="category" th:field="*{category}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">英文标识：</label>
+				<div class="col-sm-8">
+					<input id="flag" name="flag" th:field="*{flag}" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">访问类型：</label>
+			
+								<div class="col-sm-8">
+					<select id="accessType"  name="accessType" th:field="*{accessType}" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_access_type')}">
+					  <option value="">所有</option>
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>	
+				</div>
+				
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					
+					    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${homeCategory.status == dict.dictValue ? true : false}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					
+				</div>
+			</div>
+					<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}"  class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "home/homeCategory";
+		$("#form-homeCategory-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-homeCategory-edit').serialize());
+	        }
+	    }
+        /*用户管理-新增-选择部门树*/
+        function selectCategoryTree(flag) {
+
+        	var url = ctx + "home/homeCategory/categoryTree?flag=" + flag;
+			var options = {
+				title: '选择部门',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#classify").val(body.find('#treeId').val());
+    			$("#classifyId").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+	</script>
+</body>
+</html>

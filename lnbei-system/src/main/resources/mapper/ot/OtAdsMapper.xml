@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.ot.mapper.OtAdsMapper">
+    
+    <resultMap type="OtAds" id="OtAdsResult">
+        <result property="mid"    column="mid"    />
+        <result property="adPositionId"    column="ad_position_id"    />
+        <result property="adFile"    column="ad_file"    />
+        <result property="adName"    column="ad_name"    />
+        <result property="adUrl"    column="ad_url"    />
+        <result property="adStartDate"    column="ad_start_date"    />
+        <result property="adEndDate"    column="ad_end_date"    />
+        <result property="adClickNum"    column="ad_click_num"    />
+        <result property="positionType"    column="position_type"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    
+
+    
+	
+	<sql id="selectOtAdsVo">
+        select mid, ad_position_id, ad_file, ad_name, ad_url, ad_start_date, ad_end_date, ad_click_num, position_type, sub_title, create_time, del_flag, create_by, update_by, remark, sort, status, update_time from ot_ads
+    </sql>
+	
+    <select id="selectOtAdsList" parameterType="OtAds" resultMap="OtAdsResult">
+        <include refid="selectOtAdsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="adPositionId != null  and adPositionId != '' "> and ad_position_id = #{adPositionId}</if>
+             <if test="adFile != null  and adFile != '' "> and ad_file = #{adFile}</if>
+             <if test="adName != null  and adName != '' "> and ad_name = #{adName}</if>
+             <if test="adUrl != null  and adUrl != '' "> and ad_url = #{adUrl}</if>
+             <if test="adStartDate != null "> and ad_start_date = #{adStartDate}</if>
+             <if test="adEndDate != null "> and ad_end_date = #{adEndDate}</if>
+             <if test="adClickNum != null "> and ad_click_num = #{adClickNum}</if>
+             <if test="positionType != null  and positionType != '' "> and position_type = #{positionType}</if>
+             <if test="subTitle != null  and subTitle != '' "> and sub_title = #{subTitle}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectOtAdsById" parameterType="String" resultMap="OtAdsResult">
+        <include refid="selectOtAdsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertOtAds" parameterType="OtAds">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into ot_ads
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="adPositionId != null  and adPositionId != ''  ">ad_position_id,</if>
+			<if test="adFile != null  and adFile != ''  ">ad_file,</if>
+			<if test="adName != null  and adName != ''  ">ad_name,</if>
+			<if test="adUrl != null  and adUrl != ''  ">ad_url,</if>
+			<if test="adStartDate != null  ">ad_start_date,</if>
+			<if test="adEndDate != null  ">ad_end_date,</if>
+			<if test="adClickNum != null  ">ad_click_num,</if>
+			<if test="positionType != null  and positionType != ''  ">position_type,</if>
+			<if test="subTitle != null  and subTitle != ''  ">sub_title,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="updateTime != null  ">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="adPositionId != null  and adPositionId != ''  ">#{adPositionId},</if>
+			<if test="adFile != null  and adFile != ''  ">#{adFile},</if>
+			<if test="adName != null  and adName != ''  ">#{adName},</if>
+			<if test="adUrl != null  and adUrl != ''  ">#{adUrl},</if>
+			<if test="adStartDate != null  ">#{adStartDate},</if>
+			<if test="adEndDate != null  ">#{adEndDate},</if>
+			<if test="adClickNum != null  ">#{adClickNum},</if>
+			<if test="positionType != null  and positionType != ''  ">#{positionType},</if>
+			<if test="subTitle != null  and subTitle != ''  ">#{subTitle},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOtAds" parameterType="OtAds">
+        update ot_ads
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adPositionId != null  and adPositionId != ''  ">ad_position_id = #{adPositionId},</if>
+            <if test="adFile != null  and adFile != ''  ">ad_file = #{adFile},</if>
+            <if test="adName != null  and adName != ''  ">ad_name = #{adName},</if>
+            <if test="adUrl != null  and adUrl != ''  ">ad_url = #{adUrl},</if>
+            <if test="adStartDate != null  ">ad_start_date = #{adStartDate},</if>
+            <if test="adEndDate != null  ">ad_end_date = #{adEndDate},</if>
+            <if test="adClickNum != null  ">ad_click_num = #{adClickNum},</if>
+            <if test="positionType != null  and positionType != ''  ">position_type = #{positionType},</if>
+            <if test="subTitle != null  and subTitle != ''  ">sub_title = #{subTitle},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteOtAdsById" parameterType="String">
+        delete from ot_ads where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteOtAdsByIds" parameterType="String">
+        delete from ot_ads where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

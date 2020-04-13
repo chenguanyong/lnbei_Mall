@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.ot.mapper.OtCarouselMapper">
+    
+    <resultMap type="OtCarousel" id="OtCarouselResult">
+        <result property="mid"    column="mid"    />
+        <result property="csPositionId"    column="cs_position_id"    />
+        <result property="csFile"    column="cs_file"    />
+        <result property="csName"    column="cs_name"    />
+        <result property="csUrl"    column="cs_url"    />
+        <result property="csStartDate"    column="cs_start_date"    />
+        <result property="csEndDate"    column="cs_end_date"    />
+        <result property="csClickNum"    column="cs_click_num"    />
+        <result property="positionType"    column="position_type"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectOtCarouselVo">
+        select mid, cs_position_id, cs_file, cs_name, cs_url, cs_start_date, cs_end_date, cs_click_num, position_type, sub_title, create_time, del_flag, create_by, update_by, remark, sort, status, update_time from ot_carousel
+    </sql>
+	
+    <select id="selectOtCarouselList" parameterType="OtCarousel" resultMap="OtCarouselResult">
+        <include refid="selectOtCarouselVo"/>
+        <where>  
+            <if test="mid != null and mid != '' "> and mid = #{mid}</if>
+             <if test="csPositionId != null and csPositionId != '' "> and cs_position_id = #{csPositionId}</if>
+             <if test="csFile != null  and csFile != '' "> and cs_file = #{csFile}</if>
+             <if test="csName != null  and csName != '' "> and cs_name = #{csName}</if>
+             <if test="csUrl != null  and csUrl != '' "> and cs_url = #{csUrl}</if>
+             <if test="csStartDate != null "> and cs_start_date = #{csStartDate}</if>
+             <if test="csEndDate != null "> and cs_end_date = #{csEndDate}</if>
+     
+             <if test="positionType != null and positionType != '' "> and position_type = #{positionType}</if>
+             <if test="subTitle != null  and subTitle != '' "> and sub_title = #{subTitle}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+         
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectOtCarouselById" parameterType="String" resultMap="OtCarouselResult">
+        <include refid="selectOtCarouselVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertOtCarousel" parameterType="OtCarousel">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into ot_carousel
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null and mid != ''  ">mid,</if>
+			<if test="csPositionId != null and csPositionId != ''   ">cs_position_id,</if>
+			<if test="csFile != null  and csFile != ''  ">cs_file,</if>
+			<if test="csName != null  and csName != ''  ">cs_name,</if>
+			<if test="csUrl != null  and csUrl != ''  ">cs_url,</if>
+			<if test="csStartDate != null  ">cs_start_date,</if>
+			<if test="csEndDate != null  ">cs_end_date,</if>
+			<if test="csClickNum != null  and  csClickNum != 0">cs_click_num,</if>
+			<if test="positionType != null and positionType != ''   ">position_type,</if>
+			<if test="subTitle != null  and subTitle != ''  ">sub_title,</if>
+			
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			update_time,
+			create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''   ">#{mid},</if>
+			<if test="csPositionId != null  and csPositionId != ''  ">#{csPositionId},</if>
+			<if test="csFile != null  and csFile != ''  ">#{csFile},</if>
+			<if test="csName != null  and csName != ''  ">#{csName},</if>
+			<if test="csUrl != null  and csUrl != ''  ">#{csUrl},</if>
+			<if test="csStartDate != null  ">#{csStartDate},</if>
+			<if test="csEndDate != null  ">#{csEndDate},</if>
+			<if test="csClickNum != null and  csClickNum != 0  ">#{csClickNum},</if>
+			<if test="positionType != null and positionType != ''   ">#{positionType},</if>
+			<if test="subTitle != null  and subTitle != ''  ">#{subTitle},</if>
+			
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateOtCarousel" parameterType="OtCarousel">
+        update ot_carousel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="csPositionId != null and csPositionId != '' ">cs_position_id = #{csPositionId},</if>
+            <if test="csFile != null  and csFile != ''  ">cs_file = #{csFile},</if>
+            <if test="csName != null  and csName != ''  ">cs_name = #{csName},</if>
+            <if test="csUrl != null  and csUrl != ''  ">cs_url = #{csUrl},</if>
+            <if test="csStartDate != null  ">cs_start_date = #{csStartDate},</if>
+            <if test="csEndDate != null  ">cs_end_date = #{csEndDate},</if>
+            <if test="csClickNum != null and csClickNum !=0  ">cs_click_num = #{csClickNum},</if>
+            <if test="positionType != null and positionType != ''  ">position_type = #{positionType},</if>
+            <if test="subTitle != null  and subTitle != ''  ">sub_title = #{subTitle},</if>
+           
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+           update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteOtCarouselById" parameterType="Integer">
+        delete from ot_carousel where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteOtCarouselByIds" parameterType="String">
+        delete from ot_carousel where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

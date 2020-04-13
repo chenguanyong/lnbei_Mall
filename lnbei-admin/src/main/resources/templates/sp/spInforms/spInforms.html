@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li >
+		                        <label >状态：</label>
+								<select id="flag"  name="flag" class="form-control " style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_audit_status')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>															
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+		
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.common('','处理举报','doUrl','edit')" shiro:hasPermission="spadmin:spInforms:handle">
+					<i class="fa fa-edit"></i> 处理举报
+				</a>				
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="spadmin:spInforms:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="spadmin:spInforms:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('spadmin:spInforms:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('spadmin:spInforms:remove')}]];
+        var prefix = ctx + "spadmin/spInforms";
+        var spInformsStatus = [[${@dict.getType('sp_spInforms_status')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+				doUrl:prefix + "/handle",
+                modalName: "举报管理",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'informTargetId', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'goodId', 
+					title : '举报商品',
+					sortable: true
+				},
+				{
+					field : 'shopId', 
+					title : '举报店铺',
+					sortable: true
+				},
+				{
+					field : 'informType', 
+					title : '去报类型',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	spInformsStatus, value);
+					}
+				},
+				{
+					field : 'informTime', 
+					title : '举报时间',
+					sortable: true
+				},
+
+			
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+
+	]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

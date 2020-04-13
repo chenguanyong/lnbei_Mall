@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								发票抬头：<input type="text" name="invoiceHead"/>
+							</li>
+
+							<li>
+								纳税人识别号：<input type="text" name="invoiceCode"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="spadmin:spInvoices:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="spadmin:spInvoices:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="spadmin:spInvoices:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="spadmin:spInvoices:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('spadmin:spInvoices:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('spadmin:spInvoices:remove')}]];
+        var prefix = ctx + "spadmin/spInvoices";
+        var invoiceType = [[${@dict.getType('sp_invoice_type')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "发票管理",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '主键',
+					visible: false
+				},
+				{
+					field : 'invoiceHead', 
+					title : '发票抬头',
+					sortable: true
+				},
+				{
+					field : 'invoiceCode', 
+					title : '纳税人识别号',
+					sortable: true
+				},
+				{
+					field : 'invoiceType', 
+					title : '发票类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	invoiceType, value);
+					}
+				},
+				{
+					field : 'invoiceAddr', 
+					title : '增值税发票注册地址',
+					sortable: true
+				},
+				{
+					field : 'invoicePhoneNumber', 
+					title : '增值税发票注册电话',
+					sortable: true
+				},
+				{
+					field : 'invoiceBankName', 
+					title : '增值税发票开户银行',
+					sortable: true
+				},
+				{
+					field : 'invoiceBankNo', 
+					title : '增值税发票银行账户',
+					sortable: true
+				},
+				
+				{
+					field : 'remark', 
+					title : '备注',
+					sortable: true
+				},
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+					 formatter: function(value, row, index) {
+						 return $.operate.statusTools(row,"该发票");
+					 }
+				},
+			
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

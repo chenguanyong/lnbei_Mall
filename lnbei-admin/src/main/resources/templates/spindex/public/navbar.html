@@ -1,0 +1,116 @@
+<div id="navbar" class="navbar navbar-default navbar-color"    th:fragment="navbar(display)" >
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid " style="width:90%">
+	
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse row" >
+		 <div class="col-sm-3"  >
+			  <div class="btn-group "  role="group" id="all_shop_cat" >
+			    <button type="button" class="btn btn-default dropdown-toggle j-cate-dt" style="width:210px; border-width: 5px !important;   background: #df2003 none repeat scroll 0 0 !important; border-color: #df2003 !important;" >
+			           所有商品分类
+			      
+			    </button>
+			    
+			    
+			    
+			    
+
+			    
+	<div class=" j-index dropdown-menu" th:style="' width: 210px; height: 425px;    background: #C1392B none repeat scroll 0 0; border-right: 0px;'+'display:' + @{(${display} ?  'block' :'none' )} " id="wst-categorys">
+         <div class="dd j-cate-dd" style="    top: -8px;"  >
+            <div class="dd-inner">
+                <div th:id="'cat-icon-'+${loopStatus.count}" class="item fore1" th:each=" object,loopStatus : ${@ViewGoodsCat.getGoodsCatsList()}">
+                     
+                     <h3>
+                      <div th:class="'cat-icon-'+${loopStatus.count}" ></div>
+                      <a th:href="@{/spIndex/SpIndexSearch/index?mid=} + ${object.mid}" target="_blank" th:text="${object.catName}"></a>
+                     </h3> 
+                </div>
+             
+             </div>
+             <div style="top: 36px; display: none;" class="dorpdown-layer" id="index_menus_sub">
+                 <div class="item-sub" i="1" th:attr="i= ${loopStatus.count}" style="display: none;" th:each=" objectDE ,loopStatus : ${@ViewGoodsCat.getGoodsCatsList()}" >
+
+
+                       <div class="subitems">
+                           <dl class="fore2" th:each="sencondCat,sencondStart:${objectDE.children}">
+                               <dd>
+                                  <a class="cat2_tit" target="_blank" th:href="@{/spIndex/SpIndexSearch/index?mid=} + ${sencondCat.mid}" th:utext="${sencondCat.catName} + '<i>&gt;</i>'" >
+                                                               
+                                  </a>
+                                  <a th:each="thridCat,thridStart:${sencondCat.children}"    target="_blank" th:href="@{/spIndex/SpIndexSearch/index?mid=}+${thridCat.mid}" th:text="${thridCat.catName}"></a>
+                                  <div class="wst-clear"></div>
+                               </dd>
+                            </dl>
+
+
+                        </div>
+                  </div>
+ 
+             </div>
+        </div>
+      </div>		    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			    
+			  </div>
+		 </div>
+		 <div class="col-sm-7">
+		       <ul class="nav navbar-nav ">
+		        <li ><a href="#">首页</a></li>
+		        <li ><a href="#">我的淘宝 </a></li>
+		        <li><a href="#">购物车</a></li>
+		  		<li ><a href="#">收藏夹 </a></li>
+		        <li><a href="#">商品分类</a></li>
+		
+		        <li><a href="#">卖家中心</a></li>      
+		      </ul>  
+		  </div> 
+		  <div class="col-sm-2">
+<button type="button" class="btn btn-default dropdown-toggle" style="visibility: hidden;" >Action</button>
+        <ul class="absolute-panel" th:style="'display:' + @{(${display} ?  'block' :'none'  )} + ''" >
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+		  
+		  </div>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+</div>

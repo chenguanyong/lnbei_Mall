@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body>
+    <div class="form-content">
+        <form id="form-user-add" class="form-horizontal">
+            <input name="deptId" type="hidden" id="treeId" th:value="${dept.id}"/>
+            <h4 class="form-header h4">基本信息</h4>
+            <div class="row">
+            	<div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>用户名称：</label>
+                        <div class="col-sm-8">
+                            <input name="name" autocomplete="off" placeholder="请输入用户名称" class="form-control" type="text" maxlength="30" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>归属部门：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                            	<input  onclick="selectDeptTree()" th:value="${dept.name}" id="treeName" type="text" placeholder="请选择归属部门" class="form-control" name="deptName">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>手机号码：</label>
+                        <div class="col-sm-8">
+                            <input name="mobile" autocomplete="off" placeholder="请输入手机号码" class="form-control" type="text" maxlength="11" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-xs-4 control-label">岗位：</label>
+                        <div class="col-sm-8">
+                            <select id="post" class="form-control select2-hidden-accessible" multiple="">
+								<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:disabled="${post.status == '1'}"></option>
+							</select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录账号：</label>
+                        <div class="col-sm-8">
+                            <input name="logName" placeholder="请输入登录账号" autocomplete="off" class="form-control required" type="text" maxlength="30" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>登录密码：</label>
+                        <div class="col-sm-8">
+                            <input name="pwd" placeholder="请输入登录密码" autocomplete="off" class="form-control" type="password" th:value="${@config.getKey('sys.user.initPassword')}" required>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+					<div class="form-group">	
+						<label class="col-sm-4 control-label">用户性别：</label>
+						<div class="col-sm-8">
+					    	<div class="radio-box" th:each="dict : ${@dict.getType('sys_user_sex')}">
+								<input type="radio" th:id="${dict.dictCode}" name="sex" th:value="${dict.dictValue}" th:checked="${dict.isDefault == 'Y' ? true : false}">
+								<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+							</div>					
+						</div>
+					</div>	                    
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">用户状态：</label>
+                        <div class="col-sm-8">
+                            <div class="onoffswitch">
+		                         <input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="status">
+		                         <label class="onoffswitch-label" for="status">
+		                             <span class="onoffswitch-inner"></span>
+		                             <span class="onoffswitch-switch"></span>
+		                         </label>
+		                     </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                   <div class="form-group">
+                        <label class="col-sm-4 control-label">是否职员：</label>
+                        <div class="col-sm-8">
+                            <div class="onoffswitch">
+		                         <input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="isStaff">
+		                         <label class="onoffswitch-label" for="isStaff">
+		                             <span class="onoffswitch-inner"></span>
+		                             <span class="onoffswitch-switch"></span>
+		                         </label>
+		                     </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否账号：</label>
+                        <div class="col-sm-8">
+                            <div class="onoffswitch">
+		                         <input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="isAccount">
+		                         <label class="onoffswitch-label" for="isAccount">
+		                             <span class="onoffswitch-inner"></span>
+		                             <span class="onoffswitch-switch"></span>
+		                         </label>
+		                     </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">真实姓名：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="realName" name="realName" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                   <div class="form-group">
+                        <label class="col-sm-4 control-label">人员工作证号：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="number" name="number" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"><span style="color: red; ">*</span>排序：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="sort" name="sort" class="form-control" type="text" require>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+            <h4 class="form-header h4">其他信息</h4>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">姓名拼音：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="namePy" name="namePy" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">身份证号码：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="pid" name="pid" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">出生年月：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="born" name="born"  class="time-input" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">职称：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+							<select class="form-control" id="title" name="title" th:with="type=${@dict.getType('sys_grade_title')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">职务：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+							<select class="form-control" id="position" name="position" th:with="type=${@dict.getType('sys_post_type')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">办公电话：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="tel" name="tel" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">入路时间：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="joinDate" name="joinDate"  class="time-input" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">家庭电话：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="phone" name="phone" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>             
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">工种：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+							<select class="form-control" id="worktype" name="worktype" th:with="type=${@dict.getType('sys_type_work')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">籍贯：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="home" name="home" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">家庭住址：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="address" name="address" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">政治面貌：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+							<select class="form-control" id="politics" name="politics" th:with="type=${@dict.getType('sys_political_outlook')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">干部级别：</label>
+                        <div class="col-sm-8">
+								<select class="form-control" id="chiefType" name="chiefType" th:with="type=${@dict.getType('sys_personnel_rank')}">
+								  <option value="">请选择</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+								</select>								
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">文化程度：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+							<select class="form-control" id="grade" name="grade" th:with="type=${@dict.getType('sys_degree_of_education')}">
+							  <option value="">请选择</option>
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+							</select>								
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">邮箱：</label>
+                        <div class="col-sm-8">
+                            <input name="email" autocomplete="off" class="form-control email" type="text" maxlength="50" placeholder="请输入邮箱" >
+                        </div>
+                    </div>                
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">记录日期：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="crtrdate" name="crtrdate"  class="time-input" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">岗位工作标准：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="desc" name="desc" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">廉政承诺书：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group" style="width: 100%">
+								<input id="fileid" name="fileid" class="form-control" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+                                                                                                                                                   
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">备注：</label>
+                        <div class="col-xs-10">
+                            <textarea name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>
+	<div th:include="include::footer"></div>
+	<script th:src="@{/ajax/libs/select/select2.js}"></script>
+	<script>
+	    var prefix = ctx + "system/user";
+	
+        $("#form-user-add").validate({
+        	rules:{
+        		logName:{
+        			minlength: 2,
+        			maxlength: 20,
+        			required:true,
+        			remote: {
+                        url: prefix + "/checkLoginNameUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                        	name : function() {
+                                return $.common.trim($("#logName").val());
+                            }
+                        },
+                        dataFilter: function(data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		password:{
+        			minlength: 5,
+        			maxlength: 20,
+        			required:true,
+        		},
+        		email:{
+                    email:true,
+                 /*   remote: {
+                        url: prefix + "/checkEmailUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            name: function () {
+                                return $.common.trim($("#email").val());
+                            }
+                        },
+                        dataFilter: function (data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		*/
+        		},
+        		phone:{
+        			isPhone:true,
+                    remote: {
+                        url: prefix + "/checkPhoneUnique",
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            name: function () {
+                                return $.common.trim($("#phone").val());
+                            }
+                        },
+                        dataFilter: function (data, type) {
+                        	return $.validate.unique(data);
+                        }
+                    }
+        		},
+        		sort:{
+        			digits:true,
+        			required:true
+        		}
+        	},
+        	messages: {
+                "logName": {
+                    remote: "用户已经存在"
+                },
+        		"email": {
+                    remote: "Email已经存在"
+                },
+        		"phone":{
+                	remote: "手机号码已经存在"
+        		}
+            },
+            focusCleanup: true
+        });
+        
+        function submitHandler() {
+	        if ($.validate.form()) {
+	        	var data = $("#form-user-add").serializeArray();
+	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+	        	var isStaff = $("input[id='isStaff']").is(':checked') == false ? 0 : 1;
+	        	var isAccount = $("input[id='isAccount']").is(':checked') == false ? 0 : 1;
+	        	//var roleIds = $.form.selectCheckeds("role");
+	        	var postIds = $.form.selectSelects("post");
+	        	data.push({"name": "status", "value": status});
+	        	data.push({"name": "isStaff", "value": isStaff});
+	        	data.push({"name": "isAccount", "value": isAccount});
+	        	//data.push({"name": "roleIds", "value": roleIds});
+	        	data.push({"name": "postIds", "value": postIds});
+	        	$.operate.saveTab(prefix + "/add", data);
+	        }
+	    }
+         
+        /*用户管理-新增-选择部门树*/
+        function selectDeptTree() {
+        	var treeId = $("#treeId").val();
+        	var deptId = $.common.isEmpty(treeId) ? "1" : $("#treeId").val();
+        	var url = ctx + "system/dept/selectDeptTree/" + deptId;
+			var options = {
+				title: '选择部门',
+				width: "380",
+				url: ctx + "system/dept/selectDeptTree/" + deptId,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			if ($.tree.notAllowParents(tree)) {
+				var body = layer.getChildFrame('body', index);
+    			$("#treeId").val(body.find('#treeId').val());
+    			$("#treeName").val(body.find('#treeName').val());
+    			layer.close(index);
+			}
+		}
+    </script>
+</body>
+</html>

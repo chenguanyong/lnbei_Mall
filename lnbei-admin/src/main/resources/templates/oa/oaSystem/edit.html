@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-oaSystem-edit" th:object="${oaSystem}">
+            <input id="id" name="id" th:field="*{id}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">系统名称：</label>
+				<div class="col-sm-8">
+					<input id="sysName" name="sysName" th:value="*{sysName}" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">系统标识：</label>
+				<div class="col-sm-8">
+					<input id="flag" name="flag" th:value="*{flag}" class="form-control" type="text" required>
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">负责人：</label>
+				<div class="col-sm-8">
+					<input id="operation" name="operation" th:value="*{operation}" class="form-control" type="text" required>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">手机：</label>
+				<div class="col-sm-8">
+					<input id="phone" name="phone" class="form-control" th:value="*{phone}" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">开发公司：</label>
+				<div class="col-sm-8">
+					<input id="company" name="company" class="form-control" th:value="*{company}" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:value=*{sort}  class="form-control" type="text" required>
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+                    <div class="onoffswitch">
+                        <input type="checkbox"  class="onoffswitch-checkbox" th:checked="${oaSystem.status == '0' ? true : false}" id="status">
+                        <label class="onoffswitch-label" for="status">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                    </div>
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<textarea id="remark" name="remark" class="form-control" th:text="*{remark}" type="text"></textarea>
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "oa/oaSystem";
+		$("#form-oaSystem-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	var data = $("#form-oaSystem-edit").serializeArray();
+	        	var status = $("input[id='status']").is(':checked') == true ? 0 : 1;
+	        	data.push({"name": "status", "value": status});
+	        	$.operate.save(prefix + "/edit", data);
+	        }
+	    }
+	</script>
+</body>
+</html>

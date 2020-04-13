@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopExtrasMapper">
+    
+    <resultMap type="SpShopExtras" id="SpShopExtrasResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="businessLicenceType"    column="business_licence_type"    />
+        <result property="businessLicence"    column="business_licence"    />
+        <result property="licenseAddress"    column="license_address"    />
+        <result property="businessAreaPath"    column="business_area_path"    />
+        <result property="legalPersonName"    column="legal_person_name"    />
+        <result property="establishmentDate"    column="establishment_date"    />
+        <result property="businessStartDate"    column="business_start_date"    />
+        <result property="businessEndDate"    column="business_end_date"    />
+        <result property="isLongbusinessDate"    column="is_longbusiness_date"    />
+        <result property="registeredCapital"    column="registered_capital"    />
+        <result property="empiricalRange"    column="empirical_range"    />
+        <result property="legalCertificateType"    column="legal_certificate_type"    />
+        <result property="legalCertificate"    column="legal_certificate"    />
+        <result property="legalCertificateStartDate"    column="legal_certificate_start_date"    />
+        <result property="legalCertificateEndDate"    column="legal_certificate_end_date"    />
+        <result property="isLonglegalCertificateDate"    column="is_longlegal_certificate_date"    />
+        <result property="legalCertificateImg"    column="legal_certificate_img"    />
+        <result property="businessLicenceImg"    column="business_licence_img"    />
+        <result property="bankAccountPermitImg"    column="bank_account_permit_img"    />
+        <result property="organizationCode"    column="organization_code"    />
+        <result property="organizationCodeStartDate"    column="organization_code_start_date"    />
+        <result property="organizationCodeEndDate"    column="organization_code_end_date"    />
+        <result property="isLongOrganizationCodeDate"    column="is_long_organization_code_date"    />
+        <result property="organizationCodeImg"    column="organization_code_img"    />
+        <result property="taxRegistrationCertificateImg"    column="tax_registration_certificate_img"    />
+        <result property="taxpayerQualificationImg"    column="taxpayer_qualification_img"    />
+        <result property="taxpayerType"    column="taxpayer_type"    />
+        <result property="taxpayerNo"    column="taxpayer_no"    />
+        <result property="applyLinkMan"    column="apply_link_man"    />
+        <result property="applyLinkTel"    column="apply_link_tel"    />
+        <result property="applyLinkEmail"    column="apply_link_email"    />
+        <result property="isInvestment"    column="is_investment"    />
+        <result property="investmentStaff"    column="investment_staff"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectSpShopExtrasVo">
+        select mid, shop_id, business_licence_type, business_licence, license_address, business_area_path, legal_person_name, establishment_date, business_start_date, business_end_date, is_longbusiness_date, registered_capital, empirical_range, legal_certificate_type, legal_certificate, legal_certificate_start_date, legal_certificate_end_date, is_longlegal_certificate_date, legal_certificate_img, business_licence_img, bank_account_permit_img, organization_code, organization_code_start_date, organization_code_end_date, is_long_organization_code_date, organization_code_img, tax_registration_certificate_img, taxpayer_qualification_img, taxpayer_type, taxpayer_no, apply_link_man, apply_link_tel, apply_link_email, is_investment, investment_staff, create_time, del_flag, create_by, update_by, remark, sort, status, update_time from sp_shop_extras
+    </sql>
+	
+    <select id="selectSpShopExtrasList" parameterType="SpShopExtras" resultMap="SpShopExtrasResult">
+        <include refid="selectSpShopExtrasVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="businessLicenceType != null "> and business_licence_type = #{businessLicenceType}</if>
+             <if test="businessLicence != null  and businessLicence != '' "> and business_licence = #{businessLicence}</if>
+             <if test="licenseAddress != null  and licenseAddress != '' "> and license_address = #{licenseAddress}</if>
+             <if test="businessAreaPath != null  and businessAreaPath != '' "> and business_area_path = #{businessAreaPath}</if>
+             <if test="legalPersonName != null  and legalPersonName != '' "> and legal_person_name = #{legalPersonName}</if>
+             <if test="establishmentDate != null "> and establishment_date = #{establishmentDate}</if>
+             <if test="businessStartDate != null "> and business_start_date = #{businessStartDate}</if>
+             <if test="businessEndDate != null "> and business_end_date = #{businessEndDate}</if>
+             <if test="isLongbusinessDate != null "> and is_longbusiness_date = #{isLongbusinessDate}</if>
+             <if test="registeredCapital != null "> and registered_capital = #{registeredCapital}</if>
+             <if test="empiricalRange != null  and empiricalRange != '' "> and empirical_range = #{empiricalRange}</if>
+             <if test="legalCertificateType != null  and legalCertificateType != '' "> and legal_certificate_type = #{legalCertificateType}</if>
+             <if test="legalCertificate != null  and legalCertificate != '' "> and legal_certificate = #{legalCertificate}</if>
+             <if test="legalCertificateStartDate != null "> and legal_certificate_start_date = #{legalCertificateStartDate}</if>
+             <if test="legalCertificateEndDate != null "> and legal_certificate_end_date = #{legalCertificateEndDate}</if>
+             <if test="isLonglegalCertificateDate != null  and isLonglegalCertificateDate != '' "> and is_longlegal_certificate_date = #{isLonglegalCertificateDate}</if>
+             <if test="legalCertificateImg != null  and legalCertificateImg != '' "> and legal_certificate_img = #{legalCertificateImg}</if>
+             <if test="businessLicenceImg != null  and businessLicenceImg != '' "> and business_licence_img = #{businessLicenceImg}</if>
+             <if test="bankAccountPermitImg != null  and bankAccountPermitImg != '' "> and bank_account_permit_img = #{bankAccountPermitImg}</if>
+             <if test="organizationCode != null  and organizationCode != '' "> and organization_code = #{organizationCode}</if>
+             <if test="organizationCodeStartDate != null "> and organization_code_start_date = #{organizationCodeStartDate}</if>
+             <if test="organizationCodeEndDate != null "> and organization_code_end_date = #{organizationCodeEndDate}</if>
+             <if test="isLongOrganizationCodeDate != null "> and is_long_organization_code_date = #{isLongOrganizationCodeDate}</if>
+             <if test="organizationCodeImg != null  and organizationCodeImg != '' "> and organization_code_img = #{organizationCodeImg}</if>
+             <if test="taxRegistrationCertificateImg != null  and taxRegistrationCertificateImg != '' "> and tax_registration_certificate_img = #{taxRegistrationCertificateImg}</if>
+             <if test="taxpayerQualificationImg != null  and taxpayerQualificationImg != '' "> and taxpayer_qualification_img = #{taxpayerQualificationImg}</if>
+             <if test="taxpayerType != null  and taxpayerType != '' "> and taxpayer_type = #{taxpayerType}</if>
+             <if test="taxpayerNo != null  and taxpayerNo != '' "> and taxpayer_no = #{taxpayerNo}</if>
+             <if test="applyLinkMan != null  and applyLinkMan != '' "> and apply_link_man = #{applyLinkMan}</if>
+             <if test="applyLinkTel != null  and applyLinkTel != '' "> and apply_link_tel = #{applyLinkTel}</if>
+             <if test="applyLinkEmail != null  and applyLinkEmail != '' "> and apply_link_email = #{applyLinkEmail}</if>
+             <if test="isInvestment != null "> and is_investment = #{isInvestment}</if>
+             <if test="investmentStaff != null  and investmentStaff != '' "> and investment_staff = #{investmentStaff}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpShopExtrasById" parameterType="String" resultMap="SpShopExtrasResult">
+        <include refid="selectSpShopExtrasVo"/>
+        where mid = #{mid}
+    </select>
+    <select id="selectSpShopExtrasByShopId" parameterType="String" resultMap="SpShopExtrasResult">
+        <include refid="selectSpShopExtrasVo"/>
+        where shop_id = #{shopId}
+    </select>     
+    <insert id="insertSpShopExtras" parameterType="SpShopExtras">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>    
+        insert into sp_shop_extras
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="businessLicenceType != null  ">business_licence_type,</if>
+			<if test="businessLicence != null  and businessLicence != ''  ">business_licence,</if>
+			<if test="licenseAddress != null  and licenseAddress != ''  ">license_address,</if>
+			<if test="businessAreaPath != null  and businessAreaPath != ''  ">business_area_path,</if>
+			<if test="legalPersonName != null  and legalPersonName != ''  ">legal_person_name,</if>
+			<if test="establishmentDate != null  ">establishment_date,</if>
+			<if test="businessStartDate != null  ">business_start_date,</if>
+			<if test="businessEndDate != null  ">business_end_date,</if>
+			<if test="isLongbusinessDate != null  ">is_longbusiness_date,</if>
+			<if test="registeredCapital != null  ">registered_capital,</if>
+			<if test="empiricalRange != null  and empiricalRange != ''  ">empirical_range,</if>
+			<if test="legalCertificateType != null  and legalCertificateType != ''  ">legal_certificate_type,</if>
+			<if test="legalCertificate != null  and legalCertificate != ''  ">legal_certificate,</if>
+			<if test="legalCertificateStartDate != null  ">legal_certificate_start_date,</if>
+			<if test="legalCertificateEndDate != null  ">legal_certificate_end_date,</if>
+			<if test="isLonglegalCertificateDate != null  and isLonglegalCertificateDate != ''  ">is_longlegal_certificate_date,</if>
+			<if test="legalCertificateImg != null  and legalCertificateImg != ''  ">legal_certificate_img,</if>
+			<if test="businessLicenceImg != null  and businessLicenceImg != ''  ">business_licence_img,</if>
+			<if test="bankAccountPermitImg != null  and bankAccountPermitImg != ''  ">bank_account_permit_img,</if>
+			<if test="organizationCode != null  and organizationCode != ''  ">organization_code,</if>
+			<if test="organizationCodeStartDate != null  ">organization_code_start_date,</if>
+			<if test="organizationCodeEndDate != null  ">organization_code_end_date,</if>
+			<if test="isLongOrganizationCodeDate != null  ">is_long_organization_code_date,</if>
+			<if test="organizationCodeImg != null  and organizationCodeImg != ''  ">organization_code_img,</if>
+			<if test="taxRegistrationCertificateImg != null  and taxRegistrationCertificateImg != ''  ">tax_registration_certificate_img,</if>
+			<if test="taxpayerQualificationImg != null  and taxpayerQualificationImg != ''  ">taxpayer_qualification_img,</if>
+			<if test="taxpayerType != null  and taxpayerType != ''  ">taxpayer_type,</if>
+			<if test="taxpayerNo != null  and taxpayerNo != ''  ">taxpayer_no,</if>
+			<if test="applyLinkMan != null  and applyLinkMan != ''  ">apply_link_man,</if>
+			<if test="applyLinkTel != null  and applyLinkTel != ''  ">apply_link_tel,</if>
+			<if test="applyLinkEmail != null  and applyLinkEmail != ''  ">apply_link_email,</if>
+			<if test="isInvestment != null  ">is_investment,</if>
+			<if test="investmentStaff != null  and investmentStaff != ''  ">investment_staff,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="businessLicenceType != null  ">#{businessLicenceType},</if>
+			<if test="businessLicence != null  and businessLicence != ''  ">#{businessLicence},</if>
+			<if test="licenseAddress != null  and licenseAddress != ''  ">#{licenseAddress},</if>
+			<if test="businessAreaPath != null  and businessAreaPath != ''  ">#{businessAreaPath},</if>
+			<if test="legalPersonName != null  and legalPersonName != ''  ">#{legalPersonName},</if>
+			<if test="establishmentDate != null  ">#{establishmentDate},</if>
+			<if test="businessStartDate != null  ">#{businessStartDate},</if>
+			<if test="businessEndDate != null  ">#{businessEndDate},</if>
+			<if test="isLongbusinessDate != null  ">#{isLongbusinessDate},</if>
+			<if test="registeredCapital != null  ">#{registeredCapital},</if>
+			<if test="empiricalRange != null  and empiricalRange != ''  ">#{empiricalRange},</if>
+			<if test="legalCertificateType != null  and legalCertificateType != ''  ">#{legalCertificateType},</if>
+			<if test="legalCertificate != null  and legalCertificate != ''  ">#{legalCertificate},</if>
+			<if test="legalCertificateStartDate != null  ">#{legalCertificateStartDate},</if>
+			<if test="legalCertificateEndDate != null  ">#{legalCertificateEndDate},</if>
+			<if test="isLonglegalCertificateDate != null  and isLonglegalCertificateDate != ''  ">#{isLonglegalCertificateDate},</if>
+			<if test="legalCertificateImg != null  and legalCertificateImg != ''  ">#{legalCertificateImg},</if>
+			<if test="businessLicenceImg != null  and businessLicenceImg != ''  ">#{businessLicenceImg},</if>
+			<if test="bankAccountPermitImg != null  and bankAccountPermitImg != ''  ">#{bankAccountPermitImg},</if>
+			<if test="organizationCode != null  and organizationCode != ''  ">#{organizationCode},</if>
+			<if test="organizationCodeStartDate != null  ">#{organizationCodeStartDate},</if>
+			<if test="organizationCodeEndDate != null  ">#{organizationCodeEndDate},</if>
+			<if test="isLongOrganizationCodeDate != null  ">#{isLongOrganizationCodeDate},</if>
+			<if test="organizationCodeImg != null  and organizationCodeImg != ''  ">#{organizationCodeImg},</if>
+			<if test="taxRegistrationCertificateImg != null  and taxRegistrationCertificateImg != ''  ">#{taxRegistrationCertificateImg},</if>
+			<if test="taxpayerQualificationImg != null  and taxpayerQualificationImg != ''  ">#{taxpayerQualificationImg},</if>
+			<if test="taxpayerType != null  and taxpayerType != ''  ">#{taxpayerType},</if>
+			<if test="taxpayerNo != null  and taxpayerNo != ''  ">#{taxpayerNo},</if>
+			<if test="applyLinkMan != null  and applyLinkMan != ''  ">#{applyLinkMan},</if>
+			<if test="applyLinkTel != null  and applyLinkTel != ''  ">#{applyLinkTel},</if>
+			<if test="applyLinkEmail != null  and applyLinkEmail != ''  ">#{applyLinkEmail},</if>
+			<if test="isInvestment != null  ">#{isInvestment},</if>
+			<if test="investmentStaff != null  and investmentStaff != ''  ">#{investmentStaff},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+		sysdate(),
+			sysdate(),			
+         </trim>
+    </insert>
+	 
+    <update id="updateSpShopExtras" parameterType="SpShopExtras">
+        update sp_shop_extras
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="businessLicenceType != null  ">business_licence_type = #{businessLicenceType},</if>
+            <if test="businessLicence != null  and businessLicence != ''  ">business_licence = #{businessLicence},</if>
+            <if test="licenseAddress != null  and licenseAddress != ''  ">license_address = #{licenseAddress},</if>
+            <if test="businessAreaPath != null  and businessAreaPath != ''  ">business_area_path = #{businessAreaPath},</if>
+            <if test="legalPersonName != null  and legalPersonName != ''  ">legal_person_name = #{legalPersonName},</if>
+            <if test="establishmentDate != null  ">establishment_date = #{establishmentDate},</if>
+            <if test="businessStartDate != null  ">business_start_date = #{businessStartDate},</if>
+            <if test="businessEndDate != null  ">business_end_date = #{businessEndDate},</if>
+            <if test="isLongbusinessDate != null  ">is_longbusiness_date = #{isLongbusinessDate},</if>
+            <if test="registeredCapital != null  ">registered_capital = #{registeredCapital},</if>
+            <if test="empiricalRange != null  and empiricalRange != ''  ">empirical_range = #{empiricalRange},</if>
+            <if test="legalCertificateType != null  and legalCertificateType != ''  ">legal_certificate_type = #{legalCertificateType},</if>
+            <if test="legalCertificate != null  and legalCertificate != ''  ">legal_certificate = #{legalCertificate},</if>
+            <if test="legalCertificateStartDate != null  ">legal_certificate_start_date = #{legalCertificateStartDate},</if>
+            <if test="legalCertificateEndDate != null  ">legal_certificate_end_date = #{legalCertificateEndDate},</if>
+            <if test="isLonglegalCertificateDate != null  and isLonglegalCertificateDate != ''  ">is_longlegal_certificate_date = #{isLonglegalCertificateDate},</if>
+            <if test="legalCertificateImg != null  and legalCertificateImg != ''  ">legal_certificate_img = #{legalCertificateImg},</if>
+            <if test="businessLicenceImg != null  and businessLicenceImg != ''  ">business_licence_img = #{businessLicenceImg},</if>
+            <if test="bankAccountPermitImg != null  and bankAccountPermitImg != ''  ">bank_account_permit_img = #{bankAccountPermitImg},</if>
+            <if test="organizationCode != null  and organizationCode != ''  ">organization_code = #{organizationCode},</if>
+            <if test="organizationCodeStartDate != null  ">organization_code_start_date = #{organizationCodeStartDate},</if>
+            <if test="organizationCodeEndDate != null  ">organization_code_end_date = #{organizationCodeEndDate},</if>
+            <if test="isLongOrganizationCodeDate != null  ">is_long_organization_code_date = #{isLongOrganizationCodeDate},</if>
+            <if test="organizationCodeImg != null  and organizationCodeImg != ''  ">organization_code_img = #{organizationCodeImg},</if>
+            <if test="taxRegistrationCertificateImg != null  and taxRegistrationCertificateImg != ''  ">tax_registration_certificate_img = #{taxRegistrationCertificateImg},</if>
+            <if test="taxpayerQualificationImg != null  and taxpayerQualificationImg != ''  ">taxpayer_qualification_img = #{taxpayerQualificationImg},</if>
+            <if test="taxpayerType != null  and taxpayerType != ''  ">taxpayer_type = #{taxpayerType},</if>
+            <if test="taxpayerNo != null  and taxpayerNo != ''  ">taxpayer_no = #{taxpayerNo},</if>
+            <if test="applyLinkMan != null  and applyLinkMan != ''  ">apply_link_man = #{applyLinkMan},</if>
+            <if test="applyLinkTel != null  and applyLinkTel != ''  ">apply_link_tel = #{applyLinkTel},</if>
+            <if test="applyLinkEmail != null  and applyLinkEmail != ''  ">apply_link_email = #{applyLinkEmail},</if>
+            <if test="isInvestment != null  ">is_investment = #{isInvestment},</if>
+            <if test="investmentStaff != null  and investmentStaff != ''  ">investment_staff = #{investmentStaff},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>        
+                   update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopExtrasById" parameterType="String">
+        delete from sp_shop_extras where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopExtrasByIds" parameterType="String">
+        delete from sp_shop_extras where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

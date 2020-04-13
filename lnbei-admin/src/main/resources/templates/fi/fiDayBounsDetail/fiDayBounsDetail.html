@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								日期 ：<input type="text" name="day"/>
+							</li>
+
+							<li>
+								用户名：<input type="text" name="memberName"/>
+							</li>
+
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="fi:fiDayBounsDetail:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+
+        var prefix = ctx + "fi/fiDayBounsDetail";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+
+				exportUrl: prefix + "/export",
+                modalName: "每日奖金记录",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'today', 
+					title : '创建日期 ',
+					sortable: true
+				},
+				{
+					field : 'total', 
+					title : '合计',
+					sortable: true
+				},
+				{
+					field : 'expend', 
+					title : '支出',
+					sortable: true
+				},
+				{
+					field : 'jichajiang', 
+					title : '极差奖',
+					sortable: true
+				},
+				{
+					field : 'fanlijiang', 
+					title : '返利奖',
+					sortable: true
+				},
+				{
+					field : 'ztone', 
+					title : '直推一代',
+					sortable: true
+				},
+				{
+					field : 'zttwo', 
+					title : '直推二代',
+					sortable: true
+				},
+				{
+					field : 'gdndfenhongjiang', 
+					title : '股东年底分红',
+					sortable: true
+				},
+				{
+					field : 'fanyongjiang', 
+					title : '返拥奖',
+					sortable: true
+				},
+				{
+					field : 'shopshouru', 
+					title : '商城收入',
+					sortable: true
+				},
+			
+				{
+					field : 'remark', 
+					title : '备注',
+					sortable: true
+				},
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+	
+		 ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

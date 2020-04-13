@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wfWorkflow-edit" th:object="${wfWorkflow}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"> <span style="color:rea">*</span>流程类别：</label>
+				<div class="col-sm-8">
+					<input id="classify" onClick="selectCategoryTree('content_type')" name="classify" th:field="*{classify}" class="form-control" type="text">
+					<input id="classifyId" name="classifyId" class="form-control" th:field="*{classifyId}" type="hidden">
+				</div>
+			</div>        
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:rea">*</span>工作流名称：</label>
+				<div class="col-sm-8">
+					<input id="title" name="title" class="form-control" th:field="*{title}" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:rea">*</span>工作流类型：</label>
+				<div class="col-sm-8">
+					<select id="flowType"  name="flowType" th:field="*{flowType}"  class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('wf_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+					</select>					
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}"  class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort"  th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wf/wfWorkflow";
+		$("#form-wfWorkflow-edit").validate({
+			rules:{
+				classify:{
+					required:true,
+				},
+				title:{
+					required:true,
+				},
+				flowType:{
+					required:true,
+				},	
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-wfWorkflow-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

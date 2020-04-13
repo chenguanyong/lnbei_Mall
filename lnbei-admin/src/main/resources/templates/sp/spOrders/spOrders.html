@@ -1,0 +1,199 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								订单编号：<input type="text" name="orderNo"/>
+							</li>
+
+							<li>
+								创建时间：<input type="text" name="createTime"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:spOrders:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:spOrders:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:spOrders:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:spOrders:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:spOrders:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:spOrders:remove')}]];
+        var prefix = ctx + "system/spOrders";
+        var orderStatus = [[${@dict.getType('sp_order_status')}]];
+        var payType = [[${@dict.getType('sp_pay_type')}]];   //
+        var peisongType = [[${@dict.getType('sp_peisong_type')}]];//
+        var paySoure = [[${@dict.getType('sp_pay_soure')}]];//
+        var orderSrc = [[${@dict.getType('sp_order_src')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "订单",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'orderNo', 
+					title : '订单编号',
+					sortable: true
+				},
+				{
+					field : 'shopId', 
+					title : '店铺名称',
+					sortable: true
+				},
+				{
+					field : 'memberId', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'orderStatus', 
+					title : '订单状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	orderStatus, value);
+					}
+				},
+				{
+					field : 'goodsMoney', 
+					title : '实收金额',
+					sortable: true
+				},
+				{
+					field : 'deliverType', 
+					title : '配送方式',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	peisongType, value);
+					}
+				},
+				{
+					field : 'deliverMoney', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'totalMoney', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'realTotalMoney', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'payType', 
+					title : '支付方式',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	payType, value);
+					}
+				},
+				{
+					field : 'payFrom', 
+					title : '支付方式',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	paySoure, value);
+					}
+				},
+		
+				{
+					field : 'userPhone', 
+					title : '收货人',
+					sortable: true
+				},
+				{
+					field : 'orderScore', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'isInvoice', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'invoiceClient', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'orderRemarks', 
+					title : '',
+					sortable: true
+				},
+				{
+					field : 'orderSrc', 
+					title : '订单来源',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	orderSrc, value);
+					}
+				},
+			
+				{
+					field : 'createTime', 
+					title : '下单时间',
+					sortable: true
+				},
+			
+		        {
+		            title: '操作',
+		            align: 'center',
+		            visible:false,
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

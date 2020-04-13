@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="spshop/public/header:: header"></head>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+<div th:replace="spindex/public/nav:: nav"></div>
+<div th:replace="spindex/public/search::search"></div>
+<div th:replace="spindex/public/navbar:: navbar(true)"></div>
+
+<div class="container" style="width:90%" >
+	<div class="row">
+		<div class="col-md-12" id="cartTable">
+		
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		
+		</div>	
+	</div>	
+</div>
+<head th:include="spshop/public/footer:: footer"></head>
+<script >
+
+$(function (){
+	
+	function initCartTable(){
+		
+		var defaultOptions = {
+				id: "cartTable", //id
+				height: $(window).height()-150,
+				showHead:false,
+
+				columns:[
+						[
+							{
+								height:"12",
+								width:"60",
+								checkbox:true,
+								field : 'ff', 
+								title : '选择',
+								align : 'center'
+							},
+							{
+								height:"12",
+								width:"60",
+								field : 'itemName', 
+								title : '规格名称',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return rowInput(index, 'itemName', value, rootId);
+								},
+							},
+					
+							{
+								height:"12",
+								width:"60",
+								field : 'itemImg', 
+								title : '上传图片',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									
+									var div="";
+									if(value != undefined && value != ""){
+										div="<div style='    display: inline;' id='"+rootId+"itemImg_"+index+"DIV'><img style='width:120px' src='"+value+"'/></div>";
+									}else{
+										div="<div style='    display: inline;' id='"+rootId+"itemImg_"+index+"DIV'>";
+									}
+									return "<input style='    display: inline;' name='d' id='"+rootId+"itemImg_"+index+"' type='file' /><button style='    display: inline;' lb-imgId='"+rootId+"itemImg_"+index+"' class='btn btn-success' onclick=\"tableUploadImg('"+rootId+"itemImg_"+index+"','"+rootId+"itemImg_"+index+"DIV', '"+index+"','itemImg','"+rootId+"')\" type='button'>上传图片</button>"+div;
+								},
+							},
+							{
+								height:"12",
+								width:"60",
+								field : 'ff3', 
+								title : '操作',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return "<a class='btn btn-success'  onclick=\"add(\'"+rootId+"\',\'"+row.isAllowImg+"\')\">新增</a><a class='btn btn-sm btn-danger' onclick=\"remove(\'"+rootId+"\', \'"+index+"\')\">删除</a>";
+								},
+							},
+						],
+					]
+				
+				
+				,//表头
+				data:data,//表数据
+			};
+		
+		
+		
+		
+		
+	}
+	
+});
+
+</script>
+</body>
+</html>

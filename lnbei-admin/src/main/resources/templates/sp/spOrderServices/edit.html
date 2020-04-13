@@ -1,0 +1,348 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spOrderServices-edit" th:object="${spOrderServices}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="orderId" name="orderId" th:field="*{orderId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">0：退款退货 1：退款 2：换货：</label>
+				<div class="col-sm-8">
+					<input id="goodsServiceType" name="goodsServiceType" th:field="*{goodsServiceType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">退换货类型,数据由基础数据类型里取：</label>
+				<div class="col-sm-8">
+					<input id="serviceType" name="serviceType" th:field="*{serviceType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">退换货原因：</label>
+				<div class="col-sm-8">
+					<input id="serviceRemark" name="serviceRemark" th:field="*{serviceRemark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">附件：</label>
+				<div class="col-sm-8">
+					<input id="serviceAnnex" name="serviceAnnex" th:field="*{serviceAnnex}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">本次申请可退还的积分，由系统计算得出：</label>
+				<div class="col-sm-8">
+					<input id="refundScore" name="refundScore" th:field="*{refundScore}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">使用的积分可抵扣金额：</label>
+				<div class="col-sm-8">
+					<input id="useScoreMoney" name="useScoreMoney" th:field="*{useScoreMoney}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">获得的积分可抵扣金额：</label>
+				<div class="col-sm-8">
+					<input id="getScoreMoney" name="getScoreMoney" th:field="*{getScoreMoney}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">申请退款的金额：</label>
+				<div class="col-sm-8">
+					<input id="refundMoney" name="refundMoney" th:field="*{refundMoney}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">售后单可退款金额：</label>
+				<div class="col-sm-8">
+					<input id="refundableMoney" name="refundableMoney" th:field="*{refundableMoney}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">1:同意 0：不同意：</label>
+				<div class="col-sm-8">
+					<input id="isShopAgree" name="isShopAgree" th:field="*{isShopAgree}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家不同意原因：</label>
+				<div class="col-sm-8">
+					<input id="disagreeRemark" name="disagreeRemark" th:field="*{disagreeRemark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户收货地址id：</label>
+				<div class="col-sm-8">
+					<input id="userAddressId" name="userAddressId" th:field="*{userAddressId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">地区id：</label>
+				<div class="col-sm-8">
+					<input id="areaId" name="areaId" th:field="*{areaId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">地区id值：</label>
+				<div class="col-sm-8">
+					<input id="areaIdPath" name="areaIdPath" th:field="*{areaIdPath}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户收货人：</label>
+				<div class="col-sm-8">
+					<input id="userName" name="userName" th:field="*{userName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户详细收货地址：</label>
+				<div class="col-sm-8">
+					<input id="userAddress" name="userAddress" th:field="*{userAddress}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户收货电话：</label>
+				<div class="col-sm-8">
+					<input id="userPhone" name="userPhone" th:field="*{userPhone}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家收货地区id：</label>
+				<div class="col-sm-8">
+					<input id="shopAreaId" name="shopAreaId" th:field="*{shopAreaId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家收货地区id值：</label>
+				<div class="col-sm-8">
+					<input id="shopAreaIdPath" name="shopAreaIdPath" th:field="*{shopAreaIdPath}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家收货人：</label>
+				<div class="col-sm-8">
+					<input id="shopName" name="shopName" th:field="*{shopName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家详细收货地址：</label>
+				<div class="col-sm-8">
+					<input id="shopAddress" name="shopAddress" th:field="*{shopAddress}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家收货电话：</label>
+				<div class="col-sm-8">
+					<input id="shopPhone" name="shopPhone" th:field="*{shopPhone}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">0：未发货 1：已发货：</label>
+				<div class="col-sm-8">
+					<input id="isUserSendGoods" name="isUserSendGoods" th:field="*{isUserSendGoods}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">0：无需物流  1：快递：</label>
+				<div class="col-sm-8">
+					<input id="expressType" name="expressType" th:field="*{expressType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">买家快递id：</label>
+				<div class="col-sm-8">
+					<input id="expressId" name="expressId" th:field="*{expressId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">买家物流单号：</label>
+				<div class="col-sm-8">
+					<input id="expressNo" name="expressNo" th:field="*{expressNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家是否收到货 -1：拒收  0：未收货  1：已收货：</label>
+				<div class="col-sm-8">
+					<input id="isShopAccept" name="isShopAccept" th:field="*{isShopAccept}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家拒收类型,数据由基础数据类型里取：</label>
+				<div class="col-sm-8">
+					<input id="shopRejectType" name="shopRejectType" th:field="*{shopRejectType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家拒收原因,选择“其他”的时候填写文字：</label>
+				<div class="col-sm-8">
+					<input id="shopRejectOther" name="shopRejectOther" th:field="*{shopRejectOther}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">拒收时的货物图片：</label>
+				<div class="col-sm-8">
+					<input id="shopRejectImg" name="shopRejectImg" th:field="*{shopRejectImg}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家是否发货 0：未发货 1：已发货：</label>
+				<div class="col-sm-8">
+					<input id="isShopSend" name="isShopSend" th:field="*{isShopSend}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">0：无需物流  1：快递：</label>
+				<div class="col-sm-8">
+					<input id="shopExpressType" name="shopExpressType" th:field="*{shopExpressType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家快递id：</label>
+				<div class="col-sm-8">
+					<input id="shopExpressId" name="shopExpressId" th:field="*{shopExpressId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家快递单号：</label>
+				<div class="col-sm-8">
+					<input id="shopExpressNo" name="shopExpressNo" th:field="*{shopExpressNo}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">-1：拒收 0：未收货  1：已收货：</label>
+				<div class="col-sm-8">
+					<input id="isUserAccept" name="isUserAccept" th:field="*{isUserAccept}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户拒收原因,数据由基础数据类型里取：</label>
+				<div class="col-sm-8">
+					<input id="userRejectType" name="userRejectType" th:field="*{userRejectType}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户拒收原因,选择“其他”的时候填写文字：</label>
+				<div class="col-sm-8">
+					<input id="userRejectOther" name="userRejectOther" th:field="*{userRejectOther}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建时间：</label>
+				<div class="col-sm-8">
+					<input id="createTime" name="createTime" th:field="*{createTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否结束 0：进行中  1:已结束：</label>
+				<div class="col-sm-8">
+					<input id="isClose" name="isClose" th:field="*{isClose}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态备注：0：待商家审核  1：等待用户发货 2：商家等待收货 3：商家确认收货  4：等待商家发货  5：确认收货  6：完成退款/退货：</label>
+				<div class="col-sm-8">
+					<input id="serviceStatus" name="serviceStatus" th:field="*{serviceStatus}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家受理期限：</label>
+				<div class="col-sm-8">
+					<input id="shopAcceptExpireTime" name="shopAcceptExpireTime" th:field="*{shopAcceptExpireTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户发货期限：</label>
+				<div class="col-sm-8">
+					<input id="userSendExpireTime" name="userSendExpireTime" th:field="*{userSendExpireTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商家收货期限：</label>
+				<div class="col-sm-8">
+					<input id="shopReceiveExpireTime" name="shopReceiveExpireTime" th:field="*{shopReceiveExpireTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">本次申请的商品,购买时获得的积分数：</label>
+				<div class="col-sm-8">
+					<input id="getScoreVal" name="getScoreVal" th:field="*{getScoreVal}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="delFlag" name="delFlag" th:field="*{delFlag}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">创建人：</label>
+				<div class="col-sm-8">
+					<input id="createBy" name="createBy" th:field="*{createBy}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">跟新人：</label>
+				<div class="col-sm-8">
+					<input id="updateBy" name="updateBy" th:field="*{updateBy}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">跟新时间：</label>
+				<div class="col-sm-8">
+					<input id="updateTime" name="updateTime" th:field="*{updateTime}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="deptId" name="deptId" th:field="*{deptId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="deptName" name="deptName" th:field="*{deptName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分类id：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/spOrderServices";
+		$("#form-spOrderServices-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-spOrderServices-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

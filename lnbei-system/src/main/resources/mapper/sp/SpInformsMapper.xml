@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpInformsMapper">
+    
+    <resultMap type="SpInforms" id="SpInformsResult">
+        <result property="mid"    column="mid"    />
+        <result property="informTargetId"    column="inform_target_id"    />
+        <result property="goodId"    column="good_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="informType"    column="inform_type"    />
+        <result property="informContent"    column="inform_content"    />
+        <result property="informAnnex"    column="inform_annex"    />
+        <result property="informTime"    column="inform_time"    />
+        <result property="respondContent"    column="respond_content"    />
+        <result property="finalHandleStaffId"    column="final_handle_staff_id"    />
+        <result property="finalHandleTime"    column="final_handle_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectSpInformsVo">
+        select mid, inform_target_id, good_id, shop_id, inform_type, inform_content, inform_annex, inform_time, respond_content, final_handle_staff_id, final_handle_time, del_flag, create_by, update_by, remark, sort, status, update_time, create_time from sp_informs
+    </sql>
+	
+    <select id="selectSpInformsList" parameterType="SpInforms" resultMap="SpInformsResult">
+        <include refid="selectSpInformsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="informTargetId != null  and informTargetId != '' "> and inform_target_id = #{informTargetId}</if>
+             <if test="goodId != null  and goodId != '' "> and good_id = #{goodId}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="informType != null  and informType != '' "> and inform_type = #{informType}</if>
+             <if test="informContent != null  and informContent != '' "> and inform_content = #{informContent}</if>
+             <if test="informAnnex != null  and informAnnex != '' "> and inform_annex = #{informAnnex}</if>
+             <if test="informTime != null "> and inform_time = #{informTime}</if>
+             <if test="respondContent != null  and respondContent != '' "> and respond_content = #{respondContent}</if>
+             <if test="finalHandleStaffId != null  and finalHandleStaffId != '' "> and final_handle_staff_id = #{finalHandleStaffId}</if>
+             <if test="finalHandleTime != null "> and final_handle_time = #{finalHandleTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpInformsById" parameterType="String" resultMap="SpInformsResult">
+        <include refid="selectSpInformsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpInforms" parameterType="SpInforms">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>    
+        insert into sp_informs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="informTargetId != null  and informTargetId != ''  ">inform_target_id,</if>
+			<if test="goodId != null  and goodId != ''  ">good_id,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="informType != null  and informType != ''  ">inform_type,</if>
+			<if test="informContent != null  and informContent != ''  ">inform_content,</if>
+			<if test="informAnnex != null  and informAnnex != ''  ">inform_annex,</if>
+			<if test="informTime != null  ">inform_time,</if>
+			<if test="respondContent != null  and respondContent != ''  ">respond_content,</if>
+			<if test="finalHandleStaffId != null  and finalHandleStaffId != ''  ">final_handle_staff_id,</if>
+			<if test="finalHandleTime != null  ">final_handle_time,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="informTargetId != null  and informTargetId != ''  ">#{informTargetId},</if>
+			<if test="goodId != null  and goodId != ''  ">#{goodId},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="informType != null  and informType != ''  ">#{informType},</if>
+			<if test="informContent != null  and informContent != ''  ">#{informContent},</if>
+			<if test="informAnnex != null  and informAnnex != ''  ">#{informAnnex},</if>
+			<if test="informTime != null  ">#{informTime},</if>
+			<if test="respondContent != null  and respondContent != ''  ">#{respondContent},</if>
+			<if test="finalHandleStaffId != null  and finalHandleStaffId != ''  ">#{finalHandleStaffId},</if>
+			<if test="finalHandleTime != null  ">#{finalHandleTime},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpInforms" parameterType="SpInforms">
+        update sp_informs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="informTargetId != null  and informTargetId != ''  ">inform_target_id = #{informTargetId},</if>
+            <if test="goodId != null  and goodId != ''  ">good_id = #{goodId},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="informType != null  and informType != ''  ">inform_type = #{informType},</if>
+            <if test="informContent != null  and informContent != ''  ">inform_content = #{informContent},</if>
+            <if test="informAnnex != null  and informAnnex != ''  ">inform_annex = #{informAnnex},</if>
+            <if test="informTime != null  ">inform_time = #{informTime},</if>
+            <if test="respondContent != null  and respondContent != ''  ">respond_content = #{respondContent},</if>
+            <if test="finalHandleStaffId != null  and finalHandleStaffId != ''  ">final_handle_staff_id = #{finalHandleStaffId},</if>
+            <if test="finalHandleTime != null  ">final_handle_time = #{finalHandleTime},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+   update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpInformsById" parameterType="String">
+        delete from sp_informs where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpInformsByIds" parameterType="String">
+        delete from sp_informs where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

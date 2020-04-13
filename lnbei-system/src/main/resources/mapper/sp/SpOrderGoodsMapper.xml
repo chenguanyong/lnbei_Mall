@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpOrderGoodsMapper">
+    
+    <resultMap type="SpOrderGoods" id="SpOrderGoodsResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsNum"    column="goods_num"    />
+        <result property="goodSprice"    column="good_sprice"    />
+        <result property="goodsspecId"    column="goodsspec_id"    />
+        <result property="goodsspecNames"    column="goodsspec_names"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsImg"    column="goods_img"    />
+        <result property="extraJson"    column="extra_json"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="commissionRate"    column="commission_rate"    />
+        <result property="goodsCode"    column="goods_code"    />
+        <result property="promotionJson"    column="promotion_json"    />
+        <result property="couponVal"    column="coupon_val"    />
+        <result property="rewardVal"    column="reward_val"    />
+        <result property="usescoreVal"    column="usescore_val"    />
+        <result property="scoreMoney"    column="score_money"    />
+        <result property="getscoreVal"    column="getscore_val"    />
+        <result property="orderGoodsCommission"    column="order_goods_commission"    />
+        <result property="getScoreMoney"    column="get_score_money"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpOrderGoodsVo">
+        select mid, order_id, goods_id, goods_num, good_sprice, goodsspec_id, goodsspec_names, goods_name, goods_img, extra_json, goods_type, commission_rate, goods_code, promotion_json, coupon_val, reward_val, usescore_val, score_money, getscore_val, order_goods_commission, get_score_money, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_order_goods
+    </sql>
+	
+    <select id="selectSpOrderGoodsList" parameterType="SpOrderGoods" resultMap="SpOrderGoodsResult">
+        <include refid="selectSpOrderGoodsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="goodsNum != null "> and goods_num = #{goodsNum}</if>
+             <if test="goodSprice != null "> and good_sprice = #{goodSprice}</if>
+             <if test="goodsspecId != null  and goodsspecId != '' "> and goodsspec_id = #{goodsspecId}</if>
+             <if test="goodsspecNames != null  and goodsspecNames != '' "> and goodsspec_names = #{goodsspecNames}</if>
+             <if test="goodsName != null  and goodsName != '' "> and goods_name = #{goodsName}</if>
+             <if test="goodsImg != null  and goodsImg != '' "> and goods_img = #{goodsImg}</if>
+             <if test="extraJson != null  and extraJson != '' "> and extra_json = #{extraJson}</if>
+             <if test="goodsType != null  and goodsType != '' "> and goods_type = #{goodsType}</if>
+             <if test="commissionRate != null "> and commission_rate = #{commissionRate}</if>
+             <if test="goodsCode != null  and goodsCode != '' "> and goods_code = #{goodsCode}</if>
+             <if test="promotionJson != null  and promotionJson != '' "> and promotion_json = #{promotionJson}</if>
+             <if test="couponVal != null "> and coupon_val = #{couponVal}</if>
+             <if test="rewardVal != null "> and reward_val = #{rewardVal}</if>
+             <if test="usescoreVal != null "> and usescore_val = #{usescoreVal}</if>
+             <if test="scoreMoney != null "> and score_money = #{scoreMoney}</if>
+             <if test="getscoreVal != null "> and getscore_val = #{getscoreVal}</if>
+             <if test="orderGoodsCommission != null "> and order_goods_commission = #{orderGoodsCommission}</if>
+             <if test="getScoreMoney != null "> and get_score_money = #{getScoreMoney}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpOrderGoodsById" parameterType="String" resultMap="SpOrderGoodsResult">
+        <include refid="selectSpOrderGoodsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpOrderGoods" parameterType="SpOrderGoods">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_order_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="goodsNum != null  ">goods_num,</if>
+			<if test="goodSprice != null  ">good_sprice,</if>
+			<if test="goodsspecId != null  and goodsspecId != ''  ">goodsspec_id,</if>
+			<if test="goodsspecNames != null  and goodsspecNames != ''  ">goodsspec_names,</if>
+			<if test="goodsName != null  and goodsName != ''  ">goods_name,</if>
+			<if test="goodsImg != null  and goodsImg != ''  ">goods_img,</if>
+			<if test="extraJson != null  and extraJson != ''  ">extra_json,</if>
+			<if test="goodsType != null  and goodsType != ''  ">goods_type,</if>
+			<if test="commissionRate != null  ">commission_rate,</if>
+			<if test="goodsCode != null  and goodsCode != ''  ">goods_code,</if>
+			<if test="promotionJson != null  and promotionJson != ''  ">promotion_json,</if>
+			<if test="couponVal != null  ">coupon_val,</if>
+			<if test="rewardVal != null  ">reward_val,</if>
+			<if test="usescoreVal != null  ">usescore_val,</if>
+			<if test="scoreMoney != null  ">score_money,</if>
+			<if test="getscoreVal != null  ">getscore_val,</if>
+			<if test="orderGoodsCommission != null  ">order_goods_commission,</if>
+			<if test="getScoreMoney != null  ">get_score_money,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="goodsNum != null  ">#{goodsNum},</if>
+			<if test="goodSprice != null  ">#{goodSprice},</if>
+			<if test="goodsspecId != null  and goodsspecId != ''  ">#{goodsspecId},</if>
+			<if test="goodsspecNames != null  and goodsspecNames != ''  ">#{goodsspecNames},</if>
+			<if test="goodsName != null  and goodsName != ''  ">#{goodsName},</if>
+			<if test="goodsImg != null  and goodsImg != ''  ">#{goodsImg},</if>
+			<if test="extraJson != null  and extraJson != ''  ">#{extraJson},</if>
+			<if test="goodsType != null  and goodsType != ''  ">#{goodsType},</if>
+			<if test="commissionRate != null  ">#{commissionRate},</if>
+			<if test="goodsCode != null  and goodsCode != ''  ">#{goodsCode},</if>
+			<if test="promotionJson != null  and promotionJson != ''  ">#{promotionJson},</if>
+			<if test="couponVal != null  ">#{couponVal},</if>
+			<if test="rewardVal != null  ">#{rewardVal},</if>
+			<if test="usescoreVal != null  ">#{usescoreVal},</if>
+			<if test="scoreMoney != null  ">#{scoreMoney},</if>
+			<if test="getscoreVal != null  ">#{getscoreVal},</if>
+			<if test="orderGoodsCommission != null  ">#{orderGoodsCommission},</if>
+			<if test="getScoreMoney != null  ">#{getScoreMoney},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpOrderGoods" parameterType="SpOrderGoods">
+        update sp_order_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="goodsNum != null  ">goods_num = #{goodsNum},</if>
+            <if test="goodSprice != null  ">good_sprice = #{goodSprice},</if>
+            <if test="goodsspecId != null  and goodsspecId != ''  ">goodsspec_id = #{goodsspecId},</if>
+            <if test="goodsspecNames != null  and goodsspecNames != ''  ">goodsspec_names = #{goodsspecNames},</if>
+            <if test="goodsName != null  and goodsName != ''  ">goods_name = #{goodsName},</if>
+            <if test="goodsImg != null  and goodsImg != ''  ">goods_img = #{goodsImg},</if>
+            <if test="extraJson != null  and extraJson != ''  ">extra_json = #{extraJson},</if>
+            <if test="goodsType != null  and goodsType != ''  ">goods_type = #{goodsType},</if>
+            <if test="commissionRate != null  ">commission_rate = #{commissionRate},</if>
+            <if test="goodsCode != null  and goodsCode != ''  ">goods_code = #{goodsCode},</if>
+            <if test="promotionJson != null  and promotionJson != ''  ">promotion_json = #{promotionJson},</if>
+            <if test="couponVal != null  ">coupon_val = #{couponVal},</if>
+            <if test="rewardVal != null  ">reward_val = #{rewardVal},</if>
+            <if test="usescoreVal != null  ">usescore_val = #{usescoreVal},</if>
+            <if test="scoreMoney != null  ">score_money = #{scoreMoney},</if>
+            <if test="getscoreVal != null  ">getscore_val = #{getscoreVal},</if>
+            <if test="orderGoodsCommission != null  ">order_goods_commission = #{orderGoodsCommission},</if>
+            <if test="getScoreMoney != null  ">get_score_money = #{getScoreMoney},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+           
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+           
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpOrderGoodsById" parameterType="String">
+        delete from sp_order_goods where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpOrderGoodsByIds" parameterType="String">
+        delete from sp_order_goods where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

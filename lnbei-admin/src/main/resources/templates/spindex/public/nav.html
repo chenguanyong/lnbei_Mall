@@ -1,0 +1,32 @@
+<div id="nav" class="navbar navbar-default"  th:fragment="nav">
+	<nav class="navbar navbar-default">
+	  <div class="container-fluid " style="width:90%">
+	
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" >
+	    <div class="col-sm-6">
+	      <ul th:if="${user != null}" class="nav navbar-nav navbar-left">
+	        <li ><span th:text="${usr.loginName}"> </span></li>
+	        <li><a href="#">消息</a></li>
+	      </ul>
+		  <ul th:if="${user == null}"  class="nav navbar-nav navbar-left">
+	        <li ><a th:href="@{/spHome/index/login}">请先登录 </a></li>
+	        <li><a th:href="@{/spHome/index/reg}">免费注册</a></li>
+	      </ul>      
+	    </div>
+	 <div class="col-sm-6">
+	       <ul class="nav navbar-nav ">
+	        <li ><a th:href="@{/spIndex/index}">首页</a></li>
+	        <li ><a th:href="@{/spHome/index}">我的淘宝 </a></li>
+	        <li><a th:href="@{/spHome/cat}">购物车</a></li>
+	  		<li ><a th:href="@{/spHome/HomeFavorites}">收藏夹 </a></li>
+	        <li><a th:href="@{/spIndex/spGoods/goodsCategory}">商品分类</a></li>
+	        <li><a th:href="@{/spShop/index}">卖家中心</a></li>      
+	      </ul>  
+	       </div> 
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+</div>
+

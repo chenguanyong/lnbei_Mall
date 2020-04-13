@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpGoodsSpecsMapper">
+    
+    <resultMap type="SpGoodsSpecs" id="SpGoodsSpecsResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="productNo"    column="product_no"    />
+        <result property="specIds"    column="spec_ids"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="specPrice"    column="spec_price"    />
+        <result property="specStock"    column="spec_stock"    />
+        <result property="warnStock"    column="warn_stock"    />
+        <result property="saleNum"    column="sale_num"    />
+        <result property="isDefault"    column="is_default"    />
+        <result property="specWeight"    column="spec_weight"    />
+        <result property="specVolume"    column="spec_volume"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpGoodsSpecsVo">
+        select mid, shop_id, goods_id, product_no, spec_ids, market_price, spec_price, spec_stock, warn_stock, sale_num, is_default, spec_weight, spec_volume, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_goods_specs
+    </sql>
+	
+    <select id="selectSpGoodsSpecsList" parameterType="SpGoodsSpecs" resultMap="SpGoodsSpecsResult">
+        <include refid="selectSpGoodsSpecsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="productNo != null  and productNo != '' "> and product_no = #{productNo}</if>
+             <if test="specIds != null  and specIds != '' "> and spec_ids = #{specIds}</if>
+             <if test="marketPrice != null "> and market_price = #{marketPrice}</if>
+             <if test="specPrice != null "> and spec_price = #{specPrice}</if>
+             <if test="specStock != null "> and spec_stock = #{specStock}</if>
+             <if test="warnStock != null "> and warn_stock = #{warnStock}</if>
+             <if test="saleNum != null "> and sale_num = #{saleNum}</if>
+             <if test="isDefault != null  and isDefault != '' "> and is_default = #{isDefault}</if>
+             <if test="specWeight != null "> and spec_weight = #{specWeight}</if>
+             <if test="specVolume != null "> and spec_volume = #{specVolume}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpGoodsSpecsById" parameterType="String" resultMap="SpGoodsSpecsResult">
+        <include refid="selectSpGoodsSpecsVo"/>
+        where mid = #{mid}
+    </select>
+    <select id="selectSpGoodsSpecsBySpGoodsSpecs" parameterType="SpGoodsSpecs" resultMap="SpGoodsSpecsResult">
+        <include refid="selectSpGoodsSpecsVo"/>
+        <where>  
+            and del_flag = '0'
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="productNo != null  and productNo != '' "> and product_no = #{productNo}</if>
+             <if test="specIds != null  and specIds != '' "> and spec_ids = #{specIds}</if>
+             <if test="isDefault != null  and isDefault != '' "> and is_default = #{isDefault}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>      
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+         </where>
+    </select>    
+    <insert id="insertSpGoodsSpecs" parameterType="SpGoodsSpecs">
+       <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_goods_specs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="productNo != null  and productNo != ''  ">product_no,</if>
+			<if test="specIds != null  and specIds != ''  ">spec_ids,</if>
+			<if test="marketPrice != null  ">market_price,</if>
+			<if test="specPrice != null  ">spec_price,</if>
+			<if test="specStock != null  ">spec_stock,</if>
+			<if test="warnStock != null  ">warn_stock,</if>
+			<if test="saleNum != null  ">sale_num,</if>
+			<if test="isDefault != null  and isDefault != ''  ">is_default,</if>
+			<if test="specWeight != null  ">spec_weight,</if>
+			<if test="specVolume != null  ">spec_volume,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="productNo != null  and productNo != ''  ">#{productNo},</if>
+			<if test="specIds != null  and specIds != ''  ">#{specIds},</if>
+			<if test="marketPrice != null  ">#{marketPrice},</if>
+			<if test="specPrice != null  ">#{specPrice},</if>
+			<if test="specStock != null  ">#{specStock},</if>
+			<if test="warnStock != null  ">#{warnStock},</if>
+			<if test="saleNum != null  ">#{saleNum},</if>
+			<if test="isDefault != null  and isDefault != ''  ">#{isDefault},</if>
+			<if test="specWeight != null  ">#{specWeight},</if>
+			<if test="specVolume != null  ">#{specVolume},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpGoodsSpecs" parameterType="SpGoodsSpecs">
+        update sp_goods_specs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="productNo != null  and productNo != ''  ">product_no = #{productNo},</if>
+            <if test="specIds != null  and specIds != ''  ">spec_ids = #{specIds},</if>
+            <if test="marketPrice != null  ">market_price = #{marketPrice},</if>
+            <if test="specPrice != null  ">spec_price = #{specPrice},</if>
+            <if test="specStock != null  ">spec_stock = #{specStock},</if>
+            <if test="warnStock != null  ">warn_stock = #{warnStock},</if>
+            <if test="saleNum != null  ">sale_num = #{saleNum},</if>
+            <if test="isDefault != null  and isDefault != ''  ">is_default = #{isDefault},</if>
+            <if test="specWeight != null  ">spec_weight = #{specWeight},</if>
+            <if test="specVolume != null  ">spec_volume = #{specVolume},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+        <update id="incSpGoodsSpecsStock" parameterType="SpGoodsSpecs">
+           update sp_goods_specs
+           <trim prefix="SET" suffixOverrides=",">
+              <if test="specStock != null  ">spec_stock = spec_stock + #{specStock},</if>
+                   update_time = sysdate(),
+           </trim>
+                 where mid = #{mid}
+		</update>
+        <update id="decSpGoodsSpecsStock" parameterType="SpGoodsSpecs">
+           update sp_goods_specs
+           <trim prefix="SET" suffixOverrides=",">
+              <if test="specStock != null  ">spec_stock = spec_stock + #{specStock},</if>
+                   update_time = sysdate(),
+           </trim>
+                 where mid = #{mid}
+		</update>
+
+
+	<delete id="deleteSpGoodsSpecsById" parameterType="String">
+        delete from sp_goods_specs where mid = #{mid}
+    </delete>
+		<delete id="deleteSpGoodsSpecsByShopIdAndGoodsId" parameterType="String">
+        delete from sp_goods_specs where shop_id = #{shopId} and goods_id=#{goodsId}
+    </delete>
+    <delete id="deleteSpGoodsSpecsByIds" parameterType="String">
+        delete from sp_goods_specs where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

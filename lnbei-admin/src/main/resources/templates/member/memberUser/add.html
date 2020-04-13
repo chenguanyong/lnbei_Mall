@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberUser-add">
+        <div class="row">
+        	<div class="col-sm-9">
+        	<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>编号：</label>
+				<div class="col-sm-8">
+					<input id="serialNumber" name="serialNumber" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>推荐人编号：</label>
+				<div class="col-sm-8">
+					<input id="recommendNumber" name="recommendNumber" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>登录名：</label>
+				<div class="col-sm-8">
+					<input id="loginName" name="loginName" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>登录密码：</label>
+				<div class="col-sm-8">
+					<input id="loginPwd" name="loginPwd" class="form-control" value="123456" type="password"><span>默认密码：123456</span>
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户昵称：</label>
+				<div class="col-sm-8">
+					<input id="userName" name="userName" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员生日：</label>
+				<div class="col-sm-8">
+					<input id="brithday" name="brithday" class="form-control time-input" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员QQ：</label>
+				<div class="col-sm-8">
+					<input id="userQq" name="userQq" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">会员手机：</label>
+				<div class="col-sm-8">
+					<input id="userPhone" name="userPhone" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">邮箱：</label>
+				<div class="col-sm-8">
+					<input id="userEmail" name="userEmail" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户状态</label>
+				<div class="col-sm-8">
+					<select id="userStatus"  name="userStatus" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${@dict.getType('member_status_type')}">
+							  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+							  </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户类型：</label>
+				<div class="col-sm-8">
+					<select id="userType"  name="userType" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${@dict.getType('member_user_type')}">
+							
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">用户级别：</label>
+				<div class="col-sm-8">
+					<select id="levelId"  name="levelId" class="form-control select_font" style="border: 1px solid #ddd;"  th:with="type=${memberUserRanks}">
+						  <option th:each="dict : ${type}" th:text="${dict.rankName}" th:value="${dict.mid}">
+						  </option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text" value="0">
+				</div>
+			</div>	
+			</div>
+			<div class="col-sm-3">
+			 <div class="row">
+			 	<div class="col-sm-12" style="    text-align: center;">
+				 	<span>会员头像</span>
+				 </div>
+			 	<div class="col-sm-12" style="    text-align: center;">
+				 	<img id="userPhotoImg" style="width:150px;height:200px" src="http://www.lnbei.xin/img/home-bg1.png"   >
+				 </div>
+			 	<div class="col-sm-12">
+				 	<input id="userPhoto" name="userPhoto" class="form-control" type="file">
+				 </div>
+			 </div>
+			</div>
+			
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberUser";
+		//member_status_type
+		$("#form-memberUser-add").validate({
+			rules:{
+				serialNumber:{
+					required:true,
+				},
+				recommenNumber:{
+					required:true,
+				},
+				loginName:{
+					required:true,
+				},
+				loginPwd:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+			 if ($.validate.form()) {
+		            //$.operate.save(prefix + "/add", $('#form-homeArticle-add').serialize());
+		        	var formData = new FormData();
+		        	if ($('#userPhoto')[0].files[0] != null) {
+		        	   	formData.append('file', $('#userPhoto')[0].files[0]);			     
+		        	}
+		    
+					/*******************/
+					formData.append('serialNumber', $("#serialNumber").val());
+					formData.append('recommendNumber', $("#recommendNumber").val());
+					formData.append('loginName', $("#loginName").val());
+					formData.append('loginPwd', $("#loginPwd").val());
+					formData.append('userName', $("#userName").val());
+			
+					formData.append('brithday', $("#brithday").val());
+					formData.append('accessType', $("#accessType").val());
+					formData.append('userQq', $("#userQq").val());
+					formData.append('sort', $("#sort").val());
+					formData.append('remark', $("#remark").val());
+
+					formData.append('userEmail', $("#userEmail").val());
+					formData.append('userPhone', $("#userPhone").val());
+					formData.append('userStatus', $("#userStatus").val());
+					formData.append('userType', $("#userType").val());
+					
+					formData.append('levelId', $("#levelId").val());
+			
+					/***************************/
+		
+		        	$.ajax({
+		        		url: prefix + "/add",
+		        		type: 'post',
+		        		cache: false,
+		        		data: formData,
+		        		processData: false,
+		        		contentType: false,
+		        		dataType: "json",
+		        		success: function(result) {
+		        			$.operate.successCallback(result);
+		        		}
+		        	});
+		            
+		        }
+	    }
+	</script>
+</body>
+</html>

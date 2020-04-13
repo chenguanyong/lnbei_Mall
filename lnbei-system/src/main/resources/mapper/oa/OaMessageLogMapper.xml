@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.oa.mapper.OaMessageLogMapper">
+    
+    <resultMap type="OaMessageLog" id="OaMessageLogResult">
+        <result property="id"    column="id"    />
+        <result property="sysName"    column="sys_name"    />
+        <result property="tableName"    column="table_name"    />
+        <result property="targetId"    column="target_id"    />
+        <result property="isSend"    column="is_send"    />
+        <result property="isReply"    column="is_reply"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="sysFlag"    column="sys_flag"    />
+        <result property="replyTime"    column="reply_time"    />
+        <result property="sendSize"    column="send_size"    />
+        <result property="actionType"    column="action_type"    />
+        <result property="isBatch"    column="is_batch"    />
+        <result property="url"    column="url"    />
+        <result property="method"    column="method"    />
+        <result property="param"    column="param"    />
+    </resultMap>
+	
+	<sql id="selectOaMessageLogVo">
+        select id, sys_name, table_name, target_id, is_send, is_reply, create_time, sys_flag, reply_time, send_size, action_type , is_batch, `url`, method, `param` from oa_message_log
+    </sql>
+	
+    <select id="selectOaMessageLogList" parameterType="OaMessageLog" resultMap="OaMessageLogResult">
+        <include refid="selectOaMessageLogVo"/>
+        <where>  
+            <if test="id != null  and id != '' "> and id = #{id}</if>
+             <if test="sysName != null  and sysName != '' "> and sys_name = #{sysName}</if>
+             <if test="tableName != null  and tableName != '' "> and table_name = #{tableName}</if>
+             <if test="targetId != null  and targetId != '' "> and target_id = #{targetId}</if>
+             <if test="isSend != null "> and is_send = #{isSend}</if>
+             <if test="isReply != null "> and is_reply = #{isReply}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="sysFlag != null  and sysFlag != '' "> and sys_flag = #{sysFlag}</if>
+             <if test="replyTime != null "> and reply_time = #{replyTime}</if>
+             <if test="actionType != null "> and action_type = #{actionType}</if>
+         </where>
+    </select>
+    
+    <select id="selectOaMessageLogById" parameterType="String" resultMap="OaMessageLogResult">
+        <include refid="selectOaMessageLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOaMessageLog" parameterType="OaMessageLog">
+        <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into oa_message_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="sysName != null  and sysName != ''  ">sys_name,</if>
+			<if test="tableName != null  and tableName != ''  ">table_name,</if>
+			<if test="targetId != null  and targetId != ''  ">target_id,</if>
+			<if test="isSend != null  ">is_send,</if>
+			<if test="isReply != null  ">is_reply,</if>
+			<if test="sysFlag != null  and sysFlag != ''  ">sys_flag,</if>
+			<if test="replyTime != null  ">reply_time,</if>
+			<if test="sendSize != null  ">send_size,</if>
+			<if test="actionType != null  ">action_type,</if>
+			<if test="isBatch != null  ">is_batch,</if>
+			<if test="url != null  ">url,</if>
+			<if test="method != null  ">method,</if>
+			<if test="param != null  ">param,</if>
+			create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="sysName != null  and sysName != ''  ">#{sysName},</if>
+			<if test="tableName != null  and tableName != ''  ">#{tableName},</if>
+			<if test="targetId != null  and targetId != ''  ">#{targetId},</if>
+			<if test="isSend != null  ">#{isSend},</if>
+			<if test="isReply != null  ">#{isReply},</if>
+			<if test="sysFlag != null  and sysFlag != ''  ">#{sysFlag},</if>
+			<if test="replyTime != null  ">#{replyTime},</if>
+			<if test="sendSize != null  ">#{sendSize},</if>
+			<if test="actionType != null  ">#{actionType},</if>
+			<if test="isBatch != null  ">#{isBatch},</if>
+			<if test="url != null  ">#{url},</if>
+			<if test="method != null  ">#{method},</if>
+			<if test="param != null  ">#{param},</if>
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateOaMessageLog" parameterType="OaMessageLog">
+        update oa_message_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sysName != null  and sysName != ''  ">sys_name = #{sysName},</if>
+            <if test="tableName != null  and tableName != ''  ">table_name = #{tableName},</if>
+            <if test="targetId != null  and targetId != ''  ">target_id = #{targetId},</if>
+            <if test="isSend != null  ">is_send = #{isSend},</if>
+            <if test="isReply != null  ">is_reply = #{isReply},</if>
+            <if test="sysFlag != null  and sysFlag != ''  ">sys_flag = #{sysFlag},</if>
+            <if test="replyTime != null  ">reply_time = #{replyTime},</if>
+            <if test="sendSize != null  ">send_size = #{sendSize},</if>
+            <if test="actionType != null  ">action_type = #{actionType},</if>
+            <if test="isBatch != null  ">is_batch = #{isBatch},</if>
+			<if test="url != null  ">`url` = #{url},</if>
+			<if test="method != null  ">`method` = #{method},</if>
+			<if test="param != null  ">`param` = #{param},</if>            
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteOaMessageLogById" parameterType="String">
+        update oa_message_log
+        <trim prefix="SET" suffixOverrides=",">
+            del_flag = '1',
+        </trim>
+        where id = #{id}
+    </delete>
+	
+    <update id="deleteOaMessageLogByIds" parameterType="String">
+        update oa_message_log SET del_flag = '2' where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+</mapper>

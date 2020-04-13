@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+
+
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var prefix = ctx + "oa/oaFile";
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                modalName: "优惠信息管理",
+                showRefresh:false,
+                columns: [
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'fileNum', 
+					title : '红包名称/来源',
+				},
+				{
+					field : 'fileName', 
+					title : '初始金额',
+				
+				},
+				{
+					field : 'filePath', 
+					title : '有效期',
+					
+				},
+				{
+					field : 'fileUrl', 
+					title : '使用规则',
+					
+				},
+				{
+					field : 'fileType', 
+					title : '状态',
+					sortable: true,
+				  	formatter: function (value, row, index) {//oa_file_type
+				  		return value;
+		        	}
+				},
+
+				]
+            };
+            $.table.init(options);
+        });
+    	
+    </script>
+</body>
+</html>

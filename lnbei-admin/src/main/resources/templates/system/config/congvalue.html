@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style  type="text/css">
+.form-group{
+
+	margin-bottom: 0px; 
+}
+
+</style>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-dept-add">
+		<input name="ctreeId" th:value="${ctreeId}" type="hidden" />
+		<table class="table table-bordered table-striped">
+		        	<tr th:each="str:${configHtml}" th:text="${str}">
+					</tr>
+
+			</table>
+		
+		
+		
+		</form>
+	</div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>	
+	<div th:include="include::footer"></div>
+	<script type="text/javascript">
+		var prefix = ctx + "system/config";
+		
+		
+		function submitHandler() {
+			if ($.validate.form()) {
+	        	$.operate.save(prefix + "/saveConfig",{param: $('#form-dept-add').serialize()});
+			}
+	    }
+	
+
+	</script>
+</body>
+</html>

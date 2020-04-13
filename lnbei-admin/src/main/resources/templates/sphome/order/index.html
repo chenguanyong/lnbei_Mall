@@ -1,0 +1,389 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="spHome/public/header:: header"></head>
+<style>
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #ff4406;
+    background-color: #fff;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+ color: #000;
+  text-decoration: none;
+  background-color: #fff;
+}
+.nav-pills > li > a{
+ 	color: #000;
+	width:150px
+}
+.wrap-line {
+    clear: both;
+    background: #e6e6e6;
+    height: 2px;
+    position: relative;
+}
+.wrap-line .floater {
+    background: #f40;
+    height: 2px;
+    width: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+.text-amount{
+	display: inline;
+    width: 50px;
+    height:30px;
+    padding:5px 5px;
+    margin-left: -3px;
+}
+.J_Minus{
+    height:30px;
+    padding:5px 5px;
+	width:20px;
+	border: 1px solid #D5D5D5;
+}
+.J_Plus{
+    height:30px;
+    padding:5px 5px;
+	width:20px;
+	border: 1px solid #D5D5D5;
+	 margin-left: -4px;
+}
+</style>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+
+<div class="container"  >
+
+<br />
+		<ul class="nav nav-pills" role="tablist">
+		  <li i="1"  class="active"><a href="#">所有订单 <span class="badge">42</span></a></li>
+		  <li i="2" ><a href="#">待付款 <span class="badge">3</span> </a></li>
+		  <li i="3" ><a href="#">待发货 <span class="badge">3</span></a></li>
+		   <li i="4" ><a href="#">待收货 <span class="badge">3</span></a></li>
+		    <li i="5" ><a href="#">待评价 <span class="badge">3</span></a></li>
+		</ul>
+	
+
+		<div class="wrap-line"><div class="floater" style="width: 150px; left: -1px;"></div></div>
+		<br />
+	<div class="row">
+		<div class="col-md-12" >
+			<table class="table  table-bordered" style="text-align: center;">
+				<body>
+					<tr class="" lb-id="tr1" lb-value="0" lb-index="1">
+						<td colspan="2" class="" lb-id="goodsImg1" lb-value="sss" lb-index="1" style="width:40%;height:12px;align-content:center;">宝贝</td>
+						
+						<td class="" lb-id="shopPrice1" lb-value="324" lb-index="1" style="width:10%;height:12px;align-content:center;">单价</td>
+						<td class="" lb-id="size1" lb-value="12" lb-index="1" style="width:10%;height:12px;align-content:center;">数量</td>
+						<td class="" lb-id="ffq1" lb-value="dsfdd" lb-index="1" style="width:10%;height:12px;align-content:center;">商品操作</td>
+						<td rowspan="6" class="" lb-id="ffa1" lb-value="cccc" lb-index="1" style="width:10%;height:12px;align-content:center;">实付款</td>
+						<td rowspan="6" class="" lb-id="orderStaus1" lb-value="aaaa" lb-index="1" style="width:10%;height:12px;align-content:center;">交易状态</td>
+						<td rowspan="6" class="" lb-id="orderStausd1" lb-value="11122" lb-index="1" style="width:10%;height:12px;align-content:center;">交易操作</td>
+					</tr>
+				</body>
+			</table>
+		</div>	
+	</div>
+
+	<div class="row">
+		<div class="col-md-12" id="cartTable">
+		
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-12 " style="    text-align: right;" >
+			<div class="my-page"></div>
+		</div>	
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		
+		</div>	
+	</div>	
+</div>
+
+<script >
+
+$(function (){
+	initCartTable();
+	function initCartTable(){
+		
+		var defaultOptions = {
+				id: "cartTable", //id
+				height: $(window).height()-150,
+				showHead:false,
+				isBody:true,
+				columns:[
+						[
+							{
+								height:"12",
+								width:"60",
+								checkbox:true,
+								field : 'orderDate', 
+								title : '选择',
+								align : 'center'
+							},
+							{
+								height:"12",
+								width:"60",
+								field : 'orderNo', 
+								title : '订单日期',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+					
+							{
+								height:"12",
+								width:"60",
+								field : 'shopName', 
+								title : '店铺名称',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									
+									
+									return value;
+								},
+							},
+							{
+								height:"12",
+								width:"60",
+								field : 'fff', 
+								title : '和我联系',
+								align : 'center',
+								c_x:[3],
+								c_y:[0],
+								colspan:[4],
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"12",
+								width:"60",
+								field : 'fffs', 
+								title : '标记',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+						],
+						[
+							{
+								height:"120px",
+								width:"14%",
+								field : 'goodsImg', 
+								title : '商品图片',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"26%",
+								field : 'goodsName', 
+								title : '商品名称',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+					
+							{
+								height:"120px",
+								width:"10%",
+								field : 'shopPrice', 
+								title : '单价',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"10%",
+								field : 'size', 
+								title : '数量',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"10%",
+								field : 'ffq', 
+								title : '商品操作',
+								align : 'center',
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"10%",
+								field : 'ffa', 
+								title : '实付款',
+								align : 'center',
+								r_x:[5],
+								r_y:[1],
+								rowspan:[-1],
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},	
+							{
+								height:"120px",
+								width:"10%",
+								field : 'orderStaus', 
+								title : '交易状态',
+								align : 'center',
+								r_x:[6],
+								r_y:[1],
+								rowspan:[-1],
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},
+							{
+								height:"120px",
+								width:"10%",
+								field : 'orderStausd', 
+								title : '交易操作',
+								align : 'center',
+								r_x:[7],
+								r_y:[1],
+								rowspan:[-1],
+								formatter:function(row, value, index, rootId){
+									return value;
+								},
+							},							
+						],
+					]
+				
+				
+				,//表头
+				data:[
+					
+					[
+						{ff:"qq",orderDate:"2012-2-5",shopName:"sdsdsfdd",fff:"ssccc",fffs:"aaaa"},
+						{goodsImg:"sss",goodsName:"gsfdhsfg",shopPrice:"324",size:"12",ffq:"dsfdd",ffa:"cccc",orderStaus:"aaaa",orderStausd:"11122"},
+						{goodsImg:"sss",goodsName:"gsfdhsfg",shopPrice:"324",size:"12",ffq:"dsfdd",ffa:"cccc",orderStaus:"aaaa",orderStausd:"11122"},
+						{goodsImg:"sss",goodsName:"gsfdhsfg",shopPrice:"324",size:"12",ffq:"dsfdd",ffa:"cccc",orderStaus:"aaaa",orderStausd:"11122"},
+						{goodsImg:"sss",goodsName:"gsfdhsfg",shopPrice:"324",size:"12",ffq:"dsfdd",ffa:"cccc",orderStaus:"aaaa",orderStausd:"11122"},
+						{goodsImg:"sss",goodsName:"gsfdhsfg",shopPrice:"324",size:"12",ffq:"dsfdd",ffa:"cccc",orderStaus:"aaaa",orderStausd:"11122"},
+						],
+					
+				],//表数据
+			};
+		
+		
+		$.lb_table.init(defaultOptions);
+		
+		
+	}
+	
+});
+$(function (){
+	$(".nav-pills li:eq(0)").hover(function (){
+		
+		$(".floater").css("left","-1px");
+		
+	},function (){
+		
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","320px");}break;
+		case "4": {$(".floater").css("left","480px");}break;
+		case "5": {$(".floater").css("left","640px");}break;
+		}
+	});
+	$(".nav-pills li:eq(1)").hover(function (){
+		
+		$(".floater").css("left","160px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","320px");}break;
+		case "4": {$(".floater").css("left","480px");}break;
+		case "5": {$(".floater").css("left","640px");}break;
+		}
+		
+	});
+	$(".nav-pills li:eq(2)").hover(function (){
+		
+		$(".floater").css("left","320px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","320px");}break;
+		case "4": {$(".floater").css("left","480px");}break;
+		case "5": {$(".floater").css("left","640px");}break;
+		}
+	});
+	$(".nav-pills li:eq(3)").hover(function (){
+		
+		$(".floater").css("left","480px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","320px");}break;
+		case "4": {$(".floater").css("left","480px");}break;
+		case "5": {$(".floater").css("left","640px");}break;
+		}
+	});
+	$(".nav-pills li:eq(4)").hover(function (){
+		
+		$(".floater").css("left","640px");
+		
+	},function (){
+	
+		var i = $(".nav-pills > li.active").attr("i");
+		switch(i){
+		
+		case "1": {$(".floater").css("left","-1px");}break;
+		case "2": {$(".floater").css("left","160px");}break;
+		case "3": {$(".floater").css("left","320px");}break;
+		case "4": {$(".floater").css("left","480px");}break;
+		case "5": {$(".floater").css("left","640px");}break;
+		}
+	});
+	/**
+	选择事件
+	**/
+	$(".nav-pills > li").on("click",
+		function (){
+			$(".nav-pills > li").attr("class","");
+			$(this).attr("class","active");
+		}
+	);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spAccreds-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">认证名称：</label>
+				<div class="col-sm-8">
+					<input id="accredName" name="accredName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">认证图片：</label>
+
+				<div class="col-sm-3">
+				 
+				    <button type="button" class="btn btn-success" id="accredImgIN" >请选择文件</button>		
+					<input id="accredImg" name="accredImg" class="form-control" type="hidden">
+				</div>
+				<div class="col-sm-6" id="accredImgYL"></div>						
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+
+			
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spAccreds"
+		$("#form-spAccreds-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+			$.common.uplodFile("accredImgIN","accredImg","accredImgYL",false,upload);
+		});
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-spAccreds-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

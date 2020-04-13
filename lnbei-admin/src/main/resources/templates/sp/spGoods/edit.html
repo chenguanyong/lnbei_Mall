@@ -1,0 +1,1083 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/summernote/summernote.css}" rel="stylesheet"/>
+<link th:href="@{/ajax/libs/summernote/summernote-bs3.css}" rel="stylesheet"/>
+<style>
+	.fixed-table-toolbar{
+		display:none
+	}
+	#bootstrap-table-goodsattr td{
+	padding:0px;
+	height:12px;
+	}
+	.div-pdding-left {
+    padding-left: 0px;
+    padding-right: 5px;
+}
+</style>
+<body class="white-bg">
+    <h4 class="form-header h4">修改商品</h4>
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#goodsBase" aria-controls="goodsBase" role="tab" data-toggle="tab">商品基本信息</a></li>
+	    <li role="presentation"><a href="#galleryImg" aria-controls="galleryImg" role="tab" data-toggle="tab">商品相册</a></li>
+	    <li role="presentation"><a href="#specs" aria-controls="specs" role="tab" data-toggle="tab">商品规格</a></li>
+	  </ul>
+	  <div class="tab-content">
+	  	 <div role="tabpanel" class="tab-pane active" id="goodsBase" >
+      	<form class="form-horizontal m" id="form-spGoods-add" th:object="${spGoods}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+      	<table class="table table-bordered table-striped">
+      	
+	      	<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">商品编码：</label>
+				</td>
+				<td class="col-sm-3">
+					<input id="goodsSn" name="goodsSn" th:field="*{goodsSn}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">商品货号：</label>
+				</td>
+				<td class="col-sm-3">						
+					<input id="productNo" name="productNo" th:field="*{productNo}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">商品名称：</label>
+				</td>
+				<td class="col-sm-3">		
+					<input id="productNo" name="goodsName" th:field="*{goodsName}" class="form-control" type="text">			
+				</td>			
+			</tr>
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">商品类型：</label>
+				</td>
+				<td class="col-sm-3">
+					<select required id="goodsType" name="goodsType"  th:field="*{goodsType}"  class="form-control" th:with="type=${@dict.getType('sp_goods_type')}">
+					 	 <option value="">请选择</option>
+					 	 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  	</option>
+					</select>										
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">市场价：</label>
+				</td>
+				<td class="col-sm-3">						
+					<input id="marketPrice" name="marketPrice" th:field="*{marketPrice}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">店铺价：</label>
+				</td>
+				<td class="col-sm-3">		
+					<input id="shopPrice" name="shopPrice" th:field="*{shopPrice}" class="form-control" type="text">			
+				</td>				
+			</tr>
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">商品分类：</label>
+				</td>
+				<td class="col-sm-11" colspan='5'>
+						<div  id="goodsCatDiv">
+					
+						</div>										
+				</td>				
+			</tr>
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">本店分类：</label>
+				</td>
+				<td class="col-sm-11" colspan='5'>
+						<div  id="shopCatIdDiv">
+					
+						</div>										
+				</td>				
+			</tr>			
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">商品推荐：</label>
+				</td>
+				<td class="col-sm-7" colspan="3">
+ 						<label class="check-box">
+					        
+					            <input type="checkbox" th:if="${spGoods.isHot == '1'}" checked="true" id="isHot" >
+					             <input type="checkbox" th:if="${spGoods.isHot == '0'}"  id="isHot" >
+					       
+	 					       最热</label>
+	        				<label class="check-box">
+					   
+					            <input type="checkbox" th:if="${spGoods.isRecom == '1'}" checked="true" id="isRecom" >
+					        <input type="checkbox" th:if="${spGoods.isRecom == '0'}" id="isRecom" >
+	 					       推荐</label>
+	 					    <label class="check-box">
+					     
+					            <input type="checkbox"  th:if="${spGoods.isSale == '1'}" checked="true"  id="isSale" >
+					         <input type="checkbox"  th:if="${spGoods.isSale == '0'}"  id="isSale" >
+	 					       上架</label>
+	 					   <label class="check-box">
+					       
+					            <input type="checkbox" th:if="${spGoods.isNew == '1'}" checked="true"  id="isNew" >
+					       <input type="checkbox" th:if="${spGoods.isNew == '0'}"   id="isNew" >
+	 					       新品</label>						
+	 					     <label class="check-box">
+					      
+					            <input type="checkbox" th:if="${spGoods.isBest == '1'}" checked="true"   id="isBest" >
+					       <input type="checkbox" th:if="${spGoods.isBest == '0'}"  id="isBest" >
+	 					       精品</label>								
+				</td>
+
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">是否包邮：</label>
+				</td>
+				<td class="col-sm-3">		
+						     <label class="check-box">
+					      
+					            <input type="checkbox"  id="isFreeshipping"  th:if="${spGoods.isFreeshipping == '1'}" checked="true"    >
+					        	<input type="checkbox"  id="isFreeshipping"  th:if="${spGoods.isFreeshipping == '0'}"    >
+	 					       </label>		
+				</td>			
+			</tr>
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">SEO关键字：</label>
+				</td>
+				<td class="col-sm-3">
+					<input id="goodsSeoKeywords" name="goodsSeoKeywords" th:field="*{goodsSeoKeywords}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">搜索关键字：</label>
+				</td>
+				<td class="col-sm-3">						
+					<input id="goodsStock" name="goodsStock" class="form-control" th:field="*{goodsStock}" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">SEO描述：</label>
+				</td>
+				<td class="col-sm-3">		
+					<input id="goodsSeoDesc" name="goodsSeoDesc" class="form-control" th:field="*{goodsSeoDesc}" type="text">			
+				</td>			
+			</tr>			
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">计价方式：</label>
+				</td>
+				<td class="col-sm-3">
+					<select required id="shippingFeetype" name="shippingFeetype"  th:field="*{shippingFeetype}"  class="form-control" th:with="type=${@dict.getType('sp_goods_price_type')}">
+					 
+					 	 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  	</option>
+					</select>				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">商品重量：</label>
+				</td>
+				<td class="col-sm-3">						
+					<input id="goodsWeight" name="goodsWeight" th:field="*{goodsWeight}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">商品体积：</label>
+				</td>
+				<td class="col-sm-3">		
+					<input id="goodsVolume" name="goodsVolume" th:field="*{goodsVolume}" class="form-control" type="text">			
+				</td>			
+			</tr>
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">商品快递：</label>
+				</td>
+				<td class="col-sm-3">
+					<select required id="shopexpressId" name="shopexpressId" th:field="*{shopexpressId}"  class="form-control" th:with="type=${@dict.getType('sp_goods_price_type')}">
+					 
+					 	 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  	</option>
+					</select>				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">商品成本：</label>
+				</td>
+				<td class="col-sm-3">						
+					<input id="costPrice" name="costPrice" th:field="*{costPrice}" class="form-control" type="text">				
+				</td>
+			 	<td class="col-sm-1 content-right">
+					<label class="control-label">排序：</label>
+				</td>
+				<td class="col-sm-3">		
+					<input id="sort" name="sort" class="form-control" th:field="*{sort}" type="text">			
+				</td>			
+			</tr>	
+			<tr>
+		      	<td class="col-sm-1 content-right">	
+					<label class="control-label">备注：</label>
+				</td>
+				<td class="col-sm-3" colspan="5">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">	
+				</td>
+			 			
+			</tr>
+			<tr>
+				<td style="    text-align: center;" colspan="6">
+					<label class="control-label">商品描述</label>
+				</td>	 			
+			</tr>				
+			<tr>
+				<td class="col-sm-1 content-right" colspan="6">
+					<input id="content" name="goodsDesc" th:field="*{goodsDesc}" type="hidden">
+				    <div class="summernote"></div>
+				</td>	 			
+			</tr>													
+		</table>
+
+	
+		</form>
+	 	</div>
+	 						<style>
+							.layui-upload-file{
+							display:none;
+							}
+							input[type=file] {
+							   display:none
+							}
+							#demo2 img{
+							
+							width:100px
+							
+							}
+							</style>
+	 	 <div role="tabpanel" class="tab-pane" id="galleryImg">
+	 		<form class="form-horizontal m" id="form-spGoods-addImg" th:object="${spGoods}">	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品主图：</label>
+				<div class="col-sm-3">
+				    <input id="goodsImg" name="goodsImg" th:field="*{goodsImg}" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="goodsImgIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6 layer-photos-demo" id="goodsImgYL">
+				  				  <img style="width:120px" th:src="*{goodsImg}" />
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品相册：</label>
+				<div class="col-sm-3">
+				    <input id="gallery" name="gallery" th:field="*{gallery}" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="galleryIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6 layer-photos-demo" id="galleryYL">
+				  <img style="width:120px" th:if="${gallery != null}" th:each="imgSrc:${gallery}" th:src="${imgSrc}" />
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品视频封面：</label>
+				<div class="col-sm-3">
+				    <input id="goodsVideoThumb" th:field="*{goodsVideoThumb}" name="goodsVideoThumb" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="goodsVideoThumbIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6 layer-photos-demo" id="goodsVideoThumbYL">
+				  <img style="width:120px" th:src="*{goodsVideoThumb}" />
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">商品视频：</label>
+				<div class="col-sm-3">
+				    <input id="goodsVideo" th:field="*{goodsVideo}" name="goodsVideo" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="goodsVideoIN" >请选择文件</button>
+				</div>
+				<div class="col-sm-6 layer-photos-demo" id="goodsVideoYL">
+				  
+				</div>
+			</div>
+			</form>
+	 	 </div>
+	 	 <div role="tabpanel" class="tab-pane " id="specs">
+	 	 <form class="form-horizontal m" >	
+	 	 	<table class="table table-bordered ">
+	 	 	 <tr><td >商品属性</td></tr>
+	 	 	 
+	 	 	 <tr><td >
+	 	 	 
+	 	 	<div id="goodsSpecDIV">
+	 	 	
+	 	 	
+	 	 	
+	 	 	</div>
+	 	 	 
+	 	 	 </td></tr>
+	 	 	
+	 	 	</table>
+	 	 	 
+	 	 	<table  class="table table-bordered ">
+	 	 	 <tr><td>商品规格</td></tr>
+	 	 	 	 	 <tr><td>	<a class="btn btn-success" onclick="addGoodsPces('bootstrap-table-goodsspace')" >
+					<i class="fa fa-plus"></i> 添加规格
+				</a>
+	 	 			<a class="btn btn-warning" onclick="removeBtn('bootstrap-table-goodsspace')" >
+						<i class="fa  fa-remove"></i> 删除规格
+				 </a></td></tr>
+	 	 	 <tr><td>
+	 	 	 
+	 	 	 <div class="row" id="pcesId">
+	 	 	 
+	 	 	 
+	 	 	 
+	 	 	 
+	 	 	 </div>
+	 	 	 
+	 	 	 </td>
+	 	 	 <tr><td>
+	 	 
+	 	 	 		
+				<table id="bootstrap-table-goodsspace" data-mobile-responsive="true"></table>
+			
+	 	 	 
+	 	 	 </td>
+	 	 	 </tr>
+	 	 	
+	 	 	</table>	
+	 	 	</form> 	 	
+	 	 </div>	 	 
+	  </div>
+	</div>
+	<div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>保 存</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>	
+    <div th:include="include::footer"></div>
+    <script th:src="@{/ajax/libs/summernote/summernote.min.js}"></script>
+    <script th:src="@{/ajax/libs/summernote/summernote-zh-CN.js}"></script>    
+    <th:block th:include="include :: lbtable-js" />
+    <script th:inline="javascript">
+    	var goodsSpec = [[${mGoodsSpecs2}]];//商品规格
+    	var specCat = [[${specCat}]];//商品规格列表
+    	var goodsCatIdPath = [[${spGoods.goodsCatIdPath}]];//商品分类路径
+    	var shopCatId1 =[[${spGoods.shopCatId1}]];//本店铺分类路劲1
+    	var shopCatId2 =[[${spGoods.shopCatId2}]];//本店铺分类路径2
+    	var shopgoodsAttr = [[${mSpAttributes}]];
+		var prefix = ctx + "spadmin/spGoods";
+		$("#form-spGoods-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		$(function (){
+			initSpecs();
+			initShopGoodsAttr();
+			initgugies();
+		});
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+		
+			  $.common.uplodFile("goodsImgIN","goodsImg","goodsImgYL",false,upload);
+			  $.common.uplodImg("galleryIN","gallery","galleryYL",true,upload,uploadImgCallback);
+			  $.common.uplodFile("goodsVideoThumbIN","goodsVideoThumb","goodsVideoThumbYL",false,upload);
+			 function uploadImgCallback(res){
+				 if(res.code == 0){
+					var value = $("#gallery").val();
+					value = $.common.trimStr(value,",");
+					value += "," + res.data;
+					value = $.common.trimStr(value,",");
+					$("#gallery").val(value);
+				 }
+				 
+			 }
+			 
+			 $.common.uplodVideo("goodsVideoIN","goodsVideo","goodsVideoYL",upload,uploadVideoCallback);
+			 function uploadVideoCallback(res){
+				 if(res.code == 0){
+				       $('#goodsVideoYL').append('<video id= "goodsVideoYLimg"  src="'+ res.data +'" alt="" class="layui-upload-img">');
+				       $('#goodsVideo').val(res.data);
+				 }
+				 
+			 }
+		});
+		function submitHandler() {
+			debugger;
+
+		     	var sHTML = $('.summernote').summernote('code');
+				$("#content").val(sHTML);
+		    	var formData = new FormData();
+		    	formData.append('mid', $("#mid").val());
+		    	formData.append('goodsSn', $("#goodsSn").val());
+		    	formData.append('productNo', $("#productNo").val());
+		    	formData.append('goodsName', $("#goodsName").val());
+		    	formData.append('goodsType', $("#goodsType").val());
+		    	formData.append('productNo', $("#productNo").val());
+		    	formData.append('marketPrice', $("#marketPrice").val());
+		    	formData.append('goodsSeoKeywords', $("#goodsSeoKeywords").val());
+		    	formData.append('goodsSeoDesc', $("#goodsSeoDesc").val());
+		    	formData.append('shippingFeetype', $("#shippingFeetype").val());
+		    	formData.append('goodsWeight', $("#goodsWeight").val());
+		    	formData.append('goodsVolume', $("#goodsVolume").val());
+		    	formData.append('costPrice', $("#costPrice").val());
+		    	formData.append('shopexpressId', $("#shopexpressId").val());
+		    	formData.append('sort', $("#sort").val());
+		    	formData.append('goodsDesc', $("#content").val());
+		    	formData.append('goodsImg', $("#goodsImg").val());	
+				formData.append('isHot', $("input[id='isHot']").is(':checked') == false ? 0 : 1);
+				formData.append('isRecom', $("input[id='isRecom']").is(':checked') == false ? 0 : 1);
+				formData.append('isSale', $("input[id='isSale']").is(':checked') == false ? 0 : 1);
+				formData.append('isNew', $("input[id='isNew']").is(':checked') == false ? 0 : 1);
+				formData.append('isBest', $("input[id='isBest']").is(':checked') == false ? 0 : 1);
+		    	/**
+		    	*/
+		    	formData.append('gallery', $("#gallery").val());
+		    	formData.append('goodsVideoThumb', $("#goodsVideoThumb").val());	
+		    	formData.append('goodsVideo', $("#goodsVideo").val());	//goodscat_id
+		    	formData.append('goodscatId', $.common.getCascadeLastValue("goodsCatDiv"));	
+		    	formData.append('goodsCatIdPath', $.common.getCascadeValue("goodsCatDiv"));
+		    	formData.append('goodsCatPathName', $.common.getCascadeValue("getCascadeTitle"));
+		    	
+		    	formData.append('shopCatId1', $.common.getCascadeValue1("shopCatIdDiv"));
+		    	formData.append('shopCatId2', $.common.getCascadeValue2("shopCatIdDiv"));
+
+		    	formData.append('goodsVideo', $("#goodsVideo").val());	
+		    	var goodsAttr = [];
+		    	goodsAttr = getGoodsAttrSelectValue(goodsAttr);
+		    	goodsAttr = getGoodsAttrCheckboxValue(goodsAttr);
+		    	formData.append('goodsAttrStr', JSON.stringify(goodsAttr));
+		    	
+		    	var spaceArray = [];
+		    	
+		    	for(var i in spec){
+		    		
+		    		var temp = spec[i].getData();
+		    		spaceArray = spaceArray.concat(temp);
+		    	}
+		    	formData.append('goodsSpecStr', JSON.stringify(spaceArray));
+		    	
+		    	//getDataJson
+		    	formData.append('goodsSpecItemStr', $.bootstrapTable.getDataJson("bootstrap-table-goodsspace"));
+	        	$.ajax({
+	        		url: prefix + "/add",
+	        		type: 'post',
+	        		cache: false,
+	        		data: formData,
+	        		processData: false,
+	        		contentType: false,
+	        		dataType: "json",
+	        		success: function(result) {
+	        			$.operate.successCallback(result);
+	        		}
+	        	});
+	            	
+		    	
+	    }
+		$(function (){
+		    $('.summernote').summernote({
+				height : '220px',
+				lang : 'zh-CN',
+				callbacks: {
+	                onImageUpload: function (files) {
+	                   $.common.summernoteUploadFile(files[0], this);
+	                }
+	            }
+			});
+		    debugger;
+			var content = $("#content").val();
+		    $('.summernote').summernote('code', content);			
+			
+		});
+
+	    /***
+	    	处理商品分类
+	    ***/
+	initcategorySelect();
+	function initcategorySelect(){
+		var url = ctx + "home/homeCategory/getCategoryCascadeList/sp_cats";
+		$.common.categoryCascade(url, "goodsCatDiv", "goodsCat",goodsCatIdPath, categoryCascadeCallback);//
+	}
+	    /***
+    	处理本店商品分类
+    ***/
+	initcategoryShopSelect();
+	function initcategoryShopSelect(){
+		var shopCatId = "";
+		if(shopCatId1 != null){
+			shopCatId = shopCatId1;
+		}
+		if(shopCatId2 != null){
+			shopCatId += "-" + shopCatId2;
+		}
+		var url = ctx + "home/homeCategory/getCategoryCascadeList/sp_cats";
+		$.common.categoryCascade(url, "shopCatIdDiv", "shopCatId",shopCatId);//
+	}	
+	function categoryCascadeCallback(value){
+		
+		initSpec(value);
+		initGoodsAttr(value);
+	}
+	function addGoodsPces(ele){
+		
+    	var selecedRow = {
+    			"id":Math.ceil(Math.random()*1000),
+				"mid":"",
+				"itemName":"",
+				"marketPrice":"",
+				"specPrice":"",
+				"warnStock":"",
+				"isDefault":0,
+				"specStock":"",
+		};
+    	insertRow(selecedRow,ele);	
+	}
+    function queryGoodsSpec(itemName, data){
+    	var idArray = [
+    		{
+				field : 'mid', 
+				visible:false,
+					
+			},
+    	];
+    	
+    	var commonArray = [
+    		{
+				field : 'marketPrice', 
+				title : '市场价格',
+				width : 150,
+				align : 'center',
+				formatter: function(value, row, index) {
+					//debugger;
+					return $.bootstrapTable.inputFormatter(value, "marketPrice", row, "bootstrap-table-goodsspace");
+			    }
+			},
+			{
+				field : 'specPrice', 
+				title : '商品价格',
+				width : 150,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "specPrice", row, "bootstrap-table-goodsspace");
+			    }					
+			},			
+			{
+				field : 'productNo', 
+				title : '货物号',
+				width : 150,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "productNo", row, "bootstrap-table-goodsspace");
+			    }					
+			},
+			{
+				field : 'specStock', 
+				title : '库存',
+				width : 60,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "specStock", row, "bootstrap-table-goodsspace");
+			    }	
+			},
+			{
+				field : 'specWeight', 
+				title : '商品重量',
+				width : 60,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "specWeight", row, "bootstrap-table-goodsspace");
+			    }	
+			},
+			{
+				field : 'specVolume', 
+				title : '商品体积',
+				width : 60,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "specVolume", row, "bootstrap-table-goodsspace");
+			    }	
+			},
+			{
+				field : 'warnStock', 
+				title : '预警库存',
+				width : 60,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputFormatter(value, "warnStock", row, "bootstrap-table-goodsspace");
+			    }
+			},
+			{
+				field : 'isDefault', 
+				title : '是否默认',
+				width : 40,
+				align : 'center',
+				formatter: function(value, row, index) {
+					return $.bootstrapTable.inputRadioYesFormatter(value, "isDefault", row, "bootstrap-table-goodsspace");
+			    }
+			},
+    	];
+
+    	for(var i in itemName){
+    		idArray.push(itemName[i]);
+    	}
+    	for(var i in commonArray){
+    		idArray.push(commonArray[i]);
+    	}    	
+       	var options = {
+
+               modalName: "商品规格",
+               columns: idArray
+           };
+       //	debugger;
+           initData();
+           function initData(){
+           	
+               $('#bootstrap-table-goodsspace').bootstrapTable({
+                  cache: false,                                       // 是否使用缓存
+                  columns: options.columns,                         // 显示列信息（*）
+                  striped: false,
+       		    escape: false,
+       		    showFooter: false,
+       		    showPaginationSwitch:false,
+       			pagination: false,//是否分页
+       			sidePagination:'client',//server:服务器端分页|client：前端分页
+       			pageSize:30,
+       		    search: false,
+       		    uniqueId:"id",        		
+       		    height : 200,
+       		    showFooter:false,
+       		   
+               });
+               $('#bootstrap-table-goodsspace').bootstrapTable("load",data);
+    		}
+           
+           
+    }
+
+	    /*******************************************************规格**********************************************************************/
+	    var spec = [];//规格对象
+	    /****
+	    	规格表格
+	    ****/
+	    function specTable(id, data){
+	    	
+	    	 var defaults = {
+	    				id: id, //id
+	    				height: $(window).height()-150,
+	    				showHead:false,
+	
+	    				columns:[
+	    				{
+	    				height:"12",
+	    				width:"60",
+	    				checkbox:true,
+	    				field : 'ff', 
+	    				title : '选择',
+	    				align : 'center'
+	    				},
+	    				{
+	    					height:"12",
+	    					width:"60",
+	    					field : 'itemName', 
+	    					title : '规格名称',
+	    					align : 'center',
+	    					formatter:function(row, value, index, rootId){
+	    						return rowInput(index, 'itemName', value, rootId);
+	    					},
+	    				},
+	    				
+	    				{
+	    					height:"12",
+	    					width:"60",
+	    					field : 'itemImg', 
+	    					title : '上传图片',
+	    					align : 'center',
+	    					formatter:function(row, value, index, rootId){
+	    						
+	    						var div="";
+	    						if(value != undefined && value != ""){
+	    							div="<div style='    display: inline;' id='"+rootId+"itemImg_"+index+"DIV'><img style='width:120px' src='"+value+"'/></div>";
+	    						}else{
+	    							div="<div style='    display: inline;' id='"+rootId+"itemImg_"+index+"DIV'>";
+	    						}
+	    						return "<input style='    display: inline;' name='d' id='"+rootId+"itemImg_"+index+"' type='file' /><button style='    display: inline;' lb-imgId='"+rootId+"itemImg_"+index+"' class='btn btn-success' onclick=\"tableUploadImg('"+rootId+"itemImg_"+index+"','"+rootId+"itemImg_"+index+"DIV', '"+index+"','itemImg','"+rootId+"')\" type='button'>上传图片</button>"+div;
+	    					},
+	    				},
+	    				{
+	    					height:"12",
+	    					width:"60",
+	    					field : 'ff3', 
+	    					title : '操作',
+	    					align : 'center',
+	    					formatter:function(row, value, index, rootId){
+	    						return "<a class='btn btn-success'  onclick=\"add(\'"+rootId+"\',\'"+row.isAllowImg+"\')\">新增</a><a class='btn btn-sm btn-danger' onclick=\"remove(\'"+rootId+"\', \'"+index+"\')\">删除</a>";
+	    					},
+	    				},
+	    				]
+	    				
+	    				
+	    				,//表头
+	    				data:data,//表数据
+	    			};
+	    	 $.lb_table.init(defaults)
+	    	 spec.push($.lb_table);	
+	    }
+	    /***/
+	    var dd="";
+	    var specCate = [];//规格名称数组
+	    function initSpec(catId){
+	    	specCate = [];
+	    	spec = [];
+	    	$("#pcesId").empty();
+	    	//debugger;
+	    	url = ctx + 'spadmin/spSpecCats/getSpecListByCatId';
+	    	$.operate.ajax(url,{goodsCatId: catId},callbackSpec);
+	    	function callbackSpec(result){
+	    		var data = result.data;
+	    		for(var i in data){
+	    		  specCate[i] = data[i].catName;
+	    		  var divHtml =	cteateDiv(data[i].mid+"_"+i, data[i].catName);
+	    		  $("#pcesId").append(divHtml);	
+	    		  for(var a in data[i].spSpecItems){
+	    			  
+	    			  data[i].spSpecItems[a].isAllowImg = data[i].isAllowImg;
+	    		  }
+	    		  
+	    		  specTable(data[i].mid+"_"+i,data[i].spSpecItems);
+	    		}
+	    		
+	    	}
+	    	
+	    	function cteateDiv(id, title){
+	    		
+	    		var html = "<div class='col-sm-12'>"+title+"</div>";
+	    		html += "<div class='col-sm-12' id='"+id+"'></div>";
+	    		return html;
+	    	};
+	    }
+		
+
+	    /**初始化规格
+	    **/
+	    function initSpecs(){
+	    	specCate = [];
+	    	spec = [];
+	    	$("#pcesId").empty();
+	    	callbackSpec();
+	    	function callbackSpec(){
+	    		var data = specCat;
+	    		for(var i in data){
+	    		  specCate[i] = data[i].catName;
+	    		  var divHtml =	cteateDiv(data[i].mid+"_"+i, data[i].catName);
+	    		  $("#pcesId").append(divHtml);	
+	    		  for(var a in data[i].spSpecItems){
+	    			  
+	    			  data[i].spSpecItems[a].isAllowImg = data[i].isAllowImg;
+	    		  }
+	    		  
+	    		  specTable(data[i].mid+"_"+i,data[i].spSpecItems);
+	    		}
+	    		
+	    	}
+	    	
+	    	function cteateDiv(id, title){
+	    		
+	    		var html = "<div class='col-sm-12'>"+title+"</div>";
+	    		html += "<div class='col-sm-12' id='"+id+"'></div>";
+	    		return html;
+	    	};
+	    }	    
+		function rowInput(index, field, value, rootId){
+			return "<input class='form-control' value='"+value+"' onblur=\"save(\'"+index+"\',this, \'"+field+"\', \'"+rootId+"\')\" type='text'  />";
+		}
+		function save(index,obj, field, rootId){
+				//debugger;
+				var i = rootId.split('_');
+				 $.lb_table = spec[i[1]]; 
+				var data = $.lb_table.getData();
+				var rowData = data[index];
+				var value = $(obj).val();
+				eval("rowData." +field+"=\""+ value +'";');
+				$.lb_table.options.data[index] = rowData;
+				$.lb_table.refresh();
+		}
+		function remove(rootId, index){
+			var i = rootId.split('_');
+			 $.lb_table = spec[i[1]]; 
+			 //debugger;
+			$.lb_table.remove(index);
+		}
+		function add(rootId,isAllowImg){
+			var i = rootId.split('_');
+			 $.lb_table = spec[i[1]];  
+				var row = {
+						mid:"",
+						itemName:"",
+						itemImg : "",
+						isAllowImg:isAllowImg,
+				}
+				//debugger;
+				$.lb_table.addRow(row);
+		 }
+		initgugies();
+		/**
+		初次
+		初始化规格数据
+		**/
+		function initgugies(){
+
+			var columsSpec = [];
+			for(var i in goodsSpec){
+				var itemSize = goodsSpec[i].itemSize;
+				for(var i=0; i< itemSize; i++)
+				var isDefault = {
+						field : 'itemName' + i, 
+						title : specCat[i].catName,
+						width : 120,
+						align : 'center',			
+					};
+				columsSpec.push(isDefault)
+			}
+			queryGoodsSpec(columsSpec, goodsSpec);
+		
+		}
+		
+
+		/**
+		初始化规格数据
+		**/
+		function initgugie(){
+			
+			var tableValueArray = [];
+		
+			var columsSpec = [];
+			for(var i in spec){
+				tableValueArray[i] = spec[i].getSelections();
+				var isDefault = {
+						field : 'itemName' + i, 
+						title : specCate[i],
+						width : 120,
+						align : 'center',			
+					};
+				columsSpec.push(isDefault)
+			}
+			var specData = [];
+			if(tableValueArray.length == 1){
+				for (var i in tableValueArray[0]){
+					var data = {itemName0id:tableValueArray[0][i].mid,itemName0:tableValueArray[0][i].itemName,marketPrice:"",specPrice:"",specStock:"",warnStock:"",isDefault:"",id:i,mid:""}
+		
+					specData.push(data);
+				}
+			}else if(tableValueArray.length == 2){
+				for (var i in tableValueArray[0]){
+					var data = {itemName0id:tableValueArray[0][i].mid,itemName0:tableValueArray[0][i].itemName,marketPrice:"",specPrice:"",specStock:"",warnStock:"",isDefault:"",mid:""}
+					for(var a in tableValueArray[1]){
+						data.itemName1id=tableValueArray[1][a].mid;	
+						data.itemName1=tableValueArray[1][a].itemName;	
+						data.id = i+a;
+						specData.push(data); 
+					}
+				}
+			}
+			for(var i in goodsSpec){
+				var rowData = goodsSpec[i];
+				for(var a in specData){
+					if(specData[a].itemSize == 1){
+						if(rowData.itemName0id == specData[a].itemName0id){
+							goodsSpec[i] = specData[a];
+						}
+					}else if(specData[a].itemSize == 2){
+						if(rowData.itemName0id == specData[a].itemName0id && rowData.itemName1id == specData[a].itemName1id){
+							goodsSpec[i] = specData[a];
+						}
+					}
+				}
+			}
+			return [columsSpec, specData];
+		}
+		window.onTableClick=function (obj){
+			//debugger;
+			var result = initgugie();
+			queryGoodsSpec(result[0],result[1]);
+		}
+		/**
+		初始化商品属性修改页面第一次加载的时候
+		**/
+	
+	    function initShopGoodsAttr(){
+	    	callbackSpec(shopgoodsAttr);
+	    	function callbackSpec(shopgoodsAttr){
+	    		var data = shopgoodsAttr;
+	    		//debugger;
+
+	    		for(var i in data){
+	    			var content = "";
+	    			var attr_val = data[i].attrVal;
+					var attrValArray = attr_val.split(",");
+					if(data[i].attrType == "2"){
+					
+						var colums = [];
+						var ff = [];
+						debugger;
+						for(var a in attrValArray){
+							var checkValue = "m" + $.common.guid();
+							var temp =  {
+								labelName:attrValArray[a],
+								eleFiled:data[i].mid,//标签name
+								labelValue:attrValArray[a],//标签值
+								//defaultValue:data[i].defaultValue,
+								checkValue:checkValue
+					        	}
+							
+							var values = {
+									
+							};
+							eval("values." + checkValue+"='"+data[i].defaultValue+"';");
+							colums.push(temp);
+							ff.push(values);
+						}
+						window.inputCheckboxFun = function (param1,param2,param3){}
+						content =	$.bootstrapTable.inputCheckboxFunFormatter(ff,colums,{mid:0},"","inputCheckboxFun");
+						
+					}else if(data[i].attrType == "1"){
+						var colums = [];
+						for(var a in attrValArray){
+							var temp =  {
+									dictValue:attrValArray[a],
+									dictLabel:attrValArray[a],//标签name
+									
+					        	}
+							colums.push(temp);
+						}
+						content =	$.bootstrapTable.inputSelectFormatter(data[i].defaultValue,data[i].mid,0,colums,{mid:0},"");
+					}
+					var str = cteateDiv(data[i].attrName, content);
+					$("#goodsSpecDIV").append(str);
+	    		}
+	    		return "";
+	    	}
+	    	
+	    	function cteateDiv(title, content){
+	    		
+	    		var html='<div class="form-group"><label class="col-sm-3 control-label">'+title+'</label><div class="col-sm-8">'+content+'</div></div>';
+	    		return html
+	    	};
+	    }
+		/**
+		初始化商品属性
+		**/
+	    function initGoodsAttr(catId){
+	    	url = ctx + 'spadmin/spAttributes/selectSpAttributesList';
+	    	$.operate.ajax(url,{goodsCatId: catId},callbackSpec);
+	    	function callbackSpec(result){
+	    		var data = goodsAttr;
+	    		
+	    		//debugger;
+	    		if(result.code != 0){
+	    			return "";
+	    		}
+	    		for(var i in data){
+	    			var content = "";
+	    			var attr_val = data[i].attrVal;
+					var attrValArray = attr_val.split(",");
+					if(data[i].attrType == "2"){
+					
+						var colums = [];
+						for(var a in attrValArray){
+							var temp =  {
+								labelName:attrValArray[a],
+								eleFiled:data[i].mid,//标签name
+								labelValue:attrValArray[a],//标签值
+					        	}
+							colums.push(temp);
+						}
+						window.inputCheckboxFun = function (param1,param2,param3){}
+						content =	$.bootstrapTable.inputCheckboxFunFormatter({},colums,{mid:0},"","inputCheckboxFun");
+						
+					}else if(data[i].attrType == "1"){
+						var colums = [];
+						for(var a in attrValArray){
+							var temp =  {
+									dictValue:attrValArray[a],
+									dictLabel:attrValArray[a],//标签name
+								
+					        	}
+							colums.push(temp);
+						}
+						content =	$.bootstrapTable.inputSelectFormatter("",data[i].mid,0,colums,{mid:0},"");
+					}
+					var str = cteateDiv(data[i].attrName, content);
+					$("#goodsSpecDIV").empty();
+					$("#goodsSpecDIV").append(str);
+	    		}
+	    		return "";
+	    	}
+	    	
+	    	function cteateDiv(title, content){
+	    		
+	    		var html='<div class="form-group"><label class="col-sm-3 control-label">'+title+'</label><div class="col-sm-8">'+content+'</div></div>';
+	    		return html
+	    	};
+	    }
+		function getGoodsAttrSelectValue(data){
+			
+			$("select[lb-name=inputSelectFormatter]").each(function (){
+				var temp = {};
+				temp.attrId = $(this).attr("name");
+				temp.attrVal = $(this).val();
+				data.push(temp);
+			});
+			return data;
+		}
+		function getGoodsAttrCheckboxValue(data){
+			
+			$("input[lb-name=inputCheckboxFunFormatter]").each(function (){
+				if($(this).is(':checked')){
+				var temp = {};
+				temp.attrId = $(this).attr("name");
+				temp.attrVal = $(this).val();
+				data.push(temp);
+				}
+			});
+			return data;
+		}
+		
+		function tableUploadImg(ele, eleName, index, field, rootId){
+			
+        	var formData = new FormData();
+        	if ($('#'+ele)[0].files[0] != null) {
+        	   	formData.append('file', $('#'+ele)[0].files[0]);
+	        	//formData.append('aSize',$('#'+ele)[0].files[0].size);//
+        	}else{
+        		 $.modal.msgError("请先选择图片");
+        		 return "";
+        	}
+
+        	$.ajax({
+        		url: ctx + "common/upload", //改成您自己的上传接口
+        		type: 'post',
+        		cache: false,
+        		data: formData,
+        		processData: false,
+        		contentType: false,
+        		dataType: "json",
+        		success: function(result) {
+        			if(result.code == 0){
+        				 $("#" + eleName +"").empty();
+        		        $("#" + eleName +"").append('<img style="width:120px" id= "'+eleName+'img"  src="'+ result.url +'"  class="layui-upload-img">');
+        			      //$.common.imgYL1(idYl+"img");onclick="$.common.imgYL1(\''+idYl+'img\')"
+        			    $.common.imgYL( eleName +"", 5);
+        			var i = rootId.split('_');
+       				 $.lb_table = spec[i[1]]; 
+       				var data = $.lb_table.getData();
+       				var rowData = data[index];
+       				var value = result.fileName;
+       				eval("rowData." +field+"=\""+ value +'";');
+       				$.lb_table.options.data[index] = rowData;
+       				$.lb_table.refresh();
+        			}
+        		}
+        	});
+		}		
+	</script>
+   
+</body>
+</html>

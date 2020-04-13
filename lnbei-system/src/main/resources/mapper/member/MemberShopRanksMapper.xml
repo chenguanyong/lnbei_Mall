@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.member.mapper.MemberShopRanksMapper">
+    
+    <resultMap type="MemberShopRanks" id="MemberShopRanksResult">
+        <result property="mid"    column="mid"    />
+        <result property="rankName"    column="rank_name"    />
+        <result property="startScore"    column="start_score"    />
+        <result property="endScore"    column="end_score"    />
+        <result property="userrankImg"    column="userrankImg"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="rankKeys"    column="rank_keys"    />
+        <result property="dataScope"    column="data_scope"    />
+    </resultMap>
+	
+	<sql id="selectMemberShopRanksVo">
+        select mid, rank_name, start_score, end_score,data_scope, userrankImg, del_flag, create_time, update_time, create_by, update_by, remark, dept_id, dept_name, sort, status, rank_keys from member_shop_ranks
+    </sql>
+	
+    <select id="selectMemberShopRanksList" parameterType="MemberShopRanks" resultMap="MemberShopRanksResult">
+        <include refid="selectMemberShopRanksVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="rankName != null  and rankName != '' "> and rank_name = #{rankName}</if>
+             <if test="startScore != null "> and start_score = #{startScore}</if>
+             <if test="endScore != null "> and end_score = #{endScore}</if>
+             <if test="userrankImg != null  and userrankImg != '' "> and userrankImg = #{userrankImg}</if>
+             <if test="delFlag != null "> and del_flag = #{delFlag}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="rankKeys != null  and rankKeys != '' "> and rank_keys = #{rankKeys}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberShopRanksById" parameterType="String" resultMap="MemberShopRanksResult">
+        <include refid="selectMemberShopRanksVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertMemberShopRanks" parameterType="MemberShopRanks">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>    
+        insert into member_shop_ranks
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="rankName != null  and rankName != ''  ">rank_name,</if>
+			<if test="startScore != null  ">start_score,</if>
+			<if test="endScore != null  ">end_score,</if>
+			<if test="userrankImg != null  and userrankImg != ''  ">userrankImg,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="rankKeys != null  and rankKeys != ''  ">rank_keys,</if>
+			<if test="dataScope != null  and dataScope != ''  ">data_scope,</if>
+			create_time,
+			update_time,		
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="rankName != null  and rankName != ''  ">#{rankName},</if>
+			<if test="startScore != null  ">#{startScore},</if>
+			<if test="endScore != null  ">#{endScore},</if>
+			<if test="userrankImg != null  and userrankImg != ''  ">#{userrankImg},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="rankKeys != null  and rankKeys != ''  ">#{rankKeys},</if>
+			<if test="dataScope != null  and dataScope != ''  ">#{dataScope},</if>			
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberShopRanks" parameterType="MemberShopRanks">
+        update member_shop_ranks
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rankName != null  and rankName != ''  ">rank_name = #{rankName},</if>
+            <if test="startScore != null  ">start_score = #{startScore},</if>
+            <if test="endScore != null  ">end_score = #{endScore},</if>
+            <if test="userrankImg != null  and userrankImg != ''  ">userrankImg = #{userrankImg},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="rankKeys != null  and rankKeys != ''  ">rank_keys = #{rankKeys},</if>
+			<if test="dataScope != null  and dataScope != ''  ">data_scope = #{dataScope},</if>	            
+            update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteMemberShopRanksById" parameterType="String">
+        delete from member_shop_ranks where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteMemberShopRanksByIds" parameterType="String">
+        delete from member_shop_ranks where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

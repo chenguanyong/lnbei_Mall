@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link th:href="@{/ajax/libs/jquery-ztree/3.5/css/metro/zTreeStyle.css}" rel="stylesheet"/>
+<style>
+
+input[type=file]{
+
+	display:none;
+}
+
+
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-memberShopRanks-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">角色名称：</label>
+				<div class="col-sm-8">
+					<input id="rankName" name="rankName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">角色标识：</label>
+				<div class="col-sm-8">
+					<input id="rankKeys" name="rankKeys" class="form-control" type="text">
+				</div>
+			</div>			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">积分上限：</label>
+				<div class="col-sm-8">
+					<input id="startScore" name="startScore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">积分下限：</label>
+				<div class="col-sm-8">
+					<input id="endScore" name="endScore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">角色图片：</label>
+				<div class="col-sm-3">
+				    <input id="userrankImg" name="userrankImg" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="userrankImgIN" >请选择文件</button>
+				</div>
+					<div class="col-sm-6 layer-photos-demo" id="userrankImgYL">
+				  
+				</div>				
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">菜单权限</label>
+				<div class="col-sm-8">
+					<div id="menuTrees" class="ztree"></div>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+	<script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
+    <script type="text/javascript">
+		var prefix = ctx + "member/memberShopRanks"
+		$("#form-memberShopRanks-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+	    $(function() {
+			var url = ctx + "system/menu/memberRanksMenuTreeData/2";
+			var options = {
+				id: "menuTrees",
+		        url: url,
+		        check: { enable: true },
+		        expandLevel: 0
+		    };
+			$.tree.init(options);
+		});
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	var formData = new FormData();
+	
+				/*******************/
+				formData.append('rankName', $("#rankName").val());
+				formData.append('rankKeys', $("#rankKeys").val());
+				formData.append('startScore', $("#startScore").val());
+				formData.append('endScore', $("#endScore").val());
+				formData.append('releaseDate', $("#releaseDate").val());
+				formData.append('status', $("input[name='status']").val());
+				formData.append('sort', $("#sort").val());
+				formData.append('remark', $("#remark").val());//userrankImg
+				formData.append('userrankImg', $("#userrankImg").val());//userrankImg
+				var menuIds = $.tree.getCheckedNodes();
+				formData.append('menuIds', menuIds);
+	        	$.ajax({
+	        		url: prefix + "/add",
+	        		type: 'post',
+	        		cache: false,
+	        		data: formData,
+	        		processData: false,
+	        		contentType: false,
+	        		dataType: "json",
+	        		success: function(result) {
+	        			$.operate.successCallback(result);
+	        		}
+	        	});
+	            
+	        }
+	    }
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+			$.common.uplodFile("userrankImgIN","userrankImg","userrankImgYL",false,upload);
+		});		
+	</script>
+</body>
+</html>

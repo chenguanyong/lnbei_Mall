@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpCartsMapper">
+    
+  <resultMap type="SpCarts" id="SpCartsResult">
+        <result property="mid"    column="mid"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="isCheck"    column="is_check"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsspecId"    column="goodsspec_id"    />
+        <result property="cartNum"    column="cart_num"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <result property="shopId"    column="shop_id"    />  
+        <association property="spGoods"     javaType="SpGoods" resultMap="SpGoodsResult" />   
+		<association property="spGoodsSpecs"     javaType="SpGoodsSpecs" resultMap="spGoodsSpecsResult" />                    
+    </resultMap>
+	<resultMap id="spGoodsSpecsResult" type="SpGoodsSpecs">
+       <result property="mid"    column="mid"    />
+        <result property="shopId"    column="gs_shop_id"    />
+        <result property="goodsId"    column="gs_goods_id"    />
+        <result property="productNo"    column="gs_product_no"    />
+        <result property="specIds"    column="gs_spec_ids"    />
+        <result property="marketPrice"    column="gs_market_price"    />
+        <result property="specPrice"    column="gs_spec_price"    />
+        <result property="specStock"    column="gs_spec_stock"    />
+        <result property="warnStock"    column="gs_warn_stock"    />
+        <result property="saleNum"    column="gs_sale_num"    />
+        <result property="isDefault"    column="gs_is_default"    />
+        <result property="specWeight"    column="gs_spec_weight"    />
+        <result property="specVolume"    column="gs_spec_volume"    />
+        <result property="deptId"    column="gs_dept_id"    />
+        <result property="deptName"    column="gs_dept_name"    />
+	</resultMap>
+    <resultMap type="SpGoods" id="SpGoodsResult">
+        <result property="mid"    column="g_goods_id"    />
+        <result property="goodsSn"    column="g_goods_sn"    />
+        <result property="productNo"    column="g_product_no"    />
+        <result property="goodsName"    column="g_goods_name"    />
+        <result property="goodsImg"    column="g_goods_img"    />
+        <result property="shopId"    column="g_shop_id"    />
+        
+        <result property="goodsType"    column="g_goods_type"    />
+        <result property="marketPrice"    column="g_market_price"    />
+        <result property="shopPrice"    column="g_shop_price"    />
+        
+        
+        <result property="warnStock"    column="g_warn_stock"    />
+        <result property="goodsStock"    column="g_goods_stock"    />
+        <result property="goodsUnit"    column="g_goods_unit"    />
+        <result property="goodsTips"    column="g_goods_tips"    />
+        
+        
+        <result property="isSale"    column="g_is_sale"    />
+        <result property="isBest"    column="g_is_best"    />
+        <result property="isHot"    column="g_is_hot"    />
+        <result property="isNew"    column="g_is_new"    />
+        <result property="isRecom"    column="g_is_recom"    />
+        <result property="goodsCatIdPath"    column="g_goods_cat_id_path"    /> 
+        <result property="goodscatId"    column="g_goodscat_id"    />
+        <result property="shopCatId1"    column="g_shop_cat_id1"    />
+        <result property="shopCatId2"    column="g_shop_cat_id2"    />
+        <result property="brandId"    column="g_brand_id"    />
+        <result property="goodsStatus"    column="g_goods_status"    />
+        <result property="saleNum"    column="g_sale_num"    />
+        <result property="visitNum"    column="g_visit_num"    />
+        <result property="appraiseNum"    column="g_appraise_num"    />
+        <result property="isSpec"    column="g_is_spec"    />
+        <result property="isFreeshipping"    column="g_is_freeshipping"    />
+        <result property="shippingFeetype"    column="g_shipping_feetype"    />
+        <result property="goodsWeight"    column="g_goods_weight"    />
+        <result property="goodsVolume"    column="g_goods_volume"    />
+        <result property="shopexpressId"    column="g_shopexpress_id"    />
+    </resultMap>		
+	<sql id="selectSpCartsVo">
+        select mid, member_id, is_check, goods_id, goodsspec_id, cart_num, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_carts
+    </sql>
+	
+   
+	<sql id="selectSpCartsVoSpGoods">
+        select m.mid, m.member_id, m.is_check, m.goods_id,m. goodsspec_id, m.cart_num, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort ,
+        g.shop_id , g.shop_id g_shop_id,
+       	g. mid g_goods_id, g.goods_sn g_goods_sn, g.product_no g_product_no, g.goods_name g_goods_name, g.goods_img g_goods_img,
+       	g.goods_type g_goods_type, g.market_price g_market_price, g.shop_price g_shop_price,
+       	g.warn_stock g_warn_stock, g.goods_stock g_goods_stock, g.goods_unit g_goods_unit,
+        g.goods_tips g_goods_tips,
+        
+         g.is_sale g_is_sale, g.is_best g_is_best, g.is_hot g_is_hot, g.is_new g_is_new, 
+        g.is_recom g_is_recom,
+        
+         g.goods_cat_id_path g_goods_cat_id_path, g.goodscat_id g_goodscat_id,
+        g.shop_cat_id1 g_shop_cat_id1, g.shop_cat_id2 g_shop_cat_id2, 
+        
+        g.brand_id g_brand_id, g.goods_status g_goods_status,
+        g.sale_num g_sale_num,
+        
+        g.visit_num g_visit_num, g.appraise_num g_appraise_num,  g.is_spec g_is_spec,
+        
+        
+        g.is_freeshipping g_is_freeshipping,  g.shipping_feetype g_shipping_feetype, g.goods_weight g_goods_weight,
+        g.goods_volume g_goods_volume, g.shopexpress_id g_shopexpress_id, g.dept_id g_dept_id, g.dept_name g_dept_name,
+         
+         gs. mid gs_mid, gs.shop_id gs_shop_id, gs.goods_id gs_goods_id, gs.product_no gs_product_no, gs.spec_ids gs_spec_ids, gs.market_price gs_market_price, gs.spec_price gs_spec_price, gs.spec_stock gs_spec_stock, gs.warn_stock gs_warn_stock, gs.sale_num gs_sale_num, gs.is_default gs_is_default, gs.spec_weight gs_spec_weight, gs.spec_volume gs_spec_volume,  gs.dept_id gs_dept_id, gs.dept_name  gs_dept_name
+        from sp_carts m
+        join sp_goods g on m.goods_id = g.mid and g.del_flag='0'
+        left join sp_goods_specs gs gs.goods_id = g.mid
+    </sql>
+    
+    <select id="selectSpCartsList" parameterType="SpCarts" resultMap="SpCartsResult">
+        <include refid="selectSpCartsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="isCheck != null  and isCheck != '' "> and is_check = #{isCheck}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="goodsspecId != null  and goodsspecId != '' "> and goodsspec_id = #{goodsspecId}</if>
+             <if test="cartNum != null "> and cart_num = #{cartNum}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+
+         </where>
+    </select>
+    	
+    <select id="selectSpCartsById" parameterType="String" resultMap="SpCartsResult">
+        <include refid="selectSpCartsVo"/>
+        where mid = #{mid} and del_flag='0'
+    </select>
+      <select id="selectSpCartsGoodsList" parameterType="SpCarts" resultMap="SpCartsResult">
+        <include refid="selectSpCartsVoSpGoods"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and m.mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and m.member_id = #{memberId}</if>
+             <if test="isCheck != null  and isCheck != '' "> and m.is_check = #{isCheck}</if>
+             <if test="goodsId != null  and goodsId != '' "> and m.goods_id = #{goodsId}</if>
+             <if test="goodsspecId != null  and goodsspecId != '' "> and m.goodsspec_id = #{goodsspecId}</if>
+             <if test="cartNum != null "> and m.cart_num = #{cartNum}</if>
+             <if test="delFlag != null  and delFlag != '' "> and m.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and m.create_by = #{createBy}</if>
+             <if test="createTime != null "> and m.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and m.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and m.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and m.remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and m.dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and m.dept_name = #{deptName}</if>
+
+         </where>
+    </select>
+    
+    <select id="selectSpCartsGoodsById" parameterType="String" resultMap="SpCartsResult">
+        <include refid="selectSpCartsVoSpGoods"/>
+        where m.mid = #{mid} and m.del_flag='0'
+    </select> 
+     
+    <select id="selectSpCartsBySpCarts" parameterType="SpCarts" resultMap="SpCartsResult">
+        <include refid="selectSpCartsVo"/>
+         <where>  
+        	and del_flag = '0'
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="isCheck != null  and isCheck != '' "> and is_check = #{isCheck}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="goodsspecId != null  and goodsspecId != '' "> and goodsspec_id = #{goodsspecId}</if>
+         </where>
+         limit 1
+    </select>  
+    
+ <insert id="insertSpCarts" parameterType="SpCarts">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_carts
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="isCheck != null  and isCheck != ''  ">is_check,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="goodsspecId != null  and goodsspecId != ''  ">goodsspec_id,</if>
+			<if test="cartNum != null and cartNum != 0  ">cart_num,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null and sort != 0  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="isCheck != null  and isCheck != ''  ">#{isCheck},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="goodsspecId != null  and goodsspecId != ''  ">#{goodsspecId},</if>
+			<if test="cartNum != null and cartNum != 0 ">#{cartNum},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null and sort != 0   ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpCarts" parameterType="SpCarts">
+        update sp_carts
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="isCheck != null  and isCheck != ''  ">is_check = #{isCheck},</if>
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="goodsspecId != null  and goodsspecId != ''  ">goodsspec_id = #{goodsspecId},</if>
+            <if test="cartNum != null and cartNum != 0 ">cart_num = #{cartNum},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>  
+  	<update id="checkedGoods" parameterType="String">
+        update sp_carts
+           is_check = #{isCheck}
+        where mid in 
+        <foreach item="mid" collection="mids" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </update>
+    <delete id="deleteSpCartsById" parameterType="String">
+        delete from sp_carts where mid = #{mid}
+    </delete>
+	<delete id="deleteSpCartsBySpCart" parameterType="SpCarts">
+        delete from sp_carts 
+           <where>  
+        	and del_flag = '0'
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="isCheck != null  and isCheck != '' "> and is_check = #{isCheck}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="goodsspecId != null  and goodsspecId != '' "> and goodsspec_id = #{goodsspecId}</if>
+         </where>
+    </delete>
+        <delete id="deleteSpCartsByIds" parameterType="String">
+        delete from sp_carts where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>  
+</mapper>

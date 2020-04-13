@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopConfigsMapper">
+    
+    <resultMap type="SpShopConfigs" id="SpShopConfigsResult">
+        <result property="mid"    column="mid"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="shopTitle"    column="shop_title"    />
+        <result property="shopKeywords"    column="shop_keywords"    />
+        <result property="shopDesc"    column="shop_desc"    />
+        <result property="shopBanner"    column="shop_banner"    />
+        <result property="shopAds"    column="shop_ads"    />
+        <result property="shopAdsurl"    column="shop_adsurl"    />
+        <result property="shopServicer"    column="shop_servicer"    />
+        <result property="shopHotWords"    column="shop_hot_words"    />
+        <result property="shopStreetImg"    column="shop_street_img"    />
+        <result property="shopMoveBanner"    column="shop_move_banner"    />
+        <result property="shopHomeTheme"    column="shop_home_theme"    />
+        <result property="mobileShopHomeTheme"    column="mobile_shop_home_theme"    />
+        <result property="wechatShopHomeTheme"    column="wechat_shop_home_theme"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpShopConfigsVo">
+        select mid, shop_id, shop_title, shop_keywords, shop_desc, shop_banner, shop_ads, shop_adsurl, shop_servicer, shop_hot_words, shop_street_img, shop_move_banner, shop_home_theme, mobile_shop_home_theme, wechat_shop_home_theme, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_shop_configs
+    </sql>
+	
+    <select id="selectSpShopConfigsList" parameterType="SpShopConfigs" resultMap="SpShopConfigsResult">
+        <include refid="selectSpShopConfigsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="shopTitle != null  and shopTitle != '' "> and shop_title = #{shopTitle}</if>
+             <if test="shopKeywords != null  and shopKeywords != '' "> and shop_keywords = #{shopKeywords}</if>
+             <if test="shopDesc != null  and shopDesc != '' "> and shop_desc = #{shopDesc}</if>
+             <if test="shopBanner != null  and shopBanner != '' "> and shop_banner = #{shopBanner}</if>
+             <if test="shopAds != null  and shopAds != '' "> and shop_ads = #{shopAds}</if>
+             <if test="shopAdsurl != null  and shopAdsurl != '' "> and shop_adsurl = #{shopAdsurl}</if>
+             <if test="shopServicer != null  and shopServicer != '' "> and shop_servicer = #{shopServicer}</if>
+             <if test="shopHotWords != null  and shopHotWords != '' "> and shop_hot_words = #{shopHotWords}</if>
+             <if test="shopStreetImg != null  and shopStreetImg != '' "> and shop_street_img = #{shopStreetImg}</if>
+             <if test="shopMoveBanner != null  and shopMoveBanner != '' "> and shop_move_banner = #{shopMoveBanner}</if>
+             <if test="shopHomeTheme != null  and shopHomeTheme != '' "> and shop_home_theme = #{shopHomeTheme}</if>
+             <if test="mobileShopHomeTheme != null  and mobileShopHomeTheme != '' "> and mobile_shop_home_theme = #{mobileShopHomeTheme}</if>
+             <if test="wechatShopHomeTheme != null  and wechatShopHomeTheme != '' "> and wechat_shop_home_theme = #{wechatShopHomeTheme}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpShopConfigsById" parameterType="String" resultMap="SpShopConfigsResult">
+        <include refid="selectSpShopConfigsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpShopConfigs" parameterType="SpShopConfigs">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_shop_configs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="shopTitle != null  and shopTitle != ''  ">shop_title,</if>
+			<if test="shopKeywords != null  and shopKeywords != ''  ">shop_keywords,</if>
+			<if test="shopDesc != null  and shopDesc != ''  ">shop_desc,</if>
+			<if test="shopBanner != null  and shopBanner != ''  ">shop_banner,</if>
+			<if test="shopAds != null  and shopAds != ''  ">shop_ads,</if>
+			<if test="shopAdsurl != null  and shopAdsurl != ''  ">shop_adsurl,</if>
+			<if test="shopServicer != null  and shopServicer != ''  ">shop_servicer,</if>
+			<if test="shopHotWords != null  and shopHotWords != ''  ">shop_hot_words,</if>
+			<if test="shopStreetImg != null  and shopStreetImg != ''  ">shop_street_img,</if>
+			<if test="shopMoveBanner != null  and shopMoveBanner != ''  ">shop_move_banner,</if>
+			<if test="shopHomeTheme != null  and shopHomeTheme != ''  ">shop_home_theme,</if>
+			<if test="mobileShopHomeTheme != null  and mobileShopHomeTheme != ''  ">mobile_shop_home_theme,</if>
+			<if test="wechatShopHomeTheme != null  and wechatShopHomeTheme != ''  ">wechat_shop_home_theme,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="shopTitle != null  and shopTitle != ''  ">#{shopTitle},</if>
+			<if test="shopKeywords != null  and shopKeywords != ''  ">#{shopKeywords},</if>
+			<if test="shopDesc != null  and shopDesc != ''  ">#{shopDesc},</if>
+			<if test="shopBanner != null  and shopBanner != ''  ">#{shopBanner},</if>
+			<if test="shopAds != null  and shopAds != ''  ">#{shopAds},</if>
+			<if test="shopAdsurl != null  and shopAdsurl != ''  ">#{shopAdsurl},</if>
+			<if test="shopServicer != null  and shopServicer != ''  ">#{shopServicer},</if>
+			<if test="shopHotWords != null  and shopHotWords != ''  ">#{shopHotWords},</if>
+			<if test="shopStreetImg != null  and shopStreetImg != ''  ">#{shopStreetImg},</if>
+			<if test="shopMoveBanner != null  and shopMoveBanner != ''  ">#{shopMoveBanner},</if>
+			<if test="shopHomeTheme != null  and shopHomeTheme != ''  ">#{shopHomeTheme},</if>
+			<if test="mobileShopHomeTheme != null  and mobileShopHomeTheme != ''  ">#{mobileShopHomeTheme},</if>
+			<if test="wechatShopHomeTheme != null  and wechatShopHomeTheme != ''  ">#{wechatShopHomeTheme},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+        </trim>
+    </insert>
+	 
+    <update id="updateSpShopConfigs" parameterType="SpShopConfigs">
+        update sp_shop_configs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="shopTitle != null  and shopTitle != ''  ">shop_title = #{shopTitle},</if>
+            <if test="shopKeywords != null  and shopKeywords != ''  ">shop_keywords = #{shopKeywords},</if>
+            <if test="shopDesc != null  and shopDesc != ''  ">shop_desc = #{shopDesc},</if>
+            <if test="shopBanner != null  and shopBanner != ''  ">shop_banner = #{shopBanner},</if>
+            <if test="shopAds != null  and shopAds != ''  ">shop_ads = #{shopAds},</if>
+            <if test="shopAdsurl != null  and shopAdsurl != ''  ">shop_adsurl = #{shopAdsurl},</if>
+            <if test="shopServicer != null  and shopServicer != ''  ">shop_servicer = #{shopServicer},</if>
+            <if test="shopHotWords != null  and shopHotWords != ''  ">shop_hot_words = #{shopHotWords},</if>
+            <if test="shopStreetImg != null  and shopStreetImg != ''  ">shop_street_img = #{shopStreetImg},</if>
+            <if test="shopMoveBanner != null  and shopMoveBanner != ''  ">shop_move_banner = #{shopMoveBanner},</if>
+            <if test="shopHomeTheme != null  and shopHomeTheme != ''  ">shop_home_theme = #{shopHomeTheme},</if>
+            <if test="mobileShopHomeTheme != null  and mobileShopHomeTheme != ''  ">mobile_shop_home_theme = #{mobileShopHomeTheme},</if>
+            <if test="wechatShopHomeTheme != null  and wechatShopHomeTheme != ''  ">wechat_shop_home_theme = #{wechatShopHomeTheme},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopConfigsById" parameterType="String">
+        delete from sp_shop_configs where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopConfigsByIds" parameterType="String">
+        delete from sp_shop_configs where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

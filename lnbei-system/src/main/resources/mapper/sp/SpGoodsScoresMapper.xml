@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpGoodsScoresMapper">
+    
+    <resultMap type="SpGoodsScores" id="SpGoodsScoresResult">
+        <result property="mid"    column="mid"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="totalScore"    column="total_score"    />
+        <result property="totalUsers"    column="total_users"    />
+        <result property="goodsScore"    column="goods_score"    />
+        <result property="goodsUsers"    column="goods_users"    />
+        <result property="serviceScore"    column="service_score"    />
+        <result property="serviceUsers"    column="service_users"    />
+        <result property="timeScore"    column="time_score"    />
+        <result property="timeUsers"    column="time_users"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpGoodsScoresVo">
+        select mid, goods_id, shop_id, total_score, total_users, goods_score, goods_users, service_score, service_users, time_score, time_users, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_goods_scores
+    </sql>
+	
+    <select id="selectSpGoodsScoresList" parameterType="SpGoodsScores" resultMap="SpGoodsScoresResult">
+        <include refid="selectSpGoodsScoresVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="totalScore != null "> and total_score = #{totalScore}</if>
+             <if test="totalUsers != null "> and total_users = #{totalUsers}</if>
+             <if test="goodsScore != null "> and goods_score = #{goodsScore}</if>
+             <if test="goodsUsers != null "> and goods_users = #{goodsUsers}</if>
+             <if test="serviceScore != null "> and service_score = #{serviceScore}</if>
+             <if test="serviceUsers != null "> and service_users = #{serviceUsers}</if>
+             <if test="timeScore != null "> and time_score = #{timeScore}</if>
+             <if test="timeUsers != null "> and time_users = #{timeUsers}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpGoodsScoresById" parameterType="String" resultMap="SpGoodsScoresResult">
+        <include refid="selectSpGoodsScoresVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpGoodsScores" parameterType="SpGoodsScores">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_goods_scores
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="totalScore != null  ">total_score,</if>
+			<if test="totalUsers != null  ">total_users,</if>
+			<if test="goodsScore != null  ">goods_score,</if>
+			<if test="goodsUsers != null  ">goods_users,</if>
+			<if test="serviceScore != null  ">service_score,</if>
+			<if test="serviceUsers != null  ">service_users,</if>
+			<if test="timeScore != null  ">time_score,</if>
+			<if test="timeUsers != null  ">time_users,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+									create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="totalScore != null  ">#{totalScore},</if>
+			<if test="totalUsers != null  ">#{totalUsers},</if>
+			<if test="goodsScore != null  ">#{goodsScore},</if>
+			<if test="goodsUsers != null  ">#{goodsUsers},</if>
+			<if test="serviceScore != null  ">#{serviceScore},</if>
+			<if test="serviceUsers != null  ">#{serviceUsers},</if>
+			<if test="timeScore != null  ">#{timeScore},</if>
+			<if test="timeUsers != null  ">#{timeUsers},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+						sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpGoodsScores" parameterType="SpGoodsScores">
+        update sp_goods_scores
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="totalScore != null  ">total_score = #{totalScore},</if>
+            <if test="totalUsers != null  ">total_users = #{totalUsers},</if>
+            <if test="goodsScore != null  ">goods_score = #{goodsScore},</if>
+            <if test="goodsUsers != null  ">goods_users = #{goodsUsers},</if>
+            <if test="serviceScore != null  ">service_score = #{serviceScore},</if>
+            <if test="serviceUsers != null  ">service_users = #{serviceUsers},</if>
+            <if test="timeScore != null  ">time_score = #{timeScore},</if>
+            <if test="timeUsers != null  ">time_users = #{timeUsers},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                   update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpGoodsScoresById" parameterType="String">
+        delete from sp_goods_scores where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpGoodsScoresByIds" parameterType="String">
+        delete from sp_goods_scores where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

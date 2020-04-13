@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wfWorkflow-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:rea">*</span>流程类别：</label>
+				<div class="col-sm-8">
+					<input id="classify" onClick="selectCategoryTree('content_type')" name="classify" class="form-control" type="text">
+					<input id="classifyId" name="classifyId" class="form-control" type="hidden">
+				</div>
+			</div>        
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:rea">*</span>工作流名称：</label>
+				<div class="col-sm-8">
+					<input id="title" name="title" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:rea">*</span>工作流类型：</label>
+				<div class="col-sm-8">
+					<select id="flowType"  name="flowType"  class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('wf_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+						</select>					
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wf/wfWorkflow"
+		$("#form-wfWorkflow-add").validate({
+			rules:{
+				classify:{
+					required:true,
+				},
+				title:{
+					required:true,
+				},
+				flowType:{
+					required:true,
+				},				
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-wfWorkflow-add').serialize());
+	        }
+	    }
+	       function selectCategoryTree(flag) {
+
+	        	var url = ctx + "home/homeCategory/categoryTree?flag=" + flag;
+				var options = {
+					title: '选择类别',
+					width: "380",
+					url: url,
+					callBack: doSubmit
+				};
+				$.modal.openOptions(options);
+			}
+			
+			function doSubmit(index, layero){
+				var tree = layero.find("iframe")[0].contentWindow.$._tree;
+			
+					var body = layer.getChildFrame('body', index);
+	    			$("#classifyId").val(body.find('#treeId').val());
+	    			$("#classify").val(body.find('#treeName').val());
+	    			layer.close(index);
+			
+			}		
+	</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpServiceGoodsMapper">
+    
+    <resultMap type="SpServiceGoods" id="SpServiceGoodsResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="serviceId"    column="service_id"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="goodsSpecId"    column="goods_spec_id"    />
+        <result property="goodsNum"    column="goods_num"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectSpServiceGoodsVo">
+        select mid, order_id, service_id, goods_id, goods_spec_id, goods_num, create_time, del_flag, create_by, update_by, remark, sort, status, update_time from sp_service_goods
+    </sql>
+	
+    <select id="selectSpServiceGoodsList" parameterType="SpServiceGoods" resultMap="SpServiceGoodsResult">
+        <include refid="selectSpServiceGoodsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="orderId != null  and orderId != '' "> and order_id = #{orderId}</if>
+             <if test="serviceId != null  and serviceId != '' "> and service_id = #{serviceId}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="goodsSpecId != null  and goodsSpecId != '' "> and goods_spec_id = #{goodsSpecId}</if>
+             <if test="goodsNum != null "> and goods_num = #{goodsNum}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpServiceGoodsById" parameterType="String" resultMap="SpServiceGoodsResult">
+        <include refid="selectSpServiceGoodsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpServiceGoods" parameterType="SpServiceGoods">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_service_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderId != null  and orderId != ''  ">order_id,</if>
+			<if test="serviceId != null  and serviceId != ''  ">service_id,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="goodsSpecId != null  and goodsSpecId != ''  ">goods_spec_id,</if>
+			<if test="goodsNum != null  ">goods_num,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+	create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderId != null  and orderId != ''  ">#{orderId},</if>
+			<if test="serviceId != null  and serviceId != ''  ">#{serviceId},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="goodsSpecId != null  and goodsSpecId != ''  ">#{goodsSpecId},</if>
+			<if test="goodsNum != null  ">#{goodsNum},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate(),		
+         </trim>
+    </insert>
+	 
+    <update id="updateSpServiceGoods" parameterType="SpServiceGoods">
+        update sp_service_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  and orderId != ''  ">order_id = #{orderId},</if>
+            <if test="serviceId != null  and serviceId != ''  ">service_id = #{serviceId},</if>
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="goodsSpecId != null  and goodsSpecId != ''  ">goods_spec_id = #{goodsSpecId},</if>
+            <if test="goodsNum != null  ">goods_num = #{goodsNum},</if>     
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+        update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpServiceGoodsById" parameterType="String">
+        delete from sp_service_goods where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpServiceGoodsByIds" parameterType="String">
+        delete from sp_service_goods where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

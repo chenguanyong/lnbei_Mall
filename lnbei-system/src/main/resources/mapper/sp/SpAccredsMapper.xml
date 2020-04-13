@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpAccredsMapper">
+    
+    <resultMap type="SpAccreds" id="SpAccredsResult">
+        <result property="mid"    column="mid"    />
+        <result property="accredName"    column="accred_name"    />
+        <result property="accredImg"    column="accred_img"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectSpAccredsVo">
+        select mid, accred_name, accred_img, create_time, del_flag, create_by, update_by, remark, sort, status, update_time from sp_accreds
+    </sql>
+	
+    <select id="selectSpAccredsList" parameterType="SpAccreds" resultMap="SpAccredsResult">
+        <include refid="selectSpAccredsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="accredName != null  and accredName != '' "> and accred_name = #{accredName}</if>
+             <if test="accredImg != null  and accredImg != '' "> and accred_img = #{accredImg}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpAccredsById" parameterType="String" resultMap="SpAccredsResult">
+        <include refid="selectSpAccredsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpAccreds" parameterType="SpAccreds">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>    
+        insert into sp_accreds
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="accredName != null  and accredName != ''  ">accred_name,</if>
+			<if test="accredImg != null  and accredImg != ''  ">accred_img,</if>
+	
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+					create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="accredName != null  and accredName != ''  ">#{accredName},</if>
+			<if test="accredImg != null  and accredImg != ''  ">#{accredImg},</if>
+		
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+				sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpAccreds" parameterType="SpAccreds">
+        update sp_accreds
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="accredName != null  and accredName != ''  ">accred_name = #{accredName},</if>
+            <if test="accredImg != null  and accredImg != ''  ">accred_img = #{accredImg},</if>
+       
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+      
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+           update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpAccredsById" parameterType="String">
+        delete from sp_accreds where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpAccredsByIds" parameterType="String">
+        delete from sp_accreds where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

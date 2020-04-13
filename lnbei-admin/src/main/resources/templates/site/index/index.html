@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="site/public/header:: header"></head>
+<body class="no-skin pos-rel" data-spy="scroll" data-target="#menu">
+<div th:replace="site/public/nav:: nav"></div>
+<div class="main-container" style="height:630px;">
+  <div class="jumbotron main-background"  style="height:600px; position: relative;" >
+	<br />
+    
+    <img src="/site/img/home-bg1.png" class="img-main-background" style="height:100%" data-src="https://pixabay.com/en/apple-steve-jobs-quotes-scrabble-758334/" />
+    <div class="container pos-rel">
+      <div class="text-center">
+        <p class="white"><img style="width:92px; height:92px" src="/site/img/LOGO2.PNG" alt="lnbei" /></p>
+        <br />
+        <h1 class="white" style="font-size:50px; font-family: serif; font-weight: 1;">最经典的WEB快速开发平台</h1>
+        <h3 class="light-blue"></h3>
+        <a style="margin-bottom: 20px;width:250px" class="btn btn-purple btn-lg" href="https://codeload.github.com/chenguanyong/lnbei/zip/master" role="button"><i class="ace-icon fa fa-arrow-circle-o-down bigger-200"></i><span class="bigger-200 no-text-shadow">下载</span></a>
+        <p class="text-center light-blue" style="font-size:14px"><span>当前版本：V2.1</span>&nbsp;&nbsp;<span>升级日志:<a class="btn btn-link ">更新日志</a></span></p>
+        <p class="text-center light-blue" style="font-size:14px"><span>下载量：200</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="main-container" >
+  <div  class="section " style="    padding-top: 0px;" >
+    <div class="container">
+      <div class="space-4"></div>
+      <div class="row text-center">
+        <div class="col-md-3">
+          <h4 class="text-info">功能丰富</h4>
+          <p class="text-muted align-justify">框架集成了常用的Excel，word，阿里大鱼、支付宝、钉钉、邮箱、webserver、QQ等插件，让web开发更快</p>
+        </div>
+        <div class="col-md-3">
+          <h4 class="text-info">操作方便</h4>
+          <p class="text-muted align-justify">框架把常用的功能进行了封装，展示性页面可以手动在线设计，模块快速生成，让web开发更省力</p>
+        </div>
+        <div class="col-md-3">
+          <h4 class="text-info">扁平设计</h4>
+          <p class="text-muted align-justify">框架前端基于bootstrap和ace admin两大优秀开源的框架设计，具备扁平化设计、简洁、直观、强悍前端开发框架的优点，让web开发更迅速、简单</p>
+        </div>
+         <div class="col-md-3">
+          <h4 class="text-info">文档丰富</h4>
+          <p class="text-muted align-justify">框架提供了相对丰富的文档，包括API、快速起步、框架设计思路、常用的实例，真正深入掌握框架，让web开发更自然，更省心</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<head th:include="site/public/footer:: footer"></head>
+</body>
+</html>

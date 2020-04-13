@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								用户名：<input type="text" name="userId"/>
+							</li>
+
+							<li>
+								日期：<input type="text" name="createTime"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="fi:fiBonusDetail2:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('fi:fiBonusDetail2:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('fi:fiBonusDetail2:remove')}]];
+        var prefix = ctx + "fi/fiBonusDetail2";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "奖金明细",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '自增ID',
+					visible: false
+				},
+				{
+					field : 'userId', 
+					title : '会员名称',
+					sortable: true
+				},
+				{
+					field : 'day', 
+					title : '日期',
+					sortable: true
+				},
+				{
+					field : 'fromUserSerialNumber', 
+					title : '来自会员编号',
+					sortable: true
+				},
+				{
+					field : 'bonustype', 
+					title : '奖金类型',
+					sortable: true
+				},
+				{
+					field : 'money', 
+					title : '奖金',
+					sortable: true
+				},
+			
+		  ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

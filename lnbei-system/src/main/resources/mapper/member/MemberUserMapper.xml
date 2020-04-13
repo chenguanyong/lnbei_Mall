@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.member.mapper.MemberUserMapper">
+    
+    <resultMap type="MemberUser" id="MemberUserResult">
+        <result property="mid"    column="mid"    />
+        <result property="loginName"    column="login_name"    />
+        <result property="loginSecret"    column="login_secret"    />
+        <result property="loginPwd"    column="login_pwd"    />
+        <result property="payPwd"    column="pay_pwd"    />
+        <result property="userType"    column="user_type"    />
+        <result property="userSex"    column="user_sex"    />
+        <result property="userName"    column="user_name"    />
+        <result property="trueName"    column="true_name"    />
+        <result property="brithday"    column="brithday"    />
+        <result property="userPhoto"    column="user_photo"    />
+        <result property="userQq"    column="user_QQ"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="userEmail"    column="user_email"    />
+        <result property="userMoney"    column="user_money"    />
+        <result property="userScore"    column="user_score"    />
+        <result property="userTotalScore"    column="user_total_score"    />
+        <result property="lastIp"    column="last_IP"    />
+        <result property="lastTime"    column="last_time"    />
+        <result property="lockMoney"    column="lock_money"    />
+        <result property="userStatus"    column="user_status"    />
+        <result property="delFlag"    column="del_flag"    />
+    
+        <result property="levelId"    column="level_id"    />
+        <result property="parentId"    column="parentId"    />
+        <result property="grandfatherId"    column="grandfatherId"    />
+        <result property="point"    column="point"    />
+        <result property="directPath"    column="direct_path"    />
+        <result property="nodePath"    column="node_path"    />
+        <result property="path"    column="path"    />
+        <result property="childCnt"    column="child_cnt"    />
+        <result property="depth"    column="depth"    />
+        <result property="totalNumber"    column="total_number"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="ztSize"    column="zt_size"    />
+        <result property="recommendNumber"    column="recommend_number"    />
+        <result property="token"    column="token"    />
+        <result property="bonus"    column="bonus"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="position"    column="position"    />
+        <result property="zd"    column="zd"    />
+        <result property="lang"    column="lang"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="isAuthname"    column="is_authName"    />
+        <result property="isShoper"    column="is_shoper"    />
+        <result property="identity"    column="identity"    />
+        <result property="loginIp"    column="login_ip"    />
+        <result property="loginDate"    column="login_date"    />        
+    </resultMap>
+	
+	<sql id="selectMemberUserVo">
+        select u.is_shoper, u.identity, u.mid, u.login_name,u.login_ip,u.login_date, u.login_secret, u.login_pwd, u.pay_pwd, u.user_type, u.user_sex, u.user_name, u.true_name, u.brithday, u.user_photo, u.user_QQ, u.user_phone, u.user_email, u.user_money, u.user_score, u.user_total_score, u.last_IP, u.last_time, u.lock_money, u.user_status, u.del_flag, u.level_id, u.parentId, u.grandfatherId, u.point, u.direct_path, u.node_path, u.path, u.child_cnt, u.depth, u.total_number, u.serial_number, u.zt_size, u.recommend_number, u.token, u.bonus, u.shop_id, u.position, u.zd, u.lang, u.create_time, u.create_by, u.update_time, u.update_by, u.remark, u.sort, u.is_authName from member_user u
+    </sql>
+	<sql id="selectMemberUserVoCount">
+        select count(0) from member_user u
+    </sql>
+    
+    <select id="selectAllocatedList" parameterType="MemberUser" resultMap="MemberUserResult">
+	    select distinct u.mid,  u.login_name, u.user_name, u.user_email, u.user_phone, u.user_status, u.create_time
+	    from member_user u
+			
+			 left join member_ranks_user ur on u.mid = ur.member_id
+			 left join member_user_ranks r on r.mid = ur.ranks_id
+	    where u.is_shoper='0' and u.del_flag = '0' and r.mid = #{levelId}  
+	    <if test="loginName != null and loginName != ''">
+			AND u.login_name like concat('%', #{loginName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND u.user_phone like concat('%', #{userPhone}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+	
+	<select id="selectUnallocatedList" parameterType="MemberUser" resultMap="MemberUserResult">
+	    select distinct u.mid,  u.login_name, u.user_name, u.user_email, u.user_phone, u.user_status, u.create_time
+	    from member_user u
+			
+			 left join member_ranks_user ur on u.mid = ur.member_id
+			 left join member_user_ranks r on r.mid = ur.ranks_id 
+	    where u.is_shoper='0' and  u.del_flag = '0' and (r.mid != #{levelId} or r.mid IS NULL)  
+	    and u.mid not in (select u.mid from member_user u inner join member_ranks_user ur on u.mid = ur.member_id and ur.ranks_id = #{levelId})
+	    <if test="loginName != null and loginName != ''">
+			AND u.login_name like concat('%', #{loginName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND u.user_phone like concat('%', #{userPhone}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+	
+    <select id="selectAllocatedShopList" parameterType="MemberUser" resultMap="MemberUserResult">
+	    select distinct u.mid,  u.login_name, u.user_name, u.user_email, u.user_phone, u.user_status, u.create_time
+	    from member_user u
+			
+			 left join member_ranks_shop ur on u.mid = ur.member_id
+			 left join member_shop_ranks r on r.mid = ur.ranks_id
+	    where u.is_shoper='1' and u.del_flag = '0' and r.mid = #{levelId}  
+	    <if test="loginName != null and loginName != ''">
+			AND u.login_name like concat('%', #{loginName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND u.user_phone like concat('%', #{userPhone}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+	
+	<select id="selectUnallocatedShopList" parameterType="MemberUser" resultMap="MemberUserResult">
+	    select distinct u.mid,  u.login_name, u.user_name, u.user_email, u.user_phone, u.user_status, u.create_time
+	    from member_user u
+			
+			 left join member_ranks_shop ur on u.mid = ur.member_id
+			 left join member_shop_ranks r on r.mid = ur.ranks_id 
+	    where u.is_shoper='1' and u.del_flag = '0' and (r.mid != #{levelId} or r.mid IS NULL)  
+	    and u.mid not in (select u.mid from member_user u inner join member_ranks_shop ur on u.mid = ur.member_id and ur.ranks_id = #{levelId})
+	    <if test="loginName != null and loginName != ''">
+			AND u.login_name like concat('%', #{loginName}, '%')
+		</if>
+		<if test="userPhone != null and userPhone != ''">
+			AND u.user_phone like concat('%', #{userPhone}, '%')
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>   
+    
+    <select id="selectMemberUserList" parameterType="MemberUser" resultMap="MemberUserResult">
+        <include refid="selectMemberUserVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and u.mid = #{mid}</if>
+             <if test="loginName != null  and loginName != '' "> and u.login_name = #{loginName}</if>
+             <if test="loginSecret != null "> and u.login_secret = #{loginSecret}</if>
+ 
+             <if test="userType != null "> and u.user_type = #{userType}</if>
+             <if test="userSex != null "> and u.user_sex = #{userSex}</if>
+             <if test="userName != null  and userName != '' "> and u.user_name = #{userName}</if>
+             <if test="trueName != null  and trueName != '' "> and u.true_name = #{trueName}</if>
+             <if test="brithday != null "> and u.brithday = #{brithday}</if>
+             <if test="userPhoto != null  and userPhoto != '' "> and u.user_photo = #{userPhoto}</if>
+             <if test="userQq != null  and userQq != '' "> and u.user_QQ = #{userQq}</if>
+             <if test="userPhone != null  and userPhone != '' "> and u.user_phone = #{userPhone}</if>
+             <if test="userEmail != null  and userEmail != '' "> and u.user_email = #{userEmail}</if>
+             <if test="userMoney != null "> and u.user_money = #{userMoney}</if>
+             <if test="userScore != null "> and u.user_score = #{userScore}</if>
+             <if test="userTotalScore != null "> and u.user_total_score = #{userTotalScore}</if>
+             <if test="lastIp != null  and lastIp != '' "> and u.last_IP = #{lastIp}</if>
+             <if test="lastTime != null "> and u.last_time = #{lastTime}</if>
+             <if test="lockMoney != null "> and u.lock_money = #{lockMoney}</if>
+             <if test="userStatus != null "> and u.user_status = #{userStatus}</if>
+             <if test="delFlag != null "> and u.del_flag = #{delFlag}</if>
+       
+             <if test="levelId != null  and levelId != '' "> and u.level_id = #{levelId}</if>
+             <if test="parentId != null "> and u.parentId = #{parentId}</if>
+             <if test="grandfatherId != null "> and u.grandfatherId = #{grandfatherId}</if>
+             <if test="point != null  and point != '' "> and u.point = #{point}</if>
+             <if test="directPath != null  and directPath != '' "> and u.direct_path = #{directPath}</if>
+             <if test="nodePath != null  and nodePath != '' "> and u.node_path = #{nodePath}</if>
+             <if test="path != null  and path != '' "> and u.path = #{path}</if>
+             <if test="childCnt != null "> and u.child_cnt = #{childCnt}</if>
+             <if test="depth != null "> and u.depth = #{depth}</if>
+             <if test="totalNumber != null "> and u.total_number = #{totalNumber}</if>
+             <if test="serialNumber != null  and serialNumber != '' "> and u.serial_number = #{serialNumber}</if>
+             <if test="ztSize != null "> and u.zt_size = #{ztSize}</if>
+             <if test="recommendNumber != null  and recommendNumber != '' "> and u.recommend_number = #{recommendNumber}</if>
+             <if test="token != null  and token != '' "> and u.token = #{token}</if>
+             <if test="bonus != null "> and u.bonus = #{bonus}</if>
+             <if test="shopId != null  and shopId != '' "> and u.shop_id = #{shopId}</if>
+             <if test="position != null "> and u.position = #{position}</if>
+             <if test="zd != null  and zd != '' "> and u.zd = #{zd}</if>
+             <if test="lang != null "> and u.lang = #{lang}</if>
+         
+             <if test="isShoper != null and isShoper != '' "> and u.is_shoper = #{isShoper}</if>
+             <if test="identity != null and identity !='' "> and u.identity = #{identity}</if>
+             <if test="createBy != null  and createBy != '' "> and u.create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and u.update_by = #{updateBy}</if>
+             <if test="isAuthname != null  and isAuthname != '' "> and u.is_authName = #{isAuthname}</if>           
+         </where>
+         	${params.dataScope}  
+    </select>
+    
+    <select id="selectMemberUserById" parameterType="String" resultMap="MemberUserResult">
+        <include refid="selectMemberUserVo"/>
+        where u.mid = #{mid}
+    </select>
+    <select id="selectMemberUserBySerialNumber" parameterType="String" resultMap="MemberUserResult">
+        <include refid="selectMemberUserVo"/>
+        where u.serial_number = #{SerialNumber} and u.user_status='1'
+    </select> 
+     
+    <select id="selectMemberUserCount" parameterType="String" resultType="java.lang.Integer">
+        <include refid="selectMemberUserVoCount"/>
+    </select>    
+    <insert id="insertMemberUser" parameterType="MemberUser">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into member_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="loginName != null  and loginName != ''  ">login_name,</if>
+			<if test="loginSecret != null  ">login_secret,</if>
+			<if test="loginPwd != null  and loginPwd != ''  ">login_pwd,</if>
+			<if test="payPwd != null  and payPwd != ''  ">pay_pwd,</if>
+			<if test="userType != null  ">user_type,</if>
+			<if test="userSex != null  ">user_sex,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="trueName != null  and trueName != ''  ">true_name,</if>
+			<if test="brithday != null  ">brithday,</if>
+			<if test="userPhoto != null  and userPhoto != ''  ">user_photo,</if>
+			<if test="userQq != null  and userQq != ''  ">user_QQ,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="userEmail != null  and userEmail != ''  ">user_email,</if>
+			<if test="userMoney != null  ">user_money,</if>
+			<if test="userScore != null  ">user_score,</if>
+			<if test="userTotalScore != null  ">user_total_score,</if>
+			<if test="lastIp != null  and lastIp != ''  ">last_IP,</if>
+			<if test="lastTime != null  ">last_time,</if>
+			<if test="lockMoney != null  ">lock_money,</if>
+			<if test="userStatus != null  and userStatus != '' ">user_status,</if>
+			<if test="delFlag != null and  delFlag != ''  ">del_flag,</if>
+	
+			<if test="levelId != null  and levelId != ''  ">level_id,</if>
+			<if test="parentId != null  ">parentId,</if>
+			<if test="grandfatherId != null  ">grandfatherId,</if>
+			<if test="point != null  and point != ''  ">point,</if>
+			<if test="directPath != null  and directPath != ''  ">direct_path,</if>
+			<if test="nodePath != null  and nodePath != ''  ">node_path,</if>
+			<if test="path != null  and path != ''  ">path,</if>
+			<if test="childCnt != null  ">child_cnt,</if>
+			<if test="depth != null  ">depth,</if>
+			<if test="totalNumber != null  ">total_number,</if>
+			<if test="serialNumber != null  and serialNumber != ''  ">serial_number,</if>
+			<if test="ztSize != null  ">zt_size,</if>
+			<if test="recommendNumber != null  and recommendNumber != ''  ">recommend_number,</if>
+			<if test="token != null  and token != ''  ">token,</if>
+			<if test="bonus != null  ">bonus,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="position != null  ">position,</if>
+			<if test="zd != null  and zd != ''  ">zd,</if>
+			<if test="lang != null  ">lang,</if>
+		
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="isAuthname != null  and isAuthname != ''  ">is_authName,</if>
+			<if test="identity != null  and identity != ''  ">identity,</if>
+			<if test="isShoper != null  and isShoper != ''  ">is_shoper,</if>
+			<if test="loginIp != null  and loginIp != ''  ">login_ip,</if>
+			<if test="loginDate != null  and loginDate != ''  ">login_date,</if>
+			create_time,
+			update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="loginName != null  and loginName != ''  ">#{loginName},</if>
+			<if test="loginSecret != null  ">#{loginSecret},</if>
+			<if test="loginPwd != null  and loginPwd != ''  ">#{loginPwd},</if>
+			<if test="payPwd != null  and payPwd != ''  ">#{payPwd},</if>
+			<if test="userType != null  ">#{userType},</if>
+			<if test="userSex != null  ">#{userSex},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="trueName != null  and trueName != ''  ">#{trueName},</if>
+			<if test="brithday != null  ">#{brithday},</if>
+			<if test="userPhoto != null  and userPhoto != ''  ">#{userPhoto},</if>
+			<if test="userQq != null  and userQq != ''  ">#{userQq},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="userEmail != null  and userEmail != ''  ">#{userEmail},</if>
+			<if test="userMoney != null  ">#{userMoney},</if>
+			<if test="userScore != null  ">#{userScore},</if>
+			<if test="userTotalScore != null  ">#{userTotalScore},</if>
+			<if test="lastIp != null  and lastIp != ''  ">#{lastIp},</if>
+			<if test="lastTime != null  ">#{lastTime},</if>
+			<if test="lockMoney != null  ">#{lockMoney},</if>
+			<if test="userStatus != null and userStatus != '' ">#{userStatus},</if>
+			<if test="delFlag != null and delFlag != ''  ">#{delFlag},</if>
+	
+			<if test="levelId != null  and levelId != ''  ">#{levelId},</if>
+			<if test="parentId != null  ">#{parentId},</if>
+			<if test="grandfatherId != null  ">#{grandfatherId},</if>
+			<if test="point != null  and point != ''  ">#{point},</if>
+			<if test="directPath != null  and directPath != ''  ">#{directPath},</if>
+			<if test="nodePath != null  and nodePath != ''  ">#{nodePath},</if>
+			<if test="path != null  and path != ''  ">#{path},</if>
+			<if test="childCnt != null  ">#{childCnt},</if>
+			<if test="depth != null  ">#{depth},</if>
+			<if test="totalNumber != null  ">#{totalNumber},</if>
+			<if test="serialNumber != null  and serialNumber != ''  ">#{serialNumber},</if>
+			<if test="ztSize != null  ">#{ztSize},</if>
+			<if test="recommendNumber != null  and recommendNumber != ''  ">#{recommendNumber},</if>
+			<if test="token != null  and token != ''  ">#{token},</if>
+			<if test="bonus != null  ">#{bonus},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="position != null  ">#{position},</if>
+			<if test="zd != null  and zd != ''  ">#{zd},</if>
+			<if test="lang != null  ">#{lang},</if>
+		
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="isAuthname != null  and isAuthname != ''  ">#{isAuthname},</if>
+			<if test="identity != null  and identity != ''  ">#{identity},</if>
+			<if test="isShoper != null  and isShoper != ''  ">#{isShoper},</if>	
+			<if test="loginIp != null  and loginIp != ''  ">#{loginIp},</if>
+			<if test="loginDate != null  and loginDate != ''  ">#{loginDate},</if>	
+				sysdate(),
+		sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberUser" parameterType="MemberUser">
+        update member_user
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="loginName != null  and loginName != ''  ">login_name = #{loginName},</if>
+            <if test="loginSecret != null  ">login_secret = #{loginSecret},</if>
+            <if test="loginPwd != null  and loginPwd != ''  ">login_pwd = #{loginPwd},</if>
+            <if test="payPwd != null  and payPwd != ''  ">pay_pwd = #{payPwd},</if>
+            <if test="userType != null  ">user_type = #{userType},</if>
+            <if test="userSex != null  ">user_sex = #{userSex},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="trueName != null  and trueName != ''  ">true_name = #{trueName},</if>
+            <if test="brithday != null  ">brithday = #{brithday},</if>
+            <if test="userPhoto != null  and userPhoto != ''  ">user_photo = #{userPhoto},</if>
+            <if test="userQq != null  and userQq != ''  ">user_QQ = #{userQq},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="userEmail != null  and userEmail != ''  ">user_email = #{userEmail},</if>
+            <if test="userMoney != null  ">user_money = #{userMoney},</if>
+            <if test="userScore != null  ">user_score = #{userScore},</if>
+            <if test="userTotalScore != null  ">user_total_score = #{userTotalScore},</if>
+            <if test="lastIp != null  and lastIp != ''  ">last_IP = #{lastIp},</if>
+            <if test="lastTime != null  ">last_time = #{lastTime},</if>
+            <if test="lockMoney != null  ">lock_money = #{lockMoney},</if>
+            <if test="userStatus != null and userStatus != '' ">user_status = #{userStatus},</if>
+            <if test="delFlag != null and delFlag != '' ">del_flag = #{delFlag},</if>
+    
+            <if test="levelId != null  and levelId != ''  ">level_id = #{levelId},</if>
+            <if test="parentId != null  ">parentId = #{parentId},</if>
+            <if test="grandfatherId != null  ">grandfatherId = #{grandfatherId},</if>
+            <if test="point != null  and point != ''  ">point = #{point},</if>
+            <if test="directPath != null  and directPath != ''  ">direct_path = #{directPath},</if>
+            <if test="nodePath != null  and nodePath != ''  ">node_path = #{nodePath},</if>
+            <if test="path != null  and path != ''  ">path = #{path},</if>
+            <if test="childCnt != null  ">child_cnt = #{childCnt},</if>
+            <if test="depth != null  ">depth = #{depth},</if>
+            <if test="totalNumber != null  ">total_number = #{totalNumber},</if>
+            <if test="serialNumber != null  and serialNumber != ''  ">serial_number = #{serialNumber},</if>
+            <if test="ztSize != null  ">zt_size = #{ztSize},</if>
+            <if test="recommendNumber != null  and recommendNumber != ''  ">recommend_number = #{recommendNumber},</if>
+            <if test="token != null  and token != ''  ">token = #{token},</if>
+            <if test="bonus != null  ">bonus = #{bonus},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="position != null  ">position = #{position},</if>
+            <if test="zd != null  and zd != ''  ">zd = #{zd},</if>
+            <if test="lang != null  ">lang = #{lang},</if>
+         	
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="isAuthname != null  and isAuthname != ''  ">is_authName = #{isAuthname},</if>
+			<if test="identity != null  and identity != ''  ">identity = #{identity},</if>
+			<if test="isShoper != null  and isShoper != ''  "> is_shoper= #{isShoper},</if>	
+			<if test="loginIp != null  and loginIp != ''  ">login_id = #{loginIp},</if>
+			<if test="loginDate != null  and loginDate != ''  ">login_date = #{loginDate},</if>	            
+            update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+     <update id="resetMemberUserPaw" parameterType="MemberUser">
+        update member_user
+        <trim prefix="SET" suffixOverrides=",">
+       
+            <if test="loginPwd != null  and loginPwd != ''  ">login_pwd = #{loginPwd},</if>
+            <if test="payPwd != null  and payPwd != ''  ">pay_pwd = #{payPwd},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>     
+            update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+    <update id="activateMemberUser" parameterType="MemberUser">
+        update member_user
+        <trim prefix="SET" suffixOverrides=",">
+       
+            <if test="userStatus != null and userStatus != '' ">user_status = #{userStatus},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>     
+            update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+    
+	<select id="selectUserByLoginName" parameterType="String" resultMap="MemberUserResult">
+	    <include refid="selectMemberUserVo"/>
+		where u.login_name = #{userName} and  u.user_status = '0' and u.del_flag = '0' 
+	</select>
+	
+	<select id="selectUserByPhoneNumber" parameterType="String" resultMap="MemberUserResult">
+		<include refid="selectMemberUserVo"/>
+		where u.user_phone = #{phonenumber} and  u.user_status = '0' and u.del_flag = '0' 
+	</select>
+	
+	<select id="selectUserByEmail" parameterType="String" resultMap="MemberUserResult">
+	    <include refid="selectMemberUserVo"/>
+		where u.user_email = #{email} and  u.user_status = '0' and u.del_flag = '0' 
+	</select>
+	<delete id="deleteMemberUserById" parameterType="String">
+        delete from member_user where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteMemberUserByIds" parameterType="String">
+        delete from member_user where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

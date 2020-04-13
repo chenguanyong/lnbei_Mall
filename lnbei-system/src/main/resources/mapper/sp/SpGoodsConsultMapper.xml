@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpGoodsConsultMapper">
+    
+    <resultMap type="SpGoodsConsult" id="SpGoodsConsultResult">
+        <result property="mid"    column="mid"    />
+        <result property="goodsId"    column="goods_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="consultType"    column="consult_type"    />
+        <result property="consultContent"    column="consult_content"    />
+        <result property="reply"    column="reply"    />
+        <result property="replyTime"    column="reply_time"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpGoodsConsultVo">
+        select mid, goods_id, member_id, consult_type, consult_content, reply, reply_time, is_show, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_goods_consult
+    </sql>
+	
+    <select id="selectSpGoodsConsultList" parameterType="SpGoodsConsult" resultMap="SpGoodsConsultResult">
+        <include refid="selectSpGoodsConsultVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="goodsId != null  and goodsId != '' "> and goods_id = #{goodsId}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="consultType != null  and consultType != '' "> and consult_type = #{consultType}</if>
+             <if test="consultContent != null  and consultContent != '' "> and consult_content = #{consultContent}</if>
+             <if test="reply != null  and reply != '' "> and reply = #{reply}</if>
+             <if test="replyTime != null "> and reply_time = #{replyTime}</if>
+             <if test="isShow != null  and isShow != '' "> and is_show = #{isShow}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpGoodsConsultById" parameterType="String" resultMap="SpGoodsConsultResult">
+        <include refid="selectSpGoodsConsultVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpGoodsConsult" parameterType="SpGoodsConsult">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_goods_consult
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="goodsId != null  and goodsId != ''  ">goods_id,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="consultType != null  and consultType != ''  ">consult_type,</if>
+			<if test="consultContent != null  and consultContent != ''  ">consult_content,</if>
+			<if test="reply != null  and reply != ''  ">reply,</if>
+			<if test="replyTime != null  ">reply_time,</if>
+			<if test="isShow != null  and isShow != ''  ">is_show,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+ 						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="goodsId != null  and goodsId != ''  ">#{goodsId},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="consultType != null  and consultType != ''  ">#{consultType},</if>
+			<if test="consultContent != null  and consultContent != ''  ">#{consultContent},</if>
+			<if test="reply != null  and reply != ''  ">#{reply},</if>
+			<if test="replyTime != null  ">#{replyTime},</if>
+			<if test="isShow != null  and isShow != ''  ">#{isShow},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpGoodsConsult" parameterType="SpGoodsConsult">
+        update sp_goods_consult
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsId != null  and goodsId != ''  ">goods_id = #{goodsId},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="consultType != null  and consultType != ''  ">consult_type = #{consultType},</if>
+            <if test="consultContent != null  and consultContent != ''  ">consult_content = #{consultContent},</if>
+            <if test="reply != null  and reply != ''  ">reply = #{reply},</if>
+            <if test="replyTime != null  ">reply_time = #{replyTime},</if>
+            <if test="isShow != null  and isShow != ''  ">is_show = #{isShow},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+
+          
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpGoodsConsultById" parameterType="String">
+        delete from sp_goods_consult where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpGoodsConsultByIds" parameterType="String">
+        delete from sp_goods_consult where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.home.mapper.HomeArticleMapper">
+    
+    <resultMap type="HomeArticle" id="HomeArticleResult">
+        <result property="mid"    column="mid"    />
+        <result property="mark"    column="mark"    />
+        <result property="title"    column="title"    />
+        <result property="abstracts"    column="abstracts"    />
+        <result property="img"    column="img"    />
+        <result property="sort"    column="sort"    />
+        <result property="classifyId"    column="classify_id"    />
+        <result property="aSize"    column="a_size"    />
+        <result property="author"    column="author"    />
+        <result property="releaseDate"    column="release_date"    />
+        <result property="status"    column="status"    />
+        <result property="isVerify"    column="is_verify"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="flag"    column="flag"    />
+        <result property="accessType"    column="access_type"    />
+        <result property="type"    column="type"    />
+        <result property="clicks"    column="clicks"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="auditorOpinion"    column="auditor_opinion"    />
+        <result property="classify"    column="classify"    />
+        <result property="auditor"    column="auditor"    />
+        <result property="auditorId"    column="auditor_id"    />
+        
+        
+        <result property="isHot"    column="is_hot"    />
+        <result property="isRecom"    column="is_recom"    />
+        <result property="isSale"    column="is_sale"    />
+        <result property="isNew"    column="is_new"    />
+        <result property="isBest"    column="is_best"    />        
+        <association property="mHomeArticleInfo"     javaType="HomeArticleInfo" resultMap="HomeArticleInfoResult" />
+    </resultMap>
+    
+    <resultMap type="HomeArticleInfo" id="HomeArticleInfoResult">
+        <result property="mid"    column="info_mid"    />
+        <result property="articleId"    column="article_id"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+	<sql id="selectHomeArticleVo">
+        select ha.mid, ha.is_hot,ha.is_recom, ha.is_sale, ha.is_new, ha.is_best, ha.auditor_opinion, ha.classify, ha.auditor, ha.auditor_id, ha.mark, ha.title, ha.abstracts, ha.img, ha.sort, ha.classify_id, ha.a_size, ha.author, ha.release_date, ha.status, ha.is_verify, ha.del_flag, ha.flag, ha.access_type, ha.type, ha.clicks, ha.create_by, ha.create_time, ha.update_by, ha.update_time, ha.remark,hai.mid info_mid, hai.article_id,hai.content  from home_article ha
+    	left join home_article_info hai on hai.article_id = ha.mid 
+    </sql>
+	
+    <select id="selectHomeArticleList" parameterType="HomeArticle" resultMap="HomeArticleResult">
+        <include refid="selectHomeArticleVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and ha.mid = #{mid}</if>
+             <if test="mark != null  and mark != '' "> and ha.mark = #{mark}</if>
+             <if test="title != null  and title != '' "> and ha.title like concat('%', #{title}, '%') </if>
+             <if test="abstracts != null  and abstracts != '' "> and ha.abstracts = #{abstracts}</if>
+             <if test="img != null  and img != '' "> and ha.img = #{img}</if>
+             <if test="sort != null "> and ha.sort = #{sort}</if>
+             <if test="classifyId != null  and classifyId != '' "> and ha.classify_id = #{classifyId}</if>
+             <if test="aSize != null  and aSize != '' "> and ha.a_size = #{aSize}</if>
+             <if test="author != null  and author != '' "> and ha.author  like concat('%', #{author}, '%')</if>
+             <if test="releaseDate != null "> and ha.release_date = #{releaseDate}</if>
+             <if test="status != null  and status != '' "> and ha.status = #{status}</if>
+             <if test="isVerify != null  and isVerify != '' "> and ha.is_verify = #{isVerify}</if>
+             <if test="delFlag != null  and delFlag != '' "> and ha.del_flag = #{delFlag}</if>
+             <if test="flag != null  and flag != '' "> and ha.flag = #{flag}</if>
+             <if test="accessType != null  and accessType != '' "> and ha.access_type = #{accessType}</if>
+             <if test="type != null  and type != '' "> and ha.type = #{type}</if>
+             <if test="clicks != null "> and ha.clicks = #{clicks}</if>
+             <if test="createBy != null  and createBy != '' "> and ha.create_by = #{createBy}</if>
+             <if test="createTime != null "> and ha.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and ha.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and ha.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and ha.remark = #{remark}</if>
+             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(ha.releaseDate,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(ha.releaseDate,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if> 
+			
+			  <if test="classify != null  and classify != '' "> and ha.classify = #{classify}</if>
+			  <if test="auditor != null  and auditor != '' "> and ha.auditor = #{auditor}</if>
+			  <if test="auditorId != null  and auditorId != '' "> and ha.auditor_id = #{auditorId}</if>
+			  <if test="auditorOpinion != null  and auditorOpinion != '' "> and ha.auditor_opinion = #{auditorOpinion}</if>
+			  
+			  <if test="isHot != null  and isHot != '' "> and ha.is_hot = #{isHot}</if>
+			  <if test="isRecom != null  and isRecom != '' "> and ha.is_recom = #{isRecom}</if>
+			  <if test="isSale != null  and isSale != '' "> and ha.is_sale = #{isSale}</if>
+			  <if test="isNew != null  and isNew != '' "> and ha.is_new = #{isNew}</if>
+			  <if test="isBest != null  and isBest != '' "> and ha.is_best = #{isBest}</if>
+         </where>
+    </select>
+    
+    <select id="selectHomeArticleById" parameterType="String" resultMap="HomeArticleResult">
+        <include refid="selectHomeArticleVo"/>
+        where ha.mid = #{mid}
+    </select>
+        
+    <insert id="insertHomeArticle" parameterType="HomeArticle">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into home_article
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="mark != null  and mark != ''  ">mark,</if>
+			<if test="title != null  and title != ''  ">title,</if>
+			<if test="abstracts != null  and abstracts != ''  ">abstracts,</if>
+			<if test="img != null  and img != ''  ">img,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="classifyId != null  and classifyId != ''  ">classify_id,</if>
+			<if test="aSize != null  and aSize != ''  ">a_size,</if>
+			<if test="author != null  and author != ''  ">author,</if>
+			<if test="releaseDate != null  ">release_date,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="isVerify != null  and isVerify != ''  ">is_verify,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="flag != null  and flag != ''  ">flag,</if>
+			<if test="accessType != null  and accessType != ''  ">access_type,</if>
+			<if test="type != null  and type != ''  ">type,</if>
+			<if test="clicks != null  ">clicks,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+	
+			<if test="classify != null  and classify != ''  ">classify,</if>
+			<if test="auditor != null  and auditor != ''  ">auditor,</if>
+			<if test="auditorId != null  and auditorId != ''  ">auditor_id,</if>
+			<if test="auditorOpinion != null  and auditorOpinion != ''  ">auditor_opinion,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>	
+			  <if test="isHot != null  and isHot != '' "> is_hot,</if>
+			  <if test="isRecom != null  and isRecom != '' ">is_recom,</if>
+			  <if test="isSale != null  and isSale != '' "> is_sale,</if>
+			  <if test="isNew != null  and isNew != '' ">is_new,</if>
+			  <if test="isBest != null  and isBest != '' ">is_best,</if>	
+				create_time,
+				update_time,			  	
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="mark != null  and mark != ''  ">#{mark},</if>
+			<if test="title != null  and title != ''  ">#{title},</if>
+			<if test="abstracts != null  and abstracts != ''  ">#{abstracts},</if>
+			<if test="img != null  and img != ''  ">#{img},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="classifyId != null  and classifyId != ''  ">#{classifyId},</if>
+			<if test="aSize != null  and aSize != ''  ">#{aSize},</if>
+			<if test="author != null  and author != ''  ">#{author},</if>
+			<if test="releaseDate != null  ">#{releaseDate},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="isVerify != null  and isVerify != ''  ">#{isVerify},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="flag != null  and flag != ''  ">#{flag},</if>
+			<if test="accessType != null  and accessType != ''  ">#{accessType},</if>
+			<if test="type != null  and type != ''  ">#{type},</if>
+			<if test="clicks != null  ">#{clicks},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="classify != null  and classify != ''  ">#{classify},</if>
+			<if test="auditor != null  and auditor != ''  ">#{auditor},</if>
+			<if test="auditorId != null  and auditorId != ''  ">#{auditorId},</if>
+			<if test="auditorOpinion != null  and auditorOpinion != ''  ">#{auditorOpinion},</if>			
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			  <if test="isHot != null  and isHot != '' ">  #{isHot},</if>
+			  <if test="isRecom != null  and isRecom != '' "> #{isRecom},</if>
+			  <if test="isSale != null  and isSale != '' ">#{isSale},</if>
+			  <if test="isNew != null  and isNew != '' "> #{isNew},</if>
+			  <if test="isBest != null  and isBest != '' "> #{isBest},</if>	
+			  sysdate(),
+			  sysdate(),		
+         </trim>
+    </insert>
+	 
+    <update id="updateHomeArticle" parameterType="HomeArticle">
+        update home_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="mark != null  and mark != ''  ">mark = #{mark},</if>
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="abstracts != null  and abstracts != ''  ">abstracts = #{abstracts},</if>
+            <if test="img != null  and img != ''  ">img = #{img},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="classifyId != null  and classifyId != ''  ">classify_id = #{classifyId},</if>
+            <if test="aSize != null  and aSize != ''  ">a_size = #{aSize},</if>
+            <if test="author != null  and author != ''  ">author = #{author},</if>
+            <if test="releaseDate != null  ">release_date = #{releaseDate},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="isVerify != null  and isVerify != ''  ">is_verify = #{isVerify},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="flag != null  and flag != ''  ">flag = #{flag},</if>
+            <if test="accessType != null  and accessType != ''  ">access_type = #{accessType},</if>
+            <if test="type != null  and type != ''  ">type = #{type},</if>
+            <if test="clicks != null  ">clicks = #{clicks},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="classify != null  and classify != ''  ">classify=#{classify},</if>
+			<if test="auditor != null  and auditor != ''  ">auditor=#{auditor},</if>
+			<if test="auditorId != null  and auditorId != ''  ">auditor_id=#{auditorId},</if>
+			<if test="auditorOpinion != null  and auditorOpinion != ''  ">auditor_opinion=#{auditorOpinion},</if>
+			<if test="isHot != null  and isHot != '' "> is_hot = #{isHot},</if>
+			<if test="isRecom != null  and isRecom != '' "> is_recom = #{isRecom},</if>
+			<if test="isSale != null  and isSale != '' "> is_sale = #{isSale},</if>
+			<if test="isNew != null  and isNew != '' "> is_new = #{isNew},</if>
+			<if test="isBest != null  and isBest != '' "> is_best = #{isBest},</if>
+			update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+    <update id="updateHomeArticleAttr" parameterType="HomeArticle">
+        update home_article
+        <trim prefix="SET" suffixOverrides=",">
+			<if test="isHot != null  and isHot != '' "> is_hot = #{isHot},</if>
+			<if test="isRecom != null  and isRecom != '' "> is_recom = #{isRecom},</if>
+			<if test="isSale != null  and isSale != '' "> is_sale = #{isSale},</if>
+			<if test="isNew != null  and isNew != '' "> is_new = #{isNew},</if>
+			<if test="isBest != null  and isBest != '' "> is_best = #{isBest},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+    <update id="changeStatus" parameterType="HomeArticle">
+        update home_article
+        <trim prefix="SET" suffixOverrides=",">
+ 
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+        
+        </trim>
+        where mid = #{mid}
+    </update>    
+	<delete id="deleteHomeArticleById" parameterType="String">
+        delete from home_article where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteHomeArticleByIds" parameterType="String">
+        delete from home_article where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

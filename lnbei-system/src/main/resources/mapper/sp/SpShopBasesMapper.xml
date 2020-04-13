@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpShopBasesMapper">
+    
+    <resultMap type="SpShopBases" id="SpShopBasesResult">
+        <result property="mid"    column="mid"    />
+        <result property="flowId"    column="flow_id"    />
+        <result property="fieldName"    column="field_name"    />
+        <result property="dataType"    column="data_type"    />
+        <result property="fieldTitle"    column="field_title"    />
+        <result property="dataLength"    column="data_length"    />
+        <result property="fieldSort"    column="field_sort"    />
+        <result property="isRequire"    column="is_require"    />
+        <result property="fieldComment"    column="field_comment"    />
+        <result property="fieldType"    column="field_type"    />
+        <result property="fieldAttr"    column="field_attr"    />
+        <result property="isRelevance"    column="is_relevance"    />
+        <result property="fieldRelevance"    column="field_relevance"    />
+        <result property="dateRelevance"    column="date_relevance"    />
+        <result property="timeRelevance"    column="time_relevance"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="isMap"    column="is_map"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="isShopsTable"    column="is_shops_table"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpShopBasesVo">
+        select mid, flow_id, field_name, data_type, field_title, data_length, field_sort, is_require, field_comment, field_type, field_attr, is_relevance, field_relevance, date_relevance, time_relevance, is_show, is_map, is_delete, is_shops_table, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_shop_bases
+    </sql>
+	
+    <select id="selectSpShopBasesList" parameterType="SpShopBases" resultMap="SpShopBasesResult">
+        <include refid="selectSpShopBasesVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="flowId != null  and flowId != '' "> and flow_id = #{flowId}</if>
+             <if test="fieldName != null  and fieldName != '' "> and field_name = #{fieldName}</if>
+             <if test="dataType != null  and dataType != '' "> and data_type = #{dataType}</if>
+             <if test="fieldTitle != null  and fieldTitle != '' "> and field_title = #{fieldTitle}</if>
+             <if test="dataLength != null "> and data_length = #{dataLength}</if>
+             <if test="fieldSort != null  and fieldSort != '' "> and field_sort = #{fieldSort}</if>
+             <if test="isRequire != null  and isRequire != '' "> and is_require = #{isRequire}</if>
+             <if test="fieldComment != null  and fieldComment != '' "> and field_comment = #{fieldComment}</if>
+             <if test="fieldType != null  and fieldType != '' "> and field_type = #{fieldType}</if>
+             <if test="fieldAttr != null  and fieldAttr != '' "> and field_attr = #{fieldAttr}</if>
+             <if test="isRelevance != null  and isRelevance != '' "> and is_relevance = #{isRelevance}</if>
+             <if test="fieldRelevance != null  and fieldRelevance != '' "> and field_relevance = #{fieldRelevance}</if>
+             <if test="dateRelevance != null  and dateRelevance != '' "> and date_relevance = #{dateRelevance}</if>
+             <if test="timeRelevance != null  and timeRelevance != '' "> and time_relevance = #{timeRelevance}</if>
+             <if test="isShow != null  and isShow != '' "> and is_show = #{isShow}</if>
+             <if test="isMap != null  and isMap != '' "> and is_map = #{isMap}</if>
+             <if test="isDelete != null  and isDelete != '' "> and is_delete = #{isDelete}</if>
+             <if test="isShopsTable != null  and isShopsTable != '' "> and is_shops_table = #{isShopsTable}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpShopBasesById" parameterType="String" resultMap="SpShopBasesResult">
+        <include refid="selectSpShopBasesVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpShopBases" parameterType="SpShopBases">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_shop_bases
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="flowId != null  and flowId != ''  ">flow_id,</if>
+			<if test="fieldName != null  and fieldName != ''  ">field_name,</if>
+			<if test="dataType != null  and dataType != ''  ">data_type,</if>
+			<if test="fieldTitle != null  and fieldTitle != ''  ">field_title,</if>
+			<if test="dataLength != null  ">data_length,</if>
+			<if test="fieldSort != null  and fieldSort != ''  ">field_sort,</if>
+			<if test="isRequire != null  and isRequire != ''  ">is_require,</if>
+			<if test="fieldComment != null  and fieldComment != ''  ">field_comment,</if>
+			<if test="fieldType != null  and fieldType != ''  ">field_type,</if>
+			<if test="fieldAttr != null  and fieldAttr != ''  ">field_attr,</if>
+			<if test="isRelevance != null  and isRelevance != ''  ">is_relevance,</if>
+			<if test="fieldRelevance != null  and fieldRelevance != ''  ">field_relevance,</if>
+			<if test="dateRelevance != null  and dateRelevance != ''  ">date_relevance,</if>
+			<if test="timeRelevance != null  and timeRelevance != ''  ">time_relevance,</if>
+			<if test="isShow != null  and isShow != ''  ">is_show,</if>
+			<if test="isMap != null  and isMap != ''  ">is_map,</if>
+			<if test="isDelete != null  and isDelete != ''  ">is_delete,</if>
+			<if test="isShopsTable != null  and isShopsTable != ''  ">is_shops_table,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="flowId != null  and flowId != ''  ">#{flowId},</if>
+			<if test="fieldName != null  and fieldName != ''  ">#{fieldName},</if>
+			<if test="dataType != null  and dataType != ''  ">#{dataType},</if>
+			<if test="fieldTitle != null  and fieldTitle != ''  ">#{fieldTitle},</if>
+			<if test="dataLength != null  ">#{dataLength},</if>
+			<if test="fieldSort != null  and fieldSort != ''  ">#{fieldSort},</if>
+			<if test="isRequire != null  and isRequire != ''  ">#{isRequire},</if>
+			<if test="fieldComment != null  and fieldComment != ''  ">#{fieldComment},</if>
+			<if test="fieldType != null  and fieldType != ''  ">#{fieldType},</if>
+			<if test="fieldAttr != null  and fieldAttr != ''  ">#{fieldAttr},</if>
+			<if test="isRelevance != null  and isRelevance != ''  ">#{isRelevance},</if>
+			<if test="fieldRelevance != null  and fieldRelevance != ''  ">#{fieldRelevance},</if>
+			<if test="dateRelevance != null  and dateRelevance != ''  ">#{dateRelevance},</if>
+			<if test="timeRelevance != null  and timeRelevance != ''  ">#{timeRelevance},</if>
+			<if test="isShow != null  and isShow != ''  ">#{isShow},</if>
+			<if test="isMap != null  and isMap != ''  ">#{isMap},</if>
+			<if test="isDelete != null  and isDelete != ''  ">#{isDelete},</if>
+			<if test="isShopsTable != null  and isShopsTable != ''  ">#{isShopsTable},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpShopBases" parameterType="SpShopBases">
+        update sp_shop_bases
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flowId != null  and flowId != ''  ">flow_id = #{flowId},</if>
+            <if test="fieldName != null  and fieldName != ''  ">field_name = #{fieldName},</if>
+            <if test="dataType != null  and dataType != ''  ">data_type = #{dataType},</if>
+            <if test="fieldTitle != null  and fieldTitle != ''  ">field_title = #{fieldTitle},</if>
+            <if test="dataLength != null  ">data_length = #{dataLength},</if>
+            <if test="fieldSort != null  and fieldSort != ''  ">field_sort = #{fieldSort},</if>
+            <if test="isRequire != null  and isRequire != ''  ">is_require = #{isRequire},</if>
+            <if test="fieldComment != null  and fieldComment != ''  ">field_comment = #{fieldComment},</if>
+            <if test="fieldType != null  and fieldType != ''  ">field_type = #{fieldType},</if>
+            <if test="fieldAttr != null  and fieldAttr != ''  ">field_attr = #{fieldAttr},</if>
+            <if test="isRelevance != null  and isRelevance != ''  ">is_relevance = #{isRelevance},</if>
+            <if test="fieldRelevance != null  and fieldRelevance != ''  ">field_relevance = #{fieldRelevance},</if>
+            <if test="dateRelevance != null  and dateRelevance != ''  ">date_relevance = #{dateRelevance},</if>
+            <if test="timeRelevance != null  and timeRelevance != ''  ">time_relevance = #{timeRelevance},</if>
+            <if test="isShow != null  and isShow != ''  ">is_show = #{isShow},</if>
+            <if test="isMap != null  and isMap != ''  ">is_map = #{isMap},</if>
+            <if test="isDelete != null  and isDelete != ''  ">is_delete = #{isDelete},</if>
+            <if test="isShopsTable != null  and isShopsTable != ''  ">is_shops_table = #{isShopsTable},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpShopBasesById" parameterType="String">
+        delete from sp_shop_bases where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpShopBasesByIds" parameterType="String">
+        delete from sp_shop_bases where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

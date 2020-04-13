@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+
+							<li>
+								评论内容：<input type="text" name="title"/>
+							</li>
+
+							<li>
+								评论人：<input type="text" name="createName"/>
+							</li>
+
+							<li>
+								审核状态：
+								<select name="flag" th:with="type=${@dict.getType('sys_common_auditor_flag')}">
+									<option value="">所有</option>
+									<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+								</select>
+							</li>
+
+							<li class="select-time">
+								<label>评论日期： </label>
+								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success disabled" onclick="add()" shiro:hasPermission="home:homeComment:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="home:homeComment:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="report()" shiro:hasPermission="home:homeComment:report">
+					<i class="fa fa-edit"></i> 上报
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="review()" shiro:hasPermission="home:homeComment:audit">
+					<i class="fa fa-edit"></i> 审核
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="view()" shiro:hasPermission="home:homeComment:view">
+					<i class="fa fa-edit"></i> 查看
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="home:homeComment:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="home:homeComment:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('home:homeComment:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('home:homeComment:remove')}]];
+        var prefix = ctx + "home/homeComment";
+        var auditorFlag = [[${@dict.getType('sys_common_auditor_flag')}]];//
+        var statusType = [[${@dict.getType('sys_common_status_type')}]];//
+        var userType = [[${@dict.getType('user_type')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add/{id}",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "评论",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+
+				{
+					field : 'title', 
+					title : '评论内容',
+					sortable: true
+				},
+
+				{
+					field : 'flag', 
+					title : '审核状态',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(auditorFlag, value);
+					}
+				},
+				{
+					field : 'status', 
+					title : '评论状态',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(statusType, value);
+					}
+				},
+				{
+					field : 'auditor', 
+					title : '审核人',
+					sortable: true
+				},
+		
+				{
+					field : 'praise', 
+					title : '好评数量',
+					sortable: true
+				},
+				{
+					field : 'badReview', 
+					title : '差评数量数量',
+					sortable: true
+				},
+				{
+					field : 'toName', 
+					title : '被回复人',
+					sortable: true
+				},
+
+				{
+					field : 'createTime', 
+					title : '评论日期',
+					sortable: true
+				},
+				{
+					field : 'createName', 
+					title : '评论人',
+					sortable: true
+				},
+				
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+				{
+					field : 'userType', 
+					title : '用户类型',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(userType, value);
+					}
+				},
+				{
+					field : 'replySize', 
+					title : '回复数量',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            visible:false,
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+		function getIdSelections() {
+		    return $.map($("#bootstrap-table").bootstrapTable('getSelections'), function (row) {
+		        return row.mid;
+		    });
+		}
+		function add(){
+				
+			var data = getIdSelections();
+			
+			if(data == "" || data == undefined){
+				data = 0;
+			}
+			//console.log(data);
+			//$.operate.addTab(data);
+			//debugger;
+			$.operate.add(data[0])
+		}
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+
+<body class="gray-bg">
+
+     <div class="container-div ui-layout-center">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+				<input type="hidden" name="classifyId" id="classifyId">
+					<div class="select-list">
+						<ul>
+							<li>
+								编号：<input type="text" name="mark"/>
+							</li>
+
+							<li>
+								文章标题：<input type="text" name="title"/>
+							</li>
+
+							<li>
+								作者：<input type="text" name="author"/>
+							</li>
+
+							<li class="select-time">
+								<label>发布日期： </label>
+								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
+							</li>
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="addTab()" shiro:hasPermission="home:homeArticle:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.editTab()" shiro:hasPermission="home:homeArticle:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+								<a class="btn btn-primary btn-edit disabled" onclick="report()" shiro:hasPermission="home:homeArticle:report">
+					<i class="fa fa-edit"></i> 上报
+				</a>
+								<a class="btn btn-primary btn-edit disabled" onclick="review()" shiro:hasPermission="home:homeArticle:audit">
+					<i class="fa fa-edit"></i> 审核
+				</a>
+								<a class="btn btn-primary btn-edit disabled" onclick="view()" shiro:hasPermission="home:homeArticle:view">
+					<i class="fa fa-edit"></i> 查看
+				</a>
+
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="home:homeArticle:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="home:homeArticle:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>  
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('home:homeArticle:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('home:homeArticle:remove')}]];
+        var prefix = ctx + "home/homeArticle";
+        var datas = [[${@dict.getType('sys_access_type')}]];
+        var type = [[${@dict.getType('home_url_type')}]];
+        var yesOrNo = [[${@dict.getType('sys_yes_no_1')}]];
+        var auditorFlag = [[${@dict.getType('sys_common_auditor_flag')}]];
+        $(function() {
+        	
+            function queryArticleList() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add/{id}",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "文章管理",
+		        showExport: true,
+		        queryParams: function(params) {
+                    var search = {};
+                    $.each($("#formId").serializeArray(), function(i, field) {
+                        search[field.name] = field.value;
+                    });
+                    
+                    search.pageSize = params.limit;
+                    search.pageNum = params.offset / params.limit + 1;
+                    search.searchValue = params.search;
+                    search.orderByColumn = params.sort;
+                    search.isAsc = params.order;
+    		        return search;
+    		    },
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'flag', 
+					title : '审核状态',
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	auditorFlag, value);
+					}
+				},
+				{
+					field : 'mark', 
+					title : '编号',
+					sortable: true
+				},
+				{
+					field : 'title', 
+					title : '标题',
+					sortable: true
+				},
+
+				{
+					field : 'img', 
+					title : '图片',
+					sortable: true,
+				  	formatter: function (value, row, index) {
+				  		
+		        		return "<img width='50px' src='"+value+"' />";
+		        	}
+				},
+
+				{
+					field : 'aSize', 
+					title : '文章大小',
+					sortable: true
+				},
+				{
+					field : 'author', 
+					title : '作者',
+					sortable: true
+				},
+				{
+					field : 'releaseDate', 
+					title : '发布日期',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+				  	formatter: function (value, row, index) {
+		        		return statusTools(row);
+		        	}
+				},
+				{
+					field : 'isVerify', 
+					title : '是否审核',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(	yesOrNo, value);
+					}
+				},
+		
+
+				{
+					field : 'accessType', 
+					title : '访问类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(datas, value);
+					}
+				},
+				{
+					field : 'type', 
+					title : '类型',
+					sortable: true,
+					formatter: function(value, row, index) {
+						return $.table.selectDictLabel(type, value);
+					}
+				},
+				{
+					field : 'clicks', 
+					title : '点击量',
+					sortable: true
+				},
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建日期',
+					sortable: true
+				},
+			
+		 		]
+            };
+            $.table.init(options);
+           }
+            
+        	function queryCategoryTree()
+    		{
+    			var url = ctx + "home/homeCategory/treeDataByFlag/content_type";
+    			var options = {
+    		        url: url,
+    		        expandLevel: 2,
+    		        onClick : zOnClick
+    		    };
+    			$.tree.init(options);
+    			
+    			function zOnClick(event, treeId, treeNode) {
+    				$("#classifyId").val(treeNode.id);
+    				$("#addID").val(treeNode.id);
+    				$.table.search();
+    			}
+    		} 
+            
+    		$(function() {
+    	
+    		    queryArticleList();
+    	
+    		});
+            
+    		
+        });
+		function addTab(){
+			var data = $("#classifyId").val();
+			if(data == "" || data == undefined){
+				data = 0;
+			}
+			$.operate.addTab(data);
+		}
+		function addComment(){
+			var ids = getIdSelections();
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+        	var url = prefix + "/addComment?mid="+ids[0];
+			var options = {
+				title: '审核',
+				width: "800",
+				url: url,
+				callBack: doSubmitComment
+			};
+			$.modal.openOptions(options);
+		}
+		function doSubmitComment(index, layero){
+			var rationWindow = layero.find("iframe")[0].contentWindow;
+			var treeData = rationWindow.submitHandler(window);
+			
+		}
+       	/* 状态显示 */
+		function statusTools(row) {
+		    if (row.status == 1) {
+    			return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.mid + '\')"></i> ';
+    		} else {
+    			return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.mid + '\')"></i> ';
+    		}
+		}		
+		/* 启用 */
+		function enable(id) {
+			$.modal.confirm("确认要启用该系统吗？", function() {
+				$.operate.post(prefix + "/changeStatus", { "mid": id, "status": 0 });
+		    })
+		}
+
+		/* -停用 */
+		function disable(id) {
+			$.modal.confirm("确认要停用该系统吗？", function() {
+				$.operate.post(prefix + "/changeStatus", { "mid": id, "status": 1 });
+		    })
+		}
+		function report(){
+        	var ids = getIdSelections();
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+        	$.modal.confirm("您确定要上报么？",function (){
+        		
+        		$.post(prefix + "/report",{mid:ids[0]},function (data){
+        			
+        			if(data.code=="0"){
+        				$.modal.msgSuccess(data.msg);
+        			}else{
+        				$.modal.msgWarning(data.msg);
+        			}
+        			$("#bootstrap-table").bootstrapTable('refresh');
+        		},"json");
+        		
+        	});
+		}
+		function getIdSelections() {
+		    return $.map($("#bootstrap-table").bootstrapTable('getSelections'), function (row) {
+		        return row.mid;
+		    });
+		}
+
+        //审核
+        function review(){
+        	var ids = getIdSelections();
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+        	var url = prefix + "/auditView?mid="+ids[0];
+			var options = {
+				title: '审核',
+				width: "800",
+				url: url,
+				callBack: doSubmitReview
+			};
+			$.modal.openFullOptions(options);
+        }
+		function doSubmitReview(index, layero){
+			var rationWindow = layero.find("iframe")[0].contentWindow;
+			var treeData = rationWindow.submitHandler(window);
+			
+		}
+		
+		function view(ids){
+			if(ids == undefined){
+				 ids = getIdSelections();
+			}
+        	if(ids.length == 0){
+        		$.modal.alertWarning("请选择一条数据");
+        		return false;
+        	}
+        	$.modal.openFullView("查看",prefix+'/lookView?mid='+ids+"&flag=0");//openTab
+		}	
+		function lookCommentView(ids){
+			if(ids == undefined){
+				 ids = getIdSelections();
+			}
+	       	if(ids.length == 0){
+	       		$.modal.alertWarning("请选择一条数据");
+	       		return false;
+	       	}
+       		$.modal.openFullView("查看",ctx+'home/homeComment?articleId='+ids+"&flag=0");//openTab
+		}
+    </script>
+</body>
+</html>

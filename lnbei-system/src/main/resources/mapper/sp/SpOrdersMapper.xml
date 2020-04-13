@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpOrdersMapper">
+    
+    <resultMap type="SpOrders" id="SpOrdersResult">
+        <result property="mid"    column="mid"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="orderStatus"    column="order_status"    />
+        <result property="goodsMoney"    column="goods_money"    />
+        <result property="deliverType"    column="deliver_type"    />
+        <result property="deliverMoney"    column="deliver_money"    />
+        <result property="totalMoney"    column="total_money"    />
+        <result property="realTotalMoney"    column="real_total_money"    />
+        <result property="payType"    column="pay_type"    />
+        <result property="payFrom"    column="pay_from"    />
+        <result property="isPay"    column="is_pay"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="areaIdPath"    column="area_id_path"    />
+        <result property="userName"    column="user_name"    />
+        <result property="userAddress"    column="user_address"    />
+        <result property="userPhone"    column="user_phone"    />
+        <result property="orderScore"    column="order_score"    />
+        <result property="isInvoice"    column="is_invoice"    />
+        <result property="invoiceClient"    column="invoice_client"    />
+        <result property="orderRemarks"    column="order_remarks"    />
+        <result property="orderSrc"    column="order_src"    />
+        <result property="needPay"    column="need_pay"    />
+        <result property="payRand"    column="pay_rand"    />
+        <result property="orderType"    column="order_type"    />
+        <result property="isRefund"    column="is_refund"    />
+        <result property="isAppraise"    column="is_appraise"    />
+        <result property="cancelReason"    column="cancel_reason"    />
+        <result property="rejectReason"    column="reject_reason"    />
+        <result property="rejectOtherreason"    column="reject_otherreason"    />
+        <result property="isClosed"    column="is_closed"    />
+        <result property="goodsSearchKeys"    column="goods_search_keys"    />
+        <result property="orderunique"    column="orderunique"    />
+        <result property="receiveTime"    column="receive_time"    />
+        <result property="deliveryTime"    column="delivery_time"    />
+        <result property="tradeNo"    column="trade_no"    />
+        <result property="settlementId"    column="settlement_id"    />
+        <result property="commissionFee"    column="commission_fee"    />
+        <result property="scoreMoney"    column="score_money"    />
+        <result property="useScore"    column="use_score"    />
+        <result property="orderCode"    column="order_code"    />
+        <result property="extraJson"    column="extra_json"    />
+        <result property="orderCodeTargetId"    column="order_code_target_id"    />
+        <result property="noticeDeliver"    column="notice_deliver"    />
+        <result property="invoiceJson"    column="invoice_json"    />
+        <result property="lockCashMoney"    column="lock_cash_money"    />
+        <result property="payTime"    column="pay_time"    />
+        <result property="isBatch"    column="is_batch"    />
+        <result property="totalPayFee"    column="total_pay_fee"    />
+        <result property="isMakeInvoice"    column="is_make_invoice"    />
+        <result property="afterSaleEndTime"    column="after_sale_end_time"    />
+        <result property="getScoreVal"    column="get_score_val"    />
+        <result property="refundedPayMoney"    column="refunded_pay_money"    />
+        <result property="refundedScore"    column="refunded_score"    />
+        <result property="refundedScoreMoney"    column="refunded_score_money"    />
+        <result property="refundedGetscore"    column="refunded_getscore"    />
+        <result property="refundedGetScoreMoney"    column="refunded_get_score_money"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <collection  property="mSpOrderGoodsList"   javaType="java.util.List"        resultMap="SpOrderGoodsResult" />
+    </resultMap>
+    
+    <resultMap type="SpOrderGoods" id="SpOrderGoodsResult">
+        <result property="mid"    column="spog_mid"    />
+        <result property="orderId"    column="spog_order_id"    />
+        <result property="goodsId"    column="spog_goods_id"    />
+        <result property="goodsNum"    column="spog_goods_num"    />
+        <result property="goodSprice"    column="spog_good_sprice"    />
+        <result property="goodsspecId"    column="spog_goodsspec_id"    />
+        <result property="goodsspecNames"    column="spog_goodsspec_names"    />
+        <result property="goodsName"    column="spog_goods_name"    />
+        <result property="goodsImg"    column="spog_goods_img"    />
+        <result property="extraJson"    column="spog_extra_json"    />
+        <result property="goodsType"    column="spog_goods_type"    />
+        <result property="commissionRate"    column="spog_commission_rate"    />
+        <result property="goodsCode"    column="spog_goods_code"    />
+        <result property="promotionJson"    column="spog_promotion_json"    />
+        <result property="couponVal"    column="spog_coupon_val"    />
+        <result property="rewardVal"    column="spog_reward_val"    />
+        <result property="usescoreVal"    column="spog_usescore_val"    />
+        <result property="scoreMoney"    column="spog_score_money"    />
+        <result property="getscoreVal"    column="spog_getscore_val"    />
+        <result property="orderGoodsCommission"    column="spog_order_goods_commission"    />
+        <result property="getScoreMoney"    column="spog_get_score_money"    />
+        <result property="delFlag"    column="spog_del_flag"    />
+        <result property="createBy"    column="spog_create_by"    />
+        <result property="createTime"    column="spog_create_time"    />
+        <result property="updateBy"    column="spog_update_by"    />
+        <result property="updateTime"    column="spog_update_time"    />
+        <result property="remark"    column="spog_remark"    />
+        <result property="deptId"    column="spog_dept_id"    />
+        <result property="deptName"    column="spog_dept_name"    />
+        <result property="sort"    column="spog_sort"    />
+    </resultMap>
+    
+    
+	
+	<sql id="selectSpOrdersVo">
+        select
+         spo.mid, spo.order_no, spo.shop_id, spo.member_id, spo.order_status, spo.goods_money, spo.deliver_type, spo.deliver_money, spo.total_money, spo.real_total_money, spo.pay_type,spo. pay_from, spo.is_pay, spo.area_id, spo.area_id_path, spo.user_name, spo.user_address, spo.user_phone, spo.order_score, spo.is_invoice, spo.invoice_client, spo.order_remarks, spo.order_src, spo.need_pay, spo.pay_rand, spo.order_type, spo.is_refund, spo.is_appraise, spo.cancel_reason, spo.reject_reason, spo.reject_otherreason, spo.is_closed, spo.goods_search_keys, spo.orderunique, spo.receive_time, spo.delivery_time, spo.trade_no, spo.settlement_id, spo.commission_fee, spo.score_money, spo.use_score, spo.order_code, spo.extra_json, spo.order_code_target_id, spo.notice_deliver, spo.invoice_json, spo.lock_cash_money, spo.pay_time, spo.is_batch, spo.total_pay_fee, spo.is_make_invoice, spo.after_sale_end_time, spo.get_score_val,
+         spo.refunded_pay_money, spo.refunded_score, spo.refunded_score_money, spo.refunded_getscore, spo.refunded_get_score_money, spo.del_flag, spo.create_by, spo.create_time, spo.update_by, spo.update_time, spo.remark, spo.dept_id, spo.dept_name, spo.sort
+        
+        spog.mid spog_mid, spog.order_id spog_order_id, spog.goods_id spog_goods_id, spog.goods_num spog_goods_num, spog.good_sprice spog_good_sprice, spog.goodsspec_id spog_goodsspec_id,
+        spog.goodsspec_names spog_goodsspec_names, spog.goods_name spog_goods_name, spog.goods_img spog_goods_img, spog.extra_json spog_extra_json, spog.goods_type spog_goods_type, spog.commission_rate spog_commission_rate,
+         spog.goods_code spog_goods_code, spog.promotion_json spog_promotion_json, spog.coupon_val spog_coupon_val, spog.reward_val spog_reward_val, spog.usescore_val spog_usescore_val, spog.score_money spog_score_money, spog.getscore_val spog_getscore_val, spog.order_goods_commission spog_order_goods_commission, spog.get_score_money spog_get_score_money, spog.del_flag spog_del_flag, spog.create_by spog_create_by, spog.create_time spog_create_time, spog.update_by spog_update_by, spog.update_time spog_update_time, spog.remark spog_remark, spog.dept_id spog_dept_id, spog.dept_name spog_dept_name, spog.sort  spog_sort
+        
+        
+       from sp_orders spo
+    
+      left join sp_order_goods spog on spo.mid = spog.order_id 
+    
+    </sql>
+	
+    <select id="selectSpOrdersList" parameterType="SpOrders" resultMap="SpOrdersResult">
+        <include refid="selectSpOrdersVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and spo.mid = #{mid}</if>
+             <if test="orderNo != null  and orderNo != '' "> and spo.order_no = #{orderNo}</if>
+             <if test="shopId != null  and shopId != '' "> and spo.shop_id = #{shopId}</if>
+             <if test="memberId != null  and memberId != '' "> and spo.member_id = #{memberId}</if>
+             <if test="orderStatus != null  and orderStatus != '' "> and spo.order_status = #{orderStatus}</if>
+             <if test="goodsMoney != null "> and spo.goods_money = #{goodsMoney}</if>
+             <if test="deliverType != null  and deliverType != '' "> and spo.deliver_type = #{deliverType}</if>
+
+             <if test="payType != null  and payType != '' "> and spo.pay_type = #{payType}</if>
+             <if test="payFrom != null  and payFrom != '' "> and spo.pay_from = #{payFrom}</if>
+             <if test="isPay != null  and isPay != '' "> and spo.is_pay = #{isPay}</if>
+             <if test="areaId != null  and areaId != '' "> and spo.area_id = #{areaId}</if>
+             <if test="areaIdPath != null  and areaIdPath != '' "> and spo.area_id_path = #{areaIdPath}</if>
+             <if test="userName != null  and userName != '' "> and spo.user_name = #{userName}</if>
+             <if test="userAddress != null  and userAddress != '' "> and spo.user_address = #{userAddress}</if>
+             <if test="userPhone != null  and userPhone != '' "> and spo.user_phone = #{userPhone}</if>
+
+             <if test="isInvoice != null  and isInvoice != '' "> and spo.is_invoice = #{isInvoice}</if>
+             <if test="invoiceClient != null  and invoiceClient != '' "> and spo.invoice_client = #{invoiceClient}</if>
+             <if test="orderRemarks != null  and orderRemarks != '' "> and spo.order_remarks = #{orderRemarks}</if>
+             <if test="orderSrc != null  and orderSrc != '' "> and spo.order_src = #{orderSrc}</if>
+             <if test="isRefund != null  and isRefund != '' "> and spo.is_refund = #{isRefund}</if>
+             <if test="isAppraise != null  and isAppraise != '' "> and spo.is_appraise = #{isAppraise}</if>
+             <if test="cancelReason != null "> and spo.cancel_reason = #{cancelReason}</if>
+             <if test="rejectReason != null "> and spo.reject_reason = #{rejectReason}</if>
+             <if test="rejectOtherreason != null  and rejectOtherreason != '' "> and spo.reject_otherreason = #{rejectOtherreason}</if>
+             <if test="isClosed != null  and isClosed != '' "> and spo.is_closed = #{isClosed}</if>
+             <if test="goodsSearchKeys != null  and goodsSearchKeys != '' "> and spo.goods_search_keys = #{goodsSearchKeys}</if>
+             <if test="orderunique != null  and orderunique != '' "> and spo.orderunique = #{orderunique}</if>
+             <if test="receiveTime != null "> and spo.receive_time = #{receiveTime}</if>
+             <if test="deliveryTime != null "> and spo.delivery_time = #{deliveryTime}</if>
+             <if test="tradeNo != null  and tradeNo != '' "> and spo.trade_no = #{tradeNo}</if>
+             <if test="settlementId != null  and settlementId != '' "> and spo.settlement_id = #{settlementId}</if>
+
+             <if test="orderCode != null  and orderCode != '' "> and spo.order_code = #{orderCode}</if>
+             <if test="extraJson != null  and extraJson != '' "> and spo.extra_json = #{extraJson}</if>
+             <if test="noticeDeliver != null  and noticeDeliver != '' "> and spo.notice_deliver = #{noticeDeliver}</if>
+             <if test="invoiceJson != null  and invoiceJson != '' "> and spo.invoice_json = #{invoiceJson}</if>
+             <if test="lockCashMoney != null "> and spo.lock_cash_money = #{lockCashMoney}</if>
+             <if test="payTime != null "> and spo.pay_time = #{payTime}</if>
+             <if test="isBatch != null  and isBatch != '' "> and spo.is_batch = #{isBatch}</if>
+             <if test="isMakeInvoice != null  and isMakeInvoice != '' "> and spo.is_make_invoice = #{isMakeInvoice}</if>
+             <if test="afterSaleEndTime != null "> and spo.after_sale_end_time = #{afterSaleEndTime}</if>
+
+
+             <if test="delFlag != null  and delFlag != '' "> and spo.del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and spo.create_by = #{createBy}</if>
+             <if test="createTime != null "> and spo.create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and spo.update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and spo.update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and spo.remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and spo.dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and spo.dept_name = #{deptName}</if>
+             <if test="sort != null "> and spo.sort = #{sort}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpOrdersById" parameterType="String" resultMap="SpOrdersResult">
+        <include refid="selectSpOrdersVo"/>
+        where spo.mid = #{mid}
+    </select>
+        
+    <insert id="insertSpOrders" parameterType="SpOrders">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_orders
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="orderNo != null  and orderNo != ''  ">order_no,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">order_status,</if>
+			<if test="goodsMoney != null  ">goods_money,</if>
+			<if test="deliverType != null  and deliverType != ''  ">deliver_type,</if>
+			<if test="deliverMoney != null  ">deliver_money,</if>
+			<if test="totalMoney != null  ">total_money,</if>
+			<if test="realTotalMoney != null  ">real_total_money,</if>
+			<if test="payType != null  and payType != ''  ">pay_type,</if>
+			<if test="payFrom != null  and payFrom != ''  ">pay_from,</if>
+			<if test="isPay != null  and isPay != ''  ">is_pay,</if>
+			<if test="areaId != null  and areaId != ''  ">area_id,</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path,</if>
+			<if test="userName != null  and userName != ''  ">user_name,</if>
+			<if test="userAddress != null  and userAddress != ''  ">user_address,</if>
+			<if test="userPhone != null  and userPhone != ''  ">user_phone,</if>
+			<if test="orderScore != null  ">order_score,</if>
+			<if test="isInvoice != null  and isInvoice != ''  ">is_invoice,</if>
+			<if test="invoiceClient != null  and invoiceClient != ''  ">invoice_client,</if>
+			<if test="orderRemarks != null  and orderRemarks != ''  ">order_remarks,</if>
+			<if test="orderSrc != null  and orderSrc != ''  ">order_src,</if>
+			<if test="needPay != null  ">need_pay,</if>
+			<if test="payRand != null  ">pay_rand,</if>
+			<if test="orderType != null  ">order_type,</if>
+			<if test="isRefund != null  and isRefund != ''  ">is_refund,</if>
+			<if test="isAppraise != null  and isAppraise != ''  ">is_appraise,</if>
+			<if test="cancelReason != null  ">cancel_reason,</if>
+			<if test="rejectReason != null  ">reject_reason,</if>
+			<if test="rejectOtherreason != null  and rejectOtherreason != ''  ">reject_otherreason,</if>
+			<if test="isClosed != null  and isClosed != ''  ">is_closed,</if>
+			<if test="goodsSearchKeys != null  and goodsSearchKeys != ''  ">goods_search_keys,</if>
+			<if test="orderunique != null  and orderunique != ''  ">orderunique,</if>
+			<if test="receiveTime != null  ">receive_time,</if>
+			<if test="deliveryTime != null  ">delivery_time,</if>
+			<if test="tradeNo != null  and tradeNo != ''  ">trade_no,</if>
+			<if test="settlementId != null  and settlementId != ''  ">settlement_id,</if>
+			<if test="commissionFee != null  ">commission_fee,</if>
+			<if test="scoreMoney != null  ">score_money,</if>
+			<if test="useScore != null  ">use_score,</if>
+			<if test="orderCode != null  and orderCode != ''  ">order_code,</if>
+			<if test="extraJson != null  and extraJson != ''  ">extra_json,</if>
+			<if test="orderCodeTargetId != null  ">order_code_target_id,</if>
+			<if test="noticeDeliver != null  and noticeDeliver != ''  ">notice_deliver,</if>
+			<if test="invoiceJson != null  and invoiceJson != ''  ">invoice_json,</if>
+			<if test="lockCashMoney != null  ">lock_cash_money,</if>
+			<if test="payTime != null  ">pay_time,</if>
+			<if test="isBatch != null  and isBatch != ''  ">is_batch,</if>
+			<if test="totalPayFee != null  ">total_pay_fee,</if>
+			<if test="isMakeInvoice != null  and isMakeInvoice != ''  ">is_make_invoice,</if>
+			<if test="afterSaleEndTime != null  ">after_sale_end_time,</if>
+			<if test="getScoreVal != null  ">get_score_val,</if>
+			<if test="refundedPayMoney != null  ">refunded_pay_money,</if>
+			<if test="refundedScore != null  ">refunded_score,</if>
+			<if test="refundedScoreMoney != null  ">refunded_score_money,</if>
+			<if test="refundedGetscore != null  ">refunded_getscore,</if>
+			<if test="refundedGetScoreMoney != null  ">refunded_get_score_money,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="orderNo != null  and orderNo != ''  ">#{orderNo},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="orderStatus != null  and orderStatus != ''  ">#{orderStatus},</if>
+			<if test="goodsMoney != null  ">#{goodsMoney},</if>
+			<if test="deliverType != null  and deliverType != ''  ">#{deliverType},</if>
+			<if test="deliverMoney != null  ">#{deliverMoney},</if>
+			<if test="totalMoney != null  ">#{totalMoney},</if>
+			<if test="realTotalMoney != null  ">#{realTotalMoney},</if>
+			<if test="payType != null  and payType != ''  ">#{payType},</if>
+			<if test="payFrom != null  and payFrom != ''  ">#{payFrom},</if>
+			<if test="isPay != null  and isPay != ''  ">#{isPay},</if>
+			<if test="areaId != null  and areaId != ''  ">#{areaId},</if>
+			<if test="areaIdPath != null  and areaIdPath != ''  ">#{areaIdPath},</if>
+			<if test="userName != null  and userName != ''  ">#{userName},</if>
+			<if test="userAddress != null  and userAddress != ''  ">#{userAddress},</if>
+			<if test="userPhone != null  and userPhone != ''  ">#{userPhone},</if>
+			<if test="orderScore != null  ">#{orderScore},</if>
+			<if test="isInvoice != null  and isInvoice != ''  ">#{isInvoice},</if>
+			<if test="invoiceClient != null  and invoiceClient != ''  ">#{invoiceClient},</if>
+			<if test="orderRemarks != null  and orderRemarks != ''  ">#{orderRemarks},</if>
+			<if test="orderSrc != null  and orderSrc != ''  ">#{orderSrc},</if>
+			<if test="needPay != null  ">#{needPay},</if>
+			<if test="payRand != null  ">#{payRand},</if>
+			<if test="orderType != null  ">#{orderType},</if>
+			<if test="isRefund != null  and isRefund != ''  ">#{isRefund},</if>
+			<if test="isAppraise != null  and isAppraise != ''  ">#{isAppraise},</if>
+			<if test="cancelReason != null  ">#{cancelReason},</if>
+			<if test="rejectReason != null  ">#{rejectReason},</if>
+			<if test="rejectOtherreason != null  and rejectOtherreason != ''  ">#{rejectOtherreason},</if>
+			<if test="isClosed != null  and isClosed != ''  ">#{isClosed},</if>
+			<if test="goodsSearchKeys != null  and goodsSearchKeys != ''  ">#{goodsSearchKeys},</if>
+			<if test="orderunique != null  and orderunique != ''  ">#{orderunique},</if>
+			<if test="receiveTime != null  ">#{receiveTime},</if>
+			<if test="deliveryTime != null  ">#{deliveryTime},</if>
+			<if test="tradeNo != null  and tradeNo != ''  ">#{tradeNo},</if>
+			<if test="settlementId != null  and settlementId != ''  ">#{settlementId},</if>
+			<if test="commissionFee != null  ">#{commissionFee},</if>
+			<if test="scoreMoney != null  ">#{scoreMoney},</if>
+			<if test="useScore != null  ">#{useScore},</if>
+			<if test="orderCode != null  and orderCode != ''  ">#{orderCode},</if>
+			<if test="extraJson != null  and extraJson != ''  ">#{extraJson},</if>
+			<if test="orderCodeTargetId != null  ">#{orderCodeTargetId},</if>
+			<if test="noticeDeliver != null  and noticeDeliver != ''  ">#{noticeDeliver},</if>
+			<if test="invoiceJson != null  and invoiceJson != ''  ">#{invoiceJson},</if>
+			<if test="lockCashMoney != null  ">#{lockCashMoney},</if>
+			<if test="payTime != null  ">#{payTime},</if>
+			<if test="isBatch != null  and isBatch != ''  ">#{isBatch},</if>
+			<if test="totalPayFee != null  ">#{totalPayFee},</if>
+			<if test="isMakeInvoice != null  and isMakeInvoice != ''  ">#{isMakeInvoice},</if>
+			<if test="afterSaleEndTime != null  ">#{afterSaleEndTime},</if>
+			<if test="getScoreVal != null  ">#{getScoreVal},</if>
+			<if test="refundedPayMoney != null  ">#{refundedPayMoney},</if>
+			<if test="refundedScore != null  ">#{refundedScore},</if>
+			<if test="refundedScoreMoney != null  ">#{refundedScoreMoney},</if>
+			<if test="refundedGetscore != null  ">#{refundedGetscore},</if>
+			<if test="refundedGetScoreMoney != null  ">#{refundedGetScoreMoney},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+ 			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpOrders" parameterType="SpOrders">
+        update sp_orders
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null  and orderNo != ''  ">order_no = #{orderNo},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="orderStatus != null  and orderStatus != ''  ">order_status = #{orderStatus},</if>
+            <if test="goodsMoney != null  ">goods_money = #{goodsMoney},</if>
+            <if test="deliverType != null  and deliverType != ''  ">deliver_type = #{deliverType},</if>
+            <if test="deliverMoney != null  ">deliver_money = #{deliverMoney},</if>
+            <if test="totalMoney != null  ">total_money = #{totalMoney},</if>
+            <if test="realTotalMoney != null  ">real_total_money = #{realTotalMoney},</if>
+            <if test="payType != null  and payType != ''  ">pay_type = #{payType},</if>
+            <if test="payFrom != null  and payFrom != ''  ">pay_from = #{payFrom},</if>
+            <if test="isPay != null  and isPay != ''  ">is_pay = #{isPay},</if>
+            <if test="areaId != null  and areaId != ''  ">area_id = #{areaId},</if>
+            <if test="areaIdPath != null  and areaIdPath != ''  ">area_id_path = #{areaIdPath},</if>
+            <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
+            <if test="userAddress != null  and userAddress != ''  ">user_address = #{userAddress},</if>
+            <if test="userPhone != null  and userPhone != ''  ">user_phone = #{userPhone},</if>
+            <if test="orderScore != null  ">order_score = #{orderScore},</if>
+            <if test="isInvoice != null  and isInvoice != ''  ">is_invoice = #{isInvoice},</if>
+            <if test="invoiceClient != null  and invoiceClient != ''  ">invoice_client = #{invoiceClient},</if>
+            <if test="orderRemarks != null  and orderRemarks != ''  ">order_remarks = #{orderRemarks},</if>
+            <if test="orderSrc != null  and orderSrc != ''  ">order_src = #{orderSrc},</if>
+            <if test="needPay != null  ">need_pay = #{needPay},</if>
+            <if test="payRand != null  ">pay_rand = #{payRand},</if>
+            <if test="orderType != null  ">order_type = #{orderType},</if>
+            <if test="isRefund != null  and isRefund != ''  ">is_refund = #{isRefund},</if>
+            <if test="isAppraise != null  and isAppraise != ''  ">is_appraise = #{isAppraise},</if>
+            <if test="cancelReason != null  ">cancel_reason = #{cancelReason},</if>
+            <if test="rejectReason != null  ">reject_reason = #{rejectReason},</if>
+            <if test="rejectOtherreason != null  and rejectOtherreason != ''  ">reject_otherreason = #{rejectOtherreason},</if>
+            <if test="isClosed != null  and isClosed != ''  ">is_closed = #{isClosed},</if>
+            <if test="goodsSearchKeys != null  and goodsSearchKeys != ''  ">goods_search_keys = #{goodsSearchKeys},</if>
+            <if test="orderunique != null  and orderunique != ''  ">orderunique = #{orderunique},</if>
+            <if test="receiveTime != null  ">receive_time = #{receiveTime},</if>
+            <if test="deliveryTime != null  ">delivery_time = #{deliveryTime},</if>
+            <if test="tradeNo != null  and tradeNo != ''  ">trade_no = #{tradeNo},</if>
+            <if test="settlementId != null  and settlementId != ''  ">settlement_id = #{settlementId},</if>
+            <if test="commissionFee != null  ">commission_fee = #{commissionFee},</if>
+            <if test="scoreMoney != null  ">score_money = #{scoreMoney},</if>
+            <if test="useScore != null  ">use_score = #{useScore},</if>
+            <if test="orderCode != null  and orderCode != ''  ">order_code = #{orderCode},</if>
+            <if test="extraJson != null  and extraJson != ''  ">extra_json = #{extraJson},</if>
+            <if test="orderCodeTargetId != null  ">order_code_target_id = #{orderCodeTargetId},</if>
+            <if test="noticeDeliver != null  and noticeDeliver != ''  ">notice_deliver = #{noticeDeliver},</if>
+            <if test="invoiceJson != null  and invoiceJson != ''  ">invoice_json = #{invoiceJson},</if>
+            <if test="lockCashMoney != null  ">lock_cash_money = #{lockCashMoney},</if>
+            <if test="payTime != null  ">pay_time = #{payTime},</if>
+            <if test="isBatch != null  and isBatch != ''  ">is_batch = #{isBatch},</if>
+            <if test="totalPayFee != null  ">total_pay_fee = #{totalPayFee},</if>
+            <if test="isMakeInvoice != null  and isMakeInvoice != ''  ">is_make_invoice = #{isMakeInvoice},</if>
+            <if test="afterSaleEndTime != null  ">after_sale_end_time = #{afterSaleEndTime},</if>
+            <if test="getScoreVal != null  ">get_score_val = #{getScoreVal},</if>
+            <if test="refundedPayMoney != null  ">refunded_pay_money = #{refundedPayMoney},</if>
+            <if test="refundedScore != null  ">refunded_score = #{refundedScore},</if>
+            <if test="refundedScoreMoney != null  ">refunded_score_money = #{refundedScoreMoney},</if>
+            <if test="refundedGetscore != null  ">refunded_getscore = #{refundedGetscore},</if>
+            <if test="refundedGetScoreMoney != null  ">refunded_get_score_money = #{refundedGetScoreMoney},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+            
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+           
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpOrdersById" parameterType="String">
+        delete from sp_orders where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpOrdersByIds" parameterType="String">
+        delete from sp_orders where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.home.mapper.HomeUrlMapper">
+    
+    <resultMap type="HomeUrl" id="HomeUrlResult">
+        <result property="mid"    column="mid"    />
+        <result property="urlName"    column="url_name"    />
+        <result property="url"    column="url"    />
+        <result property="urlType"    column="url_type"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="classifyId"    column="classify_id"    />
+         <result property="classify"    column="classify"    />
+        <result property="accessType"    column="access_type"    />
+        <result property="userId"    column="user_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateUp"    column="update_up"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="year"    column="year"    />
+        <result property="month"    column="month"    />
+        <result property="clicks"    column="clicks"    />
+        <result property="day"    column="day"    />
+        <result property="urlTypeId"    column="url_type_id"    />
+        <association property="mHomeUrlInfo"     javaType="HomeUrlInfo" resultMap="HomeUrlInfoResult" />
+    </resultMap>
+	 <resultMap type="HomeUrlInfo" id="HomeUrlInfoResult">
+        <result property="mid"    column="mid"    />
+        <result property="urlId"    column="url_id"    />
+        <result property="founder"    column="founder"    />
+        <result property="describe"    column="describe"    />
+    </resultMap>
+	<sql id="selectHomeUrlVo">
+        select hu.classify, hu.mid, hu.url_name, hu.url_type_id, hu.url, hu.url_type, hu.member_id, hu.classify_id, hu.access_type, hu.user_id, hu.del_flag, hu.status, hu.create_time, hu.update_time, hu.create_by, hu.update_up, hu.remark, hu.sort, hu.year, hu.month, hu.clicks, hu.day from home_url hu 
+    	left join home_url_info hui on hui.url_id = hu.mid
+    </sql>
+	
+    <select id="selectHomeUrlList" parameterType="HomeUrl" resultMap="HomeUrlResult">
+        <include refid="selectHomeUrlVo"/>
+        <where>  
+        hu.del_flag = '0' 
+            <if test="mid != null  and mid != '' "> and hu.mid = #{mid}</if>
+             <if test="urlName != null  and urlName != '' "> and hu.url_name = #{urlName}</if>
+             <if test="url != null  and url != '' "> and hu.url = #{url}</if>
+             <if test="urlType != null  and urlType != '' "> and hu.url_type = #{urlType}</if>
+             <if test="memberId != null  and memberId != '' "> and hu.member_id = #{memberId}</if>
+             <if test="classifyId != null  and classifyId != '' "> and hu.classify_id = #{classifyId}</if>
+              <if test="classify != null  and classify != '' "> and hu.classify = #{classify}</if>
+             <if test="accessType != null  and accessType != '' "> and hu.access_type = #{accessType}</if>
+             <if test="userId != null  and userId != '' "> and hu.user_id = #{userId}</if>
+             <if test="delFlag != null  and delFlag != '' "> and hu.del_flag = #{delFlag}</if>
+             <if test="status != null  and status != '' "> and hu.status = #{status}</if>
+             <if test="createTime != null "> and hu.create_time = #{createTime}</if>
+             <if test="updateTime != null "> and hu.update_time = #{updateTime}</if>
+             <if test="createBy != null  and createBy != '' "> and hu.create_by = #{createBy}</if>
+             <if test="updateUp != null  and updateUp != '' "> and hu.update_up = #{updateUp}</if>
+             <if test="remark != null  and remark != '' "> and hu.remark = #{remark}</if>
+             <if test="sort != null "> and hu.sort = #{sort}</if>
+             <if test="year != null "> and hu.year = #{year}</if>
+             <if test="month != null "> and hu.month = #{month}</if>
+         
+             <if test="urlTypeId != null and urlTypeId !='' "> and hu.url_type_id = #{urlTypeId}</if>
+             <if test="day != null "> and hu.day = #{day}</if>
+			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(hu.create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(hu.create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>             
+         </where>
+         	${params.dataScope}  
+    </select>
+    
+    <select id="selectHomeUrlById" parameterType="String" resultMap="HomeUrlResult">
+        <include refid="selectHomeUrlVo"/>
+        where hu.mid = #{mid} and  hu.del_flag = '0' 
+    </select>
+        
+    <insert id="insertHomeUrl" parameterType="HomeUrl">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into home_url
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="urlName != null  and urlName != ''  ">url_name,</if>
+			<if test="url != null  and url != ''  ">url,</if>
+			<if test="urlType != null  and urlType != ''  ">url_type,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="classifyId != null  and classifyId != ''  ">classify_id,</if>
+			<if test="accessType != null  and accessType != ''  ">access_type,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+		
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateUp != null  and updateUp != ''  ">update_up,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null and sort != 0 ">sort,</if>
+			<if test="year != null and year != 0 ">year,</if>
+			<if test="month != null and month !=0 ">month,</if>
+			<if test="clicks != null and clicks != 0 ">clicks,</if>
+			<if test="day != null and day != 0 ">day,</if>
+			<if test="urlTypeId != null and urlTypeId != '' ">url_type_id,</if>
+			<if test="classify != null  and classify != ''  ">classify,</if>
+			create_time,
+			update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="urlName != null  and urlName != ''  ">#{urlName},</if>
+			<if test="url != null  and url != ''  ">#{url},</if>
+			<if test="urlType != null  and urlType != ''  ">#{urlType},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="classifyId != null  and classifyId != ''  ">#{classifyId},</if>
+			<if test="accessType != null  and accessType != ''  ">#{accessType},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+	
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateUp != null  and updateUp != ''  ">#{updateUp},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null and sort !=0 ">#{sort},</if>
+			<if test="year != null and year != 0 ">#{year},</if>
+			<if test="month != null and month !=0  ">#{month},</if>
+			<if test="clicks != null and clicks !=0  ">#{clicks},</if>
+			<if test="day != null  and day !=0  ">#{day},</if>
+			<if test="urlTypeId != null and urlTypeId != '' ">#{urlTypeId},</if>
+				<if test="classify != null  and classify != ''  ">#{classify},</if>
+			sysdate(),
+			sysdate()
+         </trim>
+    </insert>
+	 
+    <update id="updateHomeUrl" parameterType="HomeUrl">
+        update home_url
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="urlName != null  and urlName != ''  ">url_name = #{urlName},</if>
+            <if test="url != null  and url != ''  ">url = #{url},</if>
+            <if test="urlType != null  and urlType != ''  ">url_type = #{urlType},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="classifyId != null  and classifyId != ''  ">classify_id = #{classifyId},</if>
+            <if test="accessType != null  and accessType != ''  ">access_type = #{accessType},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+ 			<if test="classify != null  and classify != ''  ">classify=#{classify},</if>
+
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateUp != null  and updateUp != ''  ">update_up = #{updateUp},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="year != null  ">year = #{year},</if>
+            <if test="month != null  ">month = #{month},</if>
+            <if test="clicks != null  ">clicks = #{clicks},</if>
+            <if test="day != null  ">day = #{day},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteHomeUrlById" parameterType="String">
+        delete from home_url where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteHomeUrlByIds" parameterType="String">
+        delete from home_url where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+     <update id="changeStatus" parameterType="HomeUrl">
+        update home_url
+        <trim prefix="SET" suffixOverrides=",">
+ 
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+        
+        </trim>
+        where mid = #{mid}
+    </update>
+</mapper>

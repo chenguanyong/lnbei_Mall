@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.member.mapper.MemberMenuRanksMapper">
+    
+    <resultMap type="MemberMenuRanks" id="MemberMenuRanksResult">
+        <result property="mid"    column="mid"    />
+        <result property="ranksId"    column="ranks_id"    />
+        <result property="menuId"    column="menu_id"    />
+    </resultMap>
+	
+	<sql id="selectMemberMenuRanksVo">
+        select mid, ranks_id, menu_id from member_menu_ranks
+    </sql>
+	
+    <select id="selectMemberMenuRanksList" parameterType="MemberMenuRanks" resultMap="MemberMenuRanksResult">
+        <include refid="selectMemberMenuRanksVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="ranksId != null  and ranksId != '' "> and ranks_id = #{ranksId}</if>
+             <if test="menuId != null  and menuId != '' "> and menu_id = #{menuId}</if>
+         </where>
+    </select>
+    
+    <select id="selectMemberMenuRanksById" parameterType="String" resultMap="MemberMenuRanksResult">
+        <include refid="selectMemberMenuRanksVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertMemberMenuRanks" parameterType="MemberMenuRanks">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>     
+        insert into member_menu_ranks
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="ranksId != null  and ranksId != ''  ">ranks_id,</if>
+			<if test="menuId != null  and menuId != ''  ">menu_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="ranksId != null  and ranksId != ''  ">#{ranksId},</if>
+			<if test="menuId != null  and menuId != ''  ">#{menuId},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateMemberMenuRanks" parameterType="MemberMenuRanks">
+        update member_menu_ranks
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ranksId != null  and ranksId != ''  ">ranks_id = #{ranksId},</if>
+            <if test="menuId != null  and menuId != ''  ">menu_id = #{menuId},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteMemberMenuRanksById" parameterType="String">
+        delete from member_menu_ranks where mid = #{mid}
+    </delete>
+    
+	<delete id="deleteMemberMenuRanksByRanksId" parameterType="String">
+        delete from member_menu_ranks where ranks_id = #{ranksId}
+    </delete>
+	
+    <delete id="deleteMemberMenuRanksByIds" parameterType="String">
+        delete from member_menu_ranks where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-wfWorkflowStep-add">
+        <input id="workflowId" name="workflowId" class="form-control" type="hidden" th:value="${mWfWorkflow.mid}">
+			 <h4 class="form-header h4">常规信息</h4>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>步骤名称：</label>
+				<div class="col-sm-8">
+					<input id="title" name="title" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>状态标识：</label>
+				<div class="col-sm-8">
+					<input id="statusName" name="statusName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类型：</label>
+				<div class="col-sm-8">
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('step_type')}">
+						<input type="radio" th:id="${dict.dictCode}" name="flowType" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">流程控制：</label>
+				<div class="col-sm-2 check-box">
+				<label>	<input id="isPending" name="isPending" value="1" type="checkbox">允许挂起</label>
+				
+				</div>
+				<div class="col-sm-4 check-box">
+				<label>	<input id="isCommission" name="isCommission" value="1"   type="checkbox">允许委托</label>
+				</div>				
+			</div>
+			<h4 class="form-header h4">人员设定</h4>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">选择审批人员：</label>
+				<div class="col-sm-8">
+				    <input id="userIds" name="userIds"  type="hidden">
+					<input id="userNames" name="userNames" onclick="$.usertree()" readyonly="true" class="form-control" type="text">
+				</div>
+				<div class="col-sm-12">
+				
+				
+				</div>
+			</div>
+			<h4 th:if="${stepSize >1 }" class="form-header h4">流程转向</h4>
+			<div  th:if="${stepSize > 1 }"  class="form-group">	
+				<label class="col-sm-3 control-label">流程回退：</label>
+				<div class="col-sm-8">
+					<div required class="radio-box" th:each="dict : ${mWfWorkflowSteps}">
+						<input type="radio" th:id="${dict.mid}" name="returnId" th:value="${dict.mid}"  th:checked="${ false}">
+						<label th:text="${'第' +  dict.stepNum + '步'  + dict.title}"></label>
+					</div>	
+				</div>
+			</div>
+	
+			<h4 class="form-header h4">超时处理</h4>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">超时处理：</label>
+				<div class="col-sm-8">
+				<div class="radio-box col-sm-3" >
+					<input  name="isTimeout" class="form-control" type="radio"><label>不使用超时</label>
+				</div>		
+						<div class="radio-box col-sm-3" >
+					
+					<input name="isTimeout" class="form-control" type="radio"><label>使用超时处理</label>
+		
+				</div>
+				<div class="col-sm-5">
+							<select id="timeOut" class="form-control col-sm-6" name="timeOut">
+						
+						<option value="30">30分钟</option>
+						<option value="60">1小时</option>
+						<option value="120">2小时</option>
+						<option value="180">3小时</option>
+						<option value="720">12小时</option>
+						<option value="1440">24小时</option>
+						<option value="2880">48小时</option>
+						<option value="4560">76小时</option>				
+					</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "wf/wfWorkflowStep"
+		$("#form-wfWorkflowStep-add").validate({
+			rules:{
+				sort:{
+					required:true,
+				},
+				title:{
+					required:true,
+				},	
+				statusName:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	       
+	        	var formData = new FormData();
+
+				/*******************/
+				formData.append('title', $("#title").val());
+				formData.append('statusName', $("#statusName").val());
+				formData.append('flowType', $("#flowType").val());
+				formData.append('userIds', $("#userIds").val());
+				formData.append('userNames', $("#userNames").val());
+				formData.append('returnId', $("input[name='returnId']").val());//
+				
+				formData.append('workflowId', $("#workflowId").val());
+				formData.append('sort', $("#sort").val());
+				formData.append('remark', $("#remark").val());
+				formData.append('isPending', $("input[id='isPending']").is(':checked') == false ? 0 : 1);
+				formData.append('isCommission', $("input[id='isCommission']").is(':checked') == false ? 0 : 1);
+
+
+	        	$.ajax({
+	        		url: prefix + "/add",
+	        		type: 'post',
+	        		cache: false,
+	        		data: formData,
+	        		processData: false,
+	        		contentType: false,
+	        		dataType: "json",
+	        		success: function(result) {
+	        			$.operate.successCallback(result);
+	        		}
+	        	});
+	        }
+	    }
+	</script>
+</body>
+</html>

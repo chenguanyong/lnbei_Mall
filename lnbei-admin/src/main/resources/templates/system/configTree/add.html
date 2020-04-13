@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-configTree-add">
+        <input id="parentId" name="parentId" class="form-control" type="hidden" th:value="${id}">
+		<div class="row form-group">
+		
+			<div class="col-sm-6">
+				<div class="row ">	
+					<label class="col-sm-4 control-label"><span style="color:red">*</span>配置名称：</label>
+					<div class="col-sm-8 padding-left-0">
+						<input id="name" name="name" class="form-control" type="text" required>
+					</div>
+				</div>			
+			</div>
+			<div class="col-sm-6">
+				<div class="row ">	
+					<label class="col-sm-4 control-label"><span style="color:red">*</span>配置类型：</label>
+					<div class="col-sm-8 padding-left-0">
+						<select required id="type" name="type"   class="form-control" th:with="type=${@dict.getType('sys_configtree_type')}">
+						 	 <option value="">请选择</option>
+						 	 <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+						  	</option>
+						</select>
+					</div>
+				</div>			
+			</div>
+		
+		</div>
+
+		<div class="row form-group">
+		
+			<div class="col-sm-6">
+				<div class="row">	
+					<label class="col-sm-4 control-label"><span style="color:red">*</span>配置状态：</label>
+					<div class="col-sm-8 padding-left-0">
+						    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+								<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.isDefault == 'Y' ? true : false}">
+								<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+							</div>
+					</div>
+				</div>		
+			</div>
+			<div class="col-sm-6">
+				<div class="row ">	
+					<label class="col-sm-4 control-label"><span style="color:red">*</span>排序：</label>
+					<div class="col-sm-8 padding-left-0">
+						<input id="sort" name="sort" class="form-control" value="0" type="text" required>
+					</div>
+				</div>			
+			</div>
+		
+		</div>
+		<div class="row form-group">
+		
+
+		
+					<label class="col-sm-2	 control-label">备注：</label>
+					<div class="col-sm-10 padding-left-0">
+						<textarea id="remark" name="remark" class="form-control" type="text"></textarea>
+					</div>
+			
+		
+		</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "system/configTree"
+		$("#form-configTree-add").validate({
+			rules:{
+				name:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-configTree-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

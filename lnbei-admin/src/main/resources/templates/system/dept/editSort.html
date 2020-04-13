@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+	<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+		<form class="form-horizontal m" id="form-role-add">
+		<input class="form-control" type="hidden" id="deptId" th:value="${dept.id}">
+			<div class="form-group">
+				<label class="col-sm-3 control-label ">排序值：</label>
+				<div class="col-sm-8">
+					<input class="form-control" type="text" name="sort" id="sort" th:value="${dept.sort}" required>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript">
+		
+		$("#form-role-add").validate({
+			rules:{
+				sort:{
+					digits:true,
+					required:true
+		            }
+				},
+		    focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	        	add();
+	        }
+	        console.log("ddd");
+	    }
+	
+		function add() {
+			var deptId = $("#deptId").val();
+			var sort = $("#sort").val();
+			$.ajax({
+				cache : true,
+				type : "POST",
+				url : ctx + "system/dept/sortSave",
+				data : {
+					"id": deptId,
+					"sort": sort
+				},
+				async : false,
+				error : function(request) {
+					$.modal.alertError("系统错误");
+				},
+				success : function(data) {
+					$.operate.successCallback(data);
+				}
+			});
+		}
+	
+	</script>
+</body>
+</html>

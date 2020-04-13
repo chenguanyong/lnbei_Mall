@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spExpress-edit" th:object="${spExpress}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>快递名称：</label>
+				<div class="col-sm-8">
+					<input id="expressName" name="expressName" th:field="*{expressName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>快递代码：</label>
+				<div class="col-sm-8">
+					<input id="expressCode" name="expressCode" th:field="*{expressCode}" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label"><span style="color:red">*</span>排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}"  class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spExpress";
+		$("#form-spExpress-edit").validate({
+			rules:{
+				expressName:{
+					required:true,
+				},
+				expressCode:{
+					required:true,
+				},
+				sort:{
+					required:true,
+				},	
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-spExpress-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

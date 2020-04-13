@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.fi.mapper.FiRechargeMapper">
+    
+    <resultMap type="FiRecharge" id="FiRechargeResult">
+        <result property="mid"    column="mid"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="serialNumber"    column="serial_number"    />
+        <result property="moneyType"    column="money_type"    />
+        <result property="money"    column="money"    />
+        <result property="status"    column="status"    />
+        <result property="voucher"    column="voucher"    />
+        <result property="checkTime"    column="check_time"    />
+        <result property="content"    column="content"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="workflowId"    column="workflow_id"    />
+        <result property="stepId"    column="step_id"    />
+        <result property="reviewStatus"    column="review_status"    />
+        <result property="isPending"    column="is_pending"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+	
+	<sql id="selectFiRechargeVo">
+        select mid, member_id, serial_number, money_type, money, status, voucher, check_time, content, create_time, del_flag, create_by, update_by, remark, sort, workflow_id, step_id, review_status, is_pending, update_time from fi_recharge
+    </sql>
+	
+    <select id="selectFiRechargeList" parameterType="FiRecharge" resultMap="FiRechargeResult">
+        <include refid="selectFiRechargeVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="serialNumber != null  and serialNumber != '' "> and serial_number = #{serialNumber}</if>
+             <if test="moneyType != null  and moneyType != '' "> and money_type = #{moneyType}</if>
+             <if test="money != null "> and money = #{money}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="voucher != null  and voucher != '' "> and voucher = #{voucher}</if>
+             <if test="checkTime != null "> and check_time = #{checkTime}</if>
+             <if test="content != null  and content != '' "> and content = #{content}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="workflowId != null  and workflowId != '' "> and workflow_id = #{workflowId}</if>
+             <if test="stepId != null  and stepId != '' "> and step_id = #{stepId}</if>
+             <if test="reviewStatus != null  and reviewStatus != '' "> and review_status = #{reviewStatus}</if>
+             <if test="isPending != null  and isPending != '' "> and is_pending = #{isPending}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectFiRechargeById" parameterType="String" resultMap="FiRechargeResult">
+        <include refid="selectFiRechargeVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertFiRecharge" parameterType="FiRecharge">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into fi_recharge
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="serialNumber != null  and serialNumber != ''  ">serial_number,</if>
+			<if test="moneyType != null  and moneyType != ''  ">money_type,</if>
+			<if test="money != null  ">money,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="voucher != null  and voucher != ''  ">voucher,</if>
+			<if test="checkTime != null  ">check_time,</if>
+			<if test="content != null  and content != ''  ">content,</if>
+		
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="workflowId != null  and workflowId != ''  ">workflow_id,</if>
+			<if test="stepId != null  and stepId != ''  ">step_id,</if>
+			<if test="reviewStatus != null  and reviewStatus != ''  ">review_status,</if>
+			<if test="isPending != null  and isPending != ''  ">is_pending,</if>
+				update_time,
+			create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="serialNumber != null  and serialNumber != ''  ">#{serialNumber},</if>
+			<if test="moneyType != null  and moneyType != ''  ">#{moneyType},</if>
+			<if test="money != null  ">#{money},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="voucher != null  and voucher != ''  ">#{voucher},</if>
+			<if test="checkTime != null  ">#{checkTime},</if>
+			<if test="content != null  and content != ''  ">#{content},</if>
+	
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="workflowId != null  and workflowId != ''  ">#{workflowId},</if>
+			<if test="stepId != null  and stepId != ''  ">#{stepId},</if>
+			<if test="reviewStatus != null  and reviewStatus != ''  ">#{reviewStatus},</if>
+			<if test="isPending != null  and isPending != ''  ">#{isPending},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateFiRecharge" parameterType="FiRecharge">
+        update fi_recharge
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="serialNumber != null  and serialNumber != ''  ">serial_number = #{serialNumber},</if>
+            <if test="moneyType != null  and moneyType != ''  ">money_type = #{moneyType},</if>
+            <if test="money != null  ">money = #{money},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="voucher != null  and voucher != ''  ">voucher = #{voucher},</if>
+            <if test="checkTime != null  ">check_time = #{checkTime},</if>
+            <if test="content != null  and content != ''  ">content = #{content},</if>
+         
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+         
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="workflowId != null  and workflowId != ''  ">workflow_id = #{workflowId},</if>
+            <if test="stepId != null  and stepId != ''  ">step_id = #{stepId},</if>
+            <if test="reviewStatus != null  and reviewStatus != ''  ">review_status = #{reviewStatus},</if>
+            <if test="isPending != null  and isPending != ''  ">is_pending = #{isPending},</if>
+               update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteFiRechargeById" parameterType="String">
+        delete from fi_recharge where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteFiRechargeByIds" parameterType="String">
+        delete from fi_recharge where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

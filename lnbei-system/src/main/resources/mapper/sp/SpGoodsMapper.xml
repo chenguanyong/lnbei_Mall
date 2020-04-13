@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpGoodsMapper">
+    
+    <resultMap type="SpGoods" id="SpGoodsResult">
+        <result property="mid"    column="mid"    />
+        <result property="goodsSn"    column="goods_sn"    />
+        <result property="productNo"    column="product_no"    />
+        <result property="goodsName"    column="goods_name"    />
+        <result property="goodsImg"    column="goods_img"    />
+        <result property="shopId"    column="shop_id"    />
+        <result property="goodsType"    column="goods_type"    />
+        <result property="marketPrice"    column="market_price"    />
+        <result property="shopPrice"    column="shop_price"    />
+        <result property="warnStock"    column="warn_stock"    />
+        <result property="goodsStock"    column="goods_stock"    />
+        <result property="goodsUnit"    column="goods_unit"    />
+        <result property="goodsTips"    column="goods_tips"    />
+        <result property="isSale"    column="is_sale"    />
+        <result property="isBest"    column="is_best"    />
+        <result property="isHot"    column="is_hot"    />
+        <result property="isNew"    column="is_new"    />
+        <result property="isRecom"    column="is_recom"    />
+        <result property="goodsCatIdPath"    column="goods_cat_id_path"    />
+        <result property="goodscatId"    column="goodscat_id"    />
+        <result property="shopCatId1"    column="shop_cat_id1"    />
+        <result property="shopCatId2"    column="shop_cat_id2"    />
+        <result property="brandId"    column="brand_id"    />
+        <result property="goodsDesc"    column="goods_desc"    />
+        <result property="goodsStatus"    column="goods_status"    />
+        <result property="saleNum"    column="sale_num"    />
+        <result property="saleTime"    column="sale_time"    />
+        <result property="visitNum"    column="visit_num"    />
+        <result property="appraiseNum"    column="appraise_num"    />
+        <result property="isSpec"    column="is_spec"    />
+        <result property="gallery"    column="gallery"    />
+        <result property="goodsSeoKeywords"    column="goods_seo_keywords"    />
+        <result property="illegalremarks"    column="illegalremarks"    />
+        <result property="isFreeshipping"    column="is_freeshipping"    />
+        <result property="goodsSerachKeyWords"    column="goods_serach_key_words"    />
+        <result property="goodsVideo"    column="goods_video"    />
+        <result property="costPrice"    column="cost_price"    />
+        <result property="goodsVideoThumb"    column="goods_video_thumb"    />
+        <result property="goodsSeoDesc"    column="goods_seo_desc"    />
+        <result property="shippingFeetype"    column="shipping_feetype"    />
+        <result property="goodsWeight"    column="goods_weight"    />
+        <result property="goodsVolume"    column="goods_volume"    />
+        <result property="shopexpressId"    column="shopexpress_id"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+        <association property="spShops"     javaType="SpShops" resultMap="SpShopsResult" />
+        <association property="mGoodsSpecs"     javaType="SpGoodsSpecs" resultMap="spGoodsSpecsResult" />
+    </resultMap>
+	<resultMap id="spGoodsSpecsResult" type="SpGoodsSpecs">
+       <result property="mid"    column="mid"    />
+        <result property="shopId"    column="gs_shop_id"    />
+        <result property="goodsId"    column="gs_goods_id"    />
+        <result property="productNo"    column="gs_product_no"    />
+        <result property="specIds"    column="gs_spec_ids"    />
+        <result property="marketPrice"    column="gs_market_price"    />
+        <result property="specPrice"    column="gs_spec_price"    />
+        <result property="specStock"    column="gs_spec_stock"    />
+        <result property="warnStock"    column="gs_warn_stock"    />
+        <result property="saleNum"    column="gs_sale_num"    />
+        <result property="isDefault"    column="gs_is_default"    />
+        <result property="specWeight"    column="gs_spec_weight"    />
+        <result property="specVolume"    column="gs_spec_volume"    />
+        <result property="deptId"    column="gs_dept_id"    />
+        <result property="deptName"    column="gs_dept_name"    />
+	</resultMap>
+    <resultMap type="SpShops" id="SpShopsResult">
+        <result property="mid"    column="sps_mid"    />
+        <result property="shopSn"    column="sps_shop_sn"    />
+        <result property="areaId"    column="sps_area_id"    />
+        <result property="isSelf"    column="sps_is_self"    />
+        <result property="shopName"    column="sps_shop_name"    />
+        <result property="shopKeeper"    column="sps_shop_keeper"    />
+        <result property="telephone"    column="sps_telephone"    />
+        <result property="shopImg"    column="sps_shop_img"    />
+        <result property="shopTel"    column="sps_shop_tel"    />
+        <result property="shopQq"    column="sps_shop_qq"    />
+    </resultMap>	
+	
+	<sql id="selectSpGoodsVo">
+        select  m.mid, m.goods_sn, m.product_no, m.goods_name, m.goods_img, m.shop_id, m.goods_type,m. market_price, m.shop_price, m.warn_stock, m.goods_stock, m.goods_unit, m.goods_tips, m.is_sale, m.is_best, m.is_hot, m.is_new, m.is_recom, m.goods_cat_id_path, m.goodscat_id, m.shop_cat_id1, m.shop_cat_id2, m.brand_id, m.goods_desc, m.goods_status, m.sale_num, m.sale_time, m.visit_num, m.appraise_num, m.is_spec, m.gallery, m.goods_seo_keywords, m.illegalremarks, m.is_freeshipping, m.goods_serach_key_words, m.goods_video, m.cost_price,m. goods_video_thumb, m.goods_seo_desc, m.shipping_feetype, m.goods_weight, m.goods_volume, m.shopexpress_id, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort 
+        ,sps.mid  sps_mid ,sps.shop_sn sps_shop_sn, sps.area_id sps_area_id, sps.is_self sps_is_self,sps.shop_name sps_shop_name, sps.shop_keeper sps_shop_keeper,sps.telephone sps_telephone, sps.shop_img sps_shop_img,sps. shop_tel sps_shop_tel, sps.shop_qq sps_shop_qq
+        
+        from sp_goods m
+        left join sp_shops sps on sps.mid = m.shop_id 
+    </sql>
+	<sql id="selectSpGoodsGoodsSpec">
+        select m.mid, m.goods_sn, m.product_no, m.goods_name, m.goods_img, m.shop_id, m.goods_type, m.market_price, m.shop_price, m.warn_stock, m.goods_stock, m.goods_unit, m.goods_tips, m.is_sale, m.is_best, m.is_hot, m.is_new, m.is_recom, m.goods_cat_id_path, m.goodscat_id, m.shop_cat_id1, m.shop_cat_id2, m.brand_id, m.goods_desc, m.goods_status, m.sale_num, m.sale_time, m.visit_num, m.appraise_num, m.is_spec, m.gallery, m.goods_seo_keywords, m.illegalremarks, m.is_freeshipping, m.goods_serach_key_words, m.goods_video, m.cost_price, m.goods_video_thumb, m.goods_seo_desc, m.shipping_feetype, m.goods_weight, m.goods_volume, m.shopexpress_id, m.del_flag, m.create_by,m.create_time, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort 
+			gs. mid gs_mid, gs.shop_id gs_shop_id, gs.goods_id gs_goods_id, gs.product_no gs_product_no, gs.spec_ids gs_spec_ids, gs.market_price gs_market_price, gs.spec_price gs_spec_price, gs.spec_stock gs_spec_stock, gs.warn_stock gs_warn_stock, gs.sale_num gs_sale_num, gs.is_default gs_is_default, gs.spec_weight gs_spec_weight, gs.spec_volume gs_spec_volume,  gs.dept_id gs_dept_id, gs.dept_name  gs_dept_name
+       ,sps.mid  sps_mid ,sps.shop_sn sps_shop_sn, sps.area_id sps_area_id, sps.is_self sps_is_self,sps.shop_name sps_shop_name, sps.shop_keeper sps_shop_keeper,sps.telephone sps_telephone, sps.shop_img sps_shop_img,sps. shop_tel sps_shop_tel, sps.shop_qq sps_shop_qq
+        from sp_goods m   left join sp_shops sps on sps.mid = m.shop_id 
+        left join 
+        sp_goods_specs gs on gs.goods_id = m.mid 
+    </sql>	
+   	<sql id="selectSpGoodsReCommondVo">
+        select m.mid, m.goods_sn, m.product_no, m.goods_name, m.goods_img, m.shop_id, m.goods_type, m.market_price, m.shop_price, m.warn_stock, m.goods_stock, m.goods_unit, m.goods_tips, m.is_sale, m.is_best, m.is_hot, m.is_new, m.is_recom, m.goods_cat_id_path, m.goodscat_id, m.shop_cat_id1, m.shop_cat_id2, m.brand_id, m.goods_desc, m.goods_status, m.sale_num, m.sale_time, m.visit_num, m.appraise_num, m.is_spec, m.gallery, m.goods_seo_keywords, m.illegalremarks, m.is_freeshipping, m.goods_serach_key_words, m.goods_video, m.cost_price,m. goods_video_thumb, m.goods_seo_desc, m.shipping_feetype, m.goods_weight, m.goods_volume, m.shopexpress_id, m.del_flag, m.create_by, m.create_time, m.update_by, m.update_time, m.remark, m.dept_id, m.dept_name, m.sort 
+        ,sps.mid  sps_mid ,sps.shop_sn sps_shop_sn, sps.area_id sps_area_id, sps.is_self sps_is_self,sps.shop_name sps_shop_name, sps.shop_keeper sps_shop_keeper,sps.telephone sps_telephone, sps.shop_img sps_shop_img,sps. shop_tel sps_shop_tel, sps.shop_qq sps_shop_qq
+        from sp_goods m left join sp_shops sps on sps.mid = m.shop_id 
+        right join sp_recommends spr on spr.data_id = m.mid
+    </sql>
+    <select id="selectSpGoodsGoodsListByGoodsType" parameterType="String" resultMap="SpGoodsResult">
+        <include refid="selectSpGoodsReCommondVo"/>
+		where spr.data_type=#{dataType} and spr.del_flag ='0' and spr.status='0'
+    </select>
+    
+    <select id="selectSpGoodsGoodsSpecByGoodsSpecId" parameterType="String" resultMap="SpGoodsResult">
+        <include refid="selectSpGoodsGoodsSpec"/>
+		where gs.mid=#{goodsSpecId}
+        limit 1
+    </select>
+    <select id="selectSpGoodsList" parameterType="SpGoods" resultMap="SpGoodsResult">
+        <include refid="selectSpGoodsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="goodsSn != null  and goodsSn != '' "> and goods_sn = #{goodsSn}</if>
+             <if test="productNo != null  and productNo != '' "> and product_no = #{productNo}</if>
+             <if test="goodsName != null  and goodsName != '' "> and goods_name = #{goodsName}</if>
+             <if test="goodsImg != null  and goodsImg != '' "> and goods_img = #{goodsImg}</if>
+             <if test="shopId != null  and shopId != '' "> and shop_id = #{shopId}</if>
+             <if test="goodsType != null  and goodsType != '' "> and goods_type = #{goodsType}</if>
+             <if test="marketPrice != null "> and market_price = #{marketPrice}</if>
+             <if test="shopPrice != null "> and shop_price = #{shopPrice}</if>
+             <if test="warnStock != null "> and warn_stock = #{warnStock}</if>
+             <if test="goodsStock != null "> and goods_stock = #{goodsStock}</if>
+             <if test="goodsUnit != null  and goodsUnit != '' "> and goods_unit = #{goodsUnit}</if>
+             <if test="goodsTips != null  and goodsTips != '' "> and goods_tips = #{goodsTips}</if>
+             <if test="isSale != null  and isSale != '' "> and is_sale = #{isSale}</if>
+             <if test="isBest != null  and isBest != '' "> and is_best = #{isBest}</if>
+             <if test="isHot != null  and isHot != '' "> and is_hot = #{isHot}</if>
+             <if test="isNew != null  and isNew != '' "> and is_new = #{isNew}</if>
+             <if test="isRecom != null  and isRecom != '' "> and is_recom = #{isRecom}</if>
+             <if test="goodsCatIdPath != null  and goodsCatIdPath != '' "> and goods_cat_id_path = #{goodsCatIdPath}</if>
+             <if test="goodscatId != null  and goodscatId != '' "> and goodscat_id = #{goodscatId}</if>
+             <if test="shopCatId1 != null  and shopCatId1 != '' "> and shop_cat_id1 = #{shopCatId1}</if>
+             <if test="shopCatId2 != null  and shopCatId2 != '' "> and shop_cat_id2 = #{shopCatId2}</if>
+             <if test="brandId != null  and brandId != '' "> and brand_id = #{brandId}</if>
+             <if test="goodsDesc != null  and goodsDesc != '' "> and goods_desc = #{goodsDesc}</if>
+             <if test="goodsStatus != null  and goodsStatus != '' "> and goods_status = #{goodsStatus}</if>
+             <if test="isSpec != null  and isSpec != '' "> and is_spec = #{isSpec}</if>
+             <if test="gallery != null  and gallery != '' "> and gallery = #{gallery}</if>
+             <if test="goodsSeoKeywords != null  and goodsSeoKeywords != '' "> and goods_seo_keywords = #{goodsSeoKeywords}</if>
+             <if test="illegalremarks != null  and illegalremarks != '' "> and illegalremarks = #{illegalremarks}</if>
+             <if test="isFreeshipping != null  and isFreeshipping != '' "> and is_freeshipping = #{isFreeshipping}</if>
+             <if test="goodsSerachKeyWords != null  and goodsSerachKeyWords != '' "> and goods_serach_key_words = #{goodsSerachKeyWords}</if>
+             <if test="goodsVideo != null  and goodsVideo != '' "> and goods_video = #{goodsVideo}</if>
+         
+             <if test="goodsVideoThumb != null  and goodsVideoThumb != '' "> and goods_video_thumb = #{goodsVideoThumb}</if>
+             <if test="goodsSeoDesc != null  and goodsSeoDesc != '' "> and goods_seo_desc = #{goodsSeoDesc}</if>
+             <if test="shippingFeetype != null  and shippingFeetype != '' "> and shipping_feetype = #{shippingFeetype}</if>
+             <if test="goodsWeight != null "> and goods_weight = #{goodsWeight}</if>
+             <if test="goodsVolume != null "> and goods_volume = #{goodsVolume}</if>
+             <if test="shopexpressId != null  and shopexpressId != '' "> and shopexpress_id = #{shopexpressId}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+       
+         </where>
+    </select>
+    
+    <select id="selectSpGoodsById" parameterType="String" resultMap="SpGoodsResult">
+        <include refid="selectSpGoodsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpGoods" parameterType="SpGoods">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_goods
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="goodsSn != null  and goodsSn != ''  ">goods_sn,</if>
+			<if test="productNo != null  and productNo != ''  ">product_no,</if>
+			<if test="goodsName != null  and goodsName != ''  ">goods_name,</if>
+			<if test="goodsImg != null  and goodsImg != ''  ">goods_img,</if>
+			<if test="shopId != null  and shopId != ''  ">shop_id,</if>
+			<if test="goodsType != null  and goodsType != ''  ">goods_type,</if>
+			<if test="marketPrice != null  ">market_price,</if>
+			<if test="shopPrice != null  ">shop_price,</if>
+			<if test="warnStock != null  ">warn_stock,</if>
+			<if test="goodsStock != null  ">goods_stock,</if>
+			<if test="goodsUnit != null  and goodsUnit != ''  ">goods_unit,</if>
+			<if test="goodsTips != null  and goodsTips != ''  ">goods_tips,</if>
+			<if test="isSale != null  and isSale != ''  ">is_sale,</if>
+			<if test="isBest != null  and isBest != ''  ">is_best,</if>
+			<if test="isHot != null  and isHot != ''  ">is_hot,</if>
+			<if test="isNew != null  and isNew != ''  ">is_new,</if>
+			<if test="isRecom != null  and isRecom != ''  ">is_recom,</if>
+			<if test="goodsCatIdPath != null  and goodsCatIdPath != ''  ">goods_cat_id_path,</if>
+			<if test="goodscatId != null  and goodscatId != ''  ">goodscat_id,</if>
+			<if test="shopCatId1 != null  and shopCatId1 != ''  ">shop_cat_id1,</if>
+			<if test="shopCatId2 != null  and shopCatId2 != ''  ">shop_cat_id2,</if>
+			<if test="brandId != null  and brandId != ''  ">brand_id,</if>
+			<if test="goodsDesc != null  and goodsDesc != ''  ">goods_desc,</if>
+			<if test="goodsStatus != null  and goodsStatus != ''  ">goods_status,</if>
+			<if test="saleNum != null  ">sale_num,</if>
+			<if test="saleTime != null  ">sale_time,</if>
+			<if test="visitNum != null  ">visit_num,</if>
+			<if test="appraiseNum != null  ">appraise_num,</if>
+			<if test="isSpec != null  and isSpec != ''  ">is_spec,</if>
+			<if test="gallery != null  and gallery != ''  ">gallery,</if>
+			<if test="goodsSeoKeywords != null  and goodsSeoKeywords != ''  ">goods_seo_keywords,</if>
+			<if test="illegalremarks != null  and illegalremarks != ''  ">illegalremarks,</if>
+			<if test="isFreeshipping != null  and isFreeshipping != ''  ">is_freeshipping,</if>
+			<if test="goodsSerachKeyWords != null  and goodsSerachKeyWords != ''  ">goods_serach_key_words,</if>
+			<if test="goodsVideo != null  and goodsVideo != ''  ">goods_video,</if>
+			<if test="costPrice != null  ">cost_price,</if>
+			<if test="goodsVideoThumb != null  and goodsVideoThumb != ''  ">goods_video_thumb,</if>
+			<if test="goodsSeoDesc != null  and goodsSeoDesc != ''  ">goods_seo_desc,</if>
+			<if test="shippingFeetype != null  and shippingFeetype != ''  ">shipping_feetype,</if>
+			<if test="goodsWeight != null  ">goods_weight,</if>
+			<if test="goodsVolume != null  ">goods_volume,</if>
+			<if test="shopexpressId != null  and shopexpressId != ''  ">shopexpress_id,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="goodsSn != null  and goodsSn != ''  ">#{goodsSn},</if>
+			<if test="productNo != null  and productNo != ''  ">#{productNo},</if>
+			<if test="goodsName != null  and goodsName != ''  ">#{goodsName},</if>
+			<if test="goodsImg != null  and goodsImg != ''  ">#{goodsImg},</if>
+			<if test="shopId != null  and shopId != ''  ">#{shopId},</if>
+			<if test="goodsType != null  and goodsType != ''  ">#{goodsType},</if>
+			<if test="marketPrice != null  ">#{marketPrice},</if>
+			<if test="shopPrice != null  ">#{shopPrice},</if>
+			<if test="warnStock != null  ">#{warnStock},</if>
+			<if test="goodsStock != null  ">#{goodsStock},</if>
+			<if test="goodsUnit != null  and goodsUnit != ''  ">#{goodsUnit},</if>
+			<if test="goodsTips != null  and goodsTips != ''  ">#{goodsTips},</if>
+			<if test="isSale != null  and isSale != ''  ">#{isSale},</if>
+			<if test="isBest != null  and isBest != ''  ">#{isBest},</if>
+			<if test="isHot != null  and isHot != ''  ">#{isHot},</if>
+			<if test="isNew != null  and isNew != ''  ">#{isNew},</if>
+			<if test="isRecom != null  and isRecom != ''  ">#{isRecom},</if>
+			<if test="goodsCatIdPath != null  and goodsCatIdPath != ''  ">#{goodsCatIdPath},</if>
+			<if test="goodscatId != null  and goodscatId != ''  ">#{goodscatId},</if>
+			<if test="shopCatId1 != null  and shopCatId1 != ''  ">#{shopCatId1},</if>
+			<if test="shopCatId2 != null  and shopCatId2 != ''  ">#{shopCatId2},</if>
+			<if test="brandId != null  and brandId != ''  ">#{brandId},</if>
+			<if test="goodsDesc != null  and goodsDesc != ''  ">#{goodsDesc},</if>
+			<if test="goodsStatus != null  and goodsStatus != ''  ">#{goodsStatus},</if>
+			<if test="saleNum != null  ">#{saleNum},</if>
+			<if test="saleTime != null  ">#{saleTime},</if>
+			<if test="visitNum != null  ">#{visitNum},</if>
+			<if test="appraiseNum != null  ">#{appraiseNum},</if>
+			<if test="isSpec != null  and isSpec != ''  ">#{isSpec},</if>
+			<if test="gallery != null  and gallery != ''  ">#{gallery},</if>
+			<if test="goodsSeoKeywords != null  and goodsSeoKeywords != ''  ">#{goodsSeoKeywords},</if>
+			<if test="illegalremarks != null  and illegalremarks != ''  ">#{illegalremarks},</if>
+			<if test="isFreeshipping != null  and isFreeshipping != ''  ">#{isFreeshipping},</if>
+			<if test="goodsSerachKeyWords != null  and goodsSerachKeyWords != ''  ">#{goodsSerachKeyWords},</if>
+			<if test="goodsVideo != null  and goodsVideo != ''  ">#{goodsVideo},</if>
+			<if test="costPrice != null  ">#{costPrice},</if>
+			<if test="goodsVideoThumb != null  and goodsVideoThumb != ''  ">#{goodsVideoThumb},</if>
+			<if test="goodsSeoDesc != null  and goodsSeoDesc != ''  ">#{goodsSeoDesc},</if>
+			<if test="shippingFeetype != null  and shippingFeetype != ''  ">#{shippingFeetype},</if>
+			<if test="goodsWeight != null  ">#{goodsWeight},</if>
+			<if test="goodsVolume != null  ">#{goodsVolume},</if>
+			<if test="shopexpressId != null  and shopexpressId != ''  ">#{shopexpressId},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+		
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+ 			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpGoods" parameterType="SpGoods">
+        update sp_goods
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="goodsSn != null  and goodsSn != ''  ">goods_sn = #{goodsSn},</if>
+            <if test="productNo != null  and productNo != ''  ">product_no = #{productNo},</if>
+            <if test="goodsName != null  and goodsName != ''  ">goods_name = #{goodsName},</if>
+            <if test="goodsImg != null  and goodsImg != ''  ">goods_img = #{goodsImg},</if>
+            <if test="shopId != null  and shopId != ''  ">shop_id = #{shopId},</if>
+            <if test="goodsType != null  and goodsType != ''  ">goods_type = #{goodsType},</if>
+            <if test="marketPrice != null  ">market_price = #{marketPrice},</if>
+            <if test="shopPrice != null  ">shop_price = #{shopPrice},</if>
+            <if test="warnStock != null  ">warn_stock = #{warnStock},</if>
+            <if test="goodsStock != null  ">goods_stock = #{goodsStock},</if>
+            <if test="goodsUnit != null  and goodsUnit != ''  ">goods_unit = #{goodsUnit},</if>
+            <if test="goodsTips != null  and goodsTips != ''  ">goods_tips = #{goodsTips},</if>
+            <if test="isSale != null  and isSale != ''  ">is_sale = #{isSale},</if>
+            <if test="isBest != null  and isBest != ''  ">is_best = #{isBest},</if>
+            <if test="isHot != null  and isHot != ''  ">is_hot = #{isHot},</if>
+            <if test="isNew != null  and isNew != ''  ">is_new = #{isNew},</if>
+            <if test="isRecom != null  and isRecom != ''  ">is_recom = #{isRecom},</if>
+            <if test="goodsCatIdPath != null  and goodsCatIdPath != ''  ">goods_cat_id_path = #{goodsCatIdPath},</if>
+            <if test="goodscatId != null  and goodscatId != ''  ">goodscat_id = #{goodscatId},</if>
+            <if test="shopCatId1 != null  and shopCatId1 != ''  ">shop_cat_id1 = #{shopCatId1},</if>
+            <if test="shopCatId2 != null  and shopCatId2 != ''  ">shop_cat_id2 = #{shopCatId2},</if>
+            <if test="brandId != null  and brandId != ''  ">brand_id = #{brandId},</if>
+            <if test="goodsDesc != null  and goodsDesc != ''  ">goods_desc = #{goodsDesc},</if>
+            <if test="goodsStatus != null  and goodsStatus != ''  ">goods_status = #{goodsStatus},</if>
+            <if test="saleNum != null  ">sale_num = #{saleNum},</if>
+            <if test="saleTime != null  ">sale_time = #{saleTime},</if>
+            <if test="visitNum != null  ">visit_num = #{visitNum},</if>
+            <if test="appraiseNum != null  ">appraise_num = #{appraiseNum},</if>
+            <if test="isSpec != null  and isSpec != ''  ">is_spec = #{isSpec},</if>
+            <if test="gallery != null  and gallery != ''  ">gallery = #{gallery},</if>
+            <if test="goodsSeoKeywords != null  and goodsSeoKeywords != ''  ">goods_seo_keywords = #{goodsSeoKeywords},</if>
+            <if test="illegalremarks != null  and illegalremarks != ''  ">illegalremarks = #{illegalremarks},</if>
+            <if test="isFreeshipping != null  and isFreeshipping != ''  ">is_freeshipping = #{isFreeshipping},</if>
+            <if test="goodsSerachKeyWords != null  and goodsSerachKeyWords != ''  ">goods_serach_key_words = #{goodsSerachKeyWords},</if>
+            <if test="goodsVideo != null  and goodsVideo != ''  ">goods_video = #{goodsVideo},</if>
+            <if test="costPrice != null  ">cost_price = #{costPrice},</if>
+            <if test="goodsVideoThumb != null  and goodsVideoThumb != ''  ">goods_video_thumb = #{goodsVideoThumb},</if>
+            <if test="goodsSeoDesc != null  and goodsSeoDesc != ''  ">goods_seo_desc = #{goodsSeoDesc},</if>
+            <if test="shippingFeetype != null  and shippingFeetype != ''  ">shipping_feetype = #{shippingFeetype},</if>
+            <if test="goodsWeight != null  ">goods_weight = #{goodsWeight},</if>
+            <if test="goodsVolume != null  ">goods_volume = #{goodsVolume},</if>
+            <if test="shopexpressId != null  and shopexpressId != ''  ">shopexpress_id = #{shopexpressId},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            
+           
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+           
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+    
+        <update id="incSpGoodsStock" parameterType="SpGoods">
+           update sp_goods
+           <trim prefix="SET" suffixOverrides=",">
+              <if test="goodsStock != null  ">goods_stock = goods_stock + #{goodsStock},</if>
+                   update_time = sysdate(),
+           </trim>
+                 where mid = #{mid}
+		</update>
+        <update id="decSpGoodsStock" parameterType="SpGoods">
+           update sp_goods
+           <trim prefix="SET" suffixOverrides=",">
+              <if test="goodsStock != null  ">goods_stock = goods_stock + #{goodsStock},</if>
+                   update_time = sysdate(),
+           </trim>
+                 where mid = #{mid}
+		</update>		
+	<delete id="deleteSpGoodsById" parameterType="String">
+        delete from sp_goods where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpGoodsByIds" parameterType="String">
+        delete from sp_goods where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

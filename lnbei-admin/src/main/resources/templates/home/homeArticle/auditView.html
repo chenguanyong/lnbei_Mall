@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<style>
+.label-width{
+    align-content: center;
+}
+
+</style>
+
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-homeArticle-edit" th:object="${mArticle}">
+          <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+           <table class="table table-bordered table-striped">
+           
+           	<tr>
+           		<td class="label-width">编号：</td>
+           		<td class="content-width" th:text="*{mark}"></td>
+           		<td class="label-width">标题：</td>
+           		<td class="content-width"  th:text="*{title}"></td>
+           	</tr>
+           <tr>
+           		<td class="label-width">摘要：</td>
+           		<td class="content-width" colspan="3" th:text="*{mark}"></td>
+         
+           	</tr>
+           	<tr>
+           		<td class="label-width">图片：</td>
+           		<td class="content-width" colspan="3" ><img style="width:50px" th:src="*{img}" /></td>
+           		
+           	</tr> 
+           	<tr>
+           		<td class="label-width">类别：</td>
+           		<td class="content-width" th:text="*{classify}"></td>
+           		<td class="label-width">作者：</td>
+           		<td class="content-width" th:text="*{author}"></td>
+           	</tr>
+            <tr>
+           		<td class="label-width">发布日期：</td>
+           		<td class="content-width" th:text="${#dates.format(mArticle.releaseDate, 'yyyy-MM-dd')}"></td>
+           		<td class="label-width">状态：</td>
+           		<td class="content-width" th:if="*{status == '0'}" >启用</td>
+           		<td class="content-width" th:if="*{status == '1'}" >停用</td>
+           	</tr> 
+           	<tr>
+           		<td class="label-width">访问类型：</td>
+           		<td class="content-width" th:with="type=${@dict.getType('sys_access_type')}">
+           		<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.accessType}"> </span>
+           		</td>
+           		<td class="label-width">文章类型：</td>
+           		<td  class="content-width" th:with="type=${@dict.getType('home_article_type')}">
+           			<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.type}"> </span>
+           		</td>
+           	</tr>  
+           	<tr th:if="*{isVerify == '1'}">
+           		<td class="label-width">审核人：</td>
+           		<td class="content-width" th:text="*{auditor}"></td>
+           		<td class="label-width">审核状态：</td>
+           		<td class="content-width" th:with="type=${@dict.getType('home_article_type')}">
+           		<span th:each="dict : ${type}" th:text="${dict.dictLabel}" th:if="${dict.dictValue == mArticle.flag}"> </span>
+           		</td>
+           	</tr>
+           	<tr th:if="*{isVerify == '1'}">
+           	
+           		<td class="label-width">审核意见：</td>
+           		<td class="content-width" colspan="3" th:text="*{auditorOpinion}"></td>
+           	</tr>
+         	<tr>
+           		<td class="label-width">文章内容：</td>
+           		<td class="content-width" colspan="3" th:utext="*{mHomeArticleInfo.content}"></td>
+           		
+           	</tr>   
+           	<tr>
+           		<td class="label-width">备注：</td>
+           		<td class="content-width" colspan="3" th:txt="*{remark}"></td>
+           	</tr>        	         	          	
+           </table>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">操作：</label>
+				<div class="col-sm-8" >						
+					<div class="radio-box" th:each="dict : ${@dict.getType('sys_audit_type')}">
+						<input type="radio" th:id="${dict.dictCode}" name="auditFlag" th:value="${dict.dictValue}" th:checked="${dict.dictValue == '1' ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>								
+				</div>	
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">审核意见：</label>
+				<div class="col-sm-8" >						
+					<input id="auditorOpinion" name="auditorOpinion" class="form-control" type="text">							
+				</div>	
+			</div>			
+		</form>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i class="fa fa-check"></i>提交</button>&nbsp;
+            <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i class="fa fa-reply-all"></i>关 闭 </button>
+        </div>
+    </div>    
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "home/homeArticle";
+		$("#form-homeArticle-edit").validate({
+			rules:{
+				auditorOpinion:{
+					required:true,
+				},
+				flag:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/audit", $('#form-homeArticle-edit').serialize());
+	        }
+	    }
+	      
+	</script>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.system.mapper.SysUserMapper">
+
+	<resultMap type="SysUser" id="SysUserResult">
+		<id     property="id"       column="id"      />
+        <result property="number"    column="number"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="logName"    column="log_name"    />
+        <result property="name"    column="name"    />
+        <result property="namePy"    column="name_py"    />
+        <result property="pid"    column="pid"    />
+        <result property="pwd"    column="pwd"    />
+        <result property="sex"    column="sex"    />
+        <result property="born"    column="born"    />
+        <result property="title"    column="title"    />
+        <result property="position"    column="position"    />
+        <result property="tel"    column="tel"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="phone"    column="phone"    />
+        <result property="flowId"    column="flow_id"    />
+        <result property="mailName"    column="mail_name"    />
+        <result property="worktype"    column="worktype"    />
+        <result property="home"    column="home"    />
+        <result property="address"    column="address"    />
+        <result property="politics"    column="politics"    />
+        <result property="joinDate"    column="join_date"  jdbcType="DATE"  />
+        <result property="grade"    column="grade"    />
+        <result property="crtr"    column="crtr"    />
+        <result property="crtrdate"    column="crtrdate"    />
+        <result property="chiefType"    column="chief_type"    />
+        <result property="lastNumber"    column="last_number"    />
+        <result property="photoId"    column="photo_id"    />
+        <result property="desc"    column="desc"    />
+        <result property="fileid"    column="fileid"    />
+        <result property="mobileAccount"    column="mobile_account"    />
+        <result property="imei"    column="imei"    />
+        <result property="status"    column="status"    />
+        <result property="sort"    column="sort"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+		<result property="realName"    column="real_name"    />
+		<result property="email"    column="email"    />
+		<result property="avatar"    column="avatar"    />
+		<result property="isStaff"    column="is_staff"    />
+		<result property="isAccount"    column="is_account"    />
+		
+		<association property="dept"    column="id" javaType="SysDept" resultMap="deptResult" />
+		<collection  property="roles"   javaType="java.util.List"        resultMap="RoleResult" />
+	</resultMap>
+	
+	<resultMap id="deptResult" type="SysDept">
+		<id     property="id"   column="dept_id"     />
+		<result property="parentId" column="parent_id"   />
+		<result property="name" column="dept_name"   />
+		<result property="sort" column="dept_sort"   />
+		<result property="status"   column="dept_status" />
+	</resultMap>
+	
+	<resultMap id="RoleResult" type="SysRole">
+		<id     property="roleId"       column="role_id"        />
+		<result property="roleName"     column="role_name"      />
+		<result property="roleKey"      column="role_key"       />
+		<result property="roleSort"     column="role_sort"      />
+		<result property="dataScope"     column="data_scope"    />
+		<result property="status"       column="role_status"    />
+	</resultMap>
+	
+	<sql id="selectUserVo">
+ 		select	u.id,u.is_staff,u.is_account, u.number, u.dept_id,u.avatar, u.real_name, u.email, u.log_name, u.name, u.name_py, u.pid, u.pwd, u.sex, u.born, u.title, u.position, u.tel, u.mobile, u.phone, u.flow_id, u.mail_name, u.worktype, u.home, u.address, u.politics, u.join_date, u.grade, u.crtr, u.crtrdate, u.chief_type, u.last_number, u.photo_id, u.`desc`, u.fileid, u.mobile_account, u.imei, u.status, u.sort, u.del_flag, u.create_by, u.create_time, u.update_by, u.update_time, u.remark,
+       		    d.id dept_id , d.parent_id, d.name dept_name, d.sort dept_sort, d.status as dept_status,
+       		    r.role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+		from sys_user u
+			 left join sys_dept d on u.dept_id = d.id
+			 left join sys_user_role ur on u.id = ur.user_id
+			 left join sys_role r on r.role_id = ur.role_id
+    </sql>
+	<select id="selectUserListByDeptId" parameterType="String" resultMap="SysUserResult">
+		select	u.id, u.is_staff,u.is_account, u.number,u.real_name,u.email,u.avatar, u.dept_id, u.log_name, u.name, u.name_py, u.pid, u.pwd, u.sex, u.born, u.title, u.position, u.tel, u.mobile, u.phone, u.flow_id, u.mail_name, u.worktype, u.home, u.address, u.politics, u.join_date, u.grade, u.crtr, u.crtrdate, u.chief_type, u.last_number, u.photo_id, u.`desc`, u.fileid, u.mobile_account, u.imei, u.status, u.sort, u.del_flag, u.create_by, u.create_time, u.update_by, u.update_time, u.remark, d.id dept_id, d.name dept_name from sys_user u
+		left join sys_dept d on u.dept_id = d.id
+		where u.del_flag = '0'  and  u.status = '0' 
+		<if test="deptId != null and deptId != '' ">
+		and	u.dept_id = #{deptId}
+		</if>
+	</select>
+	<select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
+		select	u.id, u.is_staff,u.is_account, u.number,u.real_name,u.email,u.avatar, u.dept_id, u.log_name, u.name, u.name_py, u.pid, u.pwd, u.sex, u.born, u.title, u.position, u.tel, u.mobile, u.phone, u.flow_id, u.mail_name, u.worktype, u.home, u.address, u.politics, u.join_date, u.grade, u.crtr, u.crtrdate, u.chief_type, u.last_number, u.photo_id, u.`desc`, u.fileid, u.mobile_account, u.imei, u.status, u.sort, u.del_flag, u.create_by, u.create_time, u.update_by, u.update_time, u.remark,d.id dept_id, d.name dept_name from sys_user u
+		left join sys_dept d on u.dept_id = d.id
+		where u.del_flag = '0' 
+		<if test="logName != null and logName != ''">
+			AND u.log_name like concat('%', #{logName}, '%')
+		</if>
+		<if test="status != null and status != ''">
+			AND u.status = #{status}
+		</if>
+		<if test="phone != null and phone != ''">
+			AND u.phone like concat('%', #{phone}, '%')
+		</if>
+		<if test="deptId != null and deptId != '' ">
+			AND (u.dept_id = #{deptId} OR u.dept_id IN ( SELECT t.id FROM sys_dept t WHERE FIND_IN_SET (#{deptId},ancestors) ))
+		</if>
+		<!-- 数据范围过滤 -->
+		${params.dataScope}
+	</select>
+	<select id="selectUserAllList" parameterType="String" resultMap="SysUserResult">
+		select	u.id, u.is_staff,u.is_account, u.number,u.real_name,u.email,u.avatar, u.dept_id, u.log_name, u.name, u.name_py, u.pid, u.pwd, u.sex, u.born, u.title, u.position, u.tel, u.mobile, u.phone, u.flow_id, u.mail_name, u.worktype, u.home, u.address, u.politics, u.join_date, u.grade, u.crtr, u.crtrdate, u.chief_type, u.last_number, u.photo_id, u.`desc`, u.fileid, u.mobile_account, u.imei, u.status, u.sort, u.del_flag, u.create_by, u.create_time, u.update_by, u.update_time, u.remark,d.id dept_id, d.name dept_name from sys_user u
+		left join sys_dept d on u.dept_id = d.id
+		where u.del_flag = #{delFlag}
+	</select>	
+	<select id="selectUserByLoginName" parameterType="String" resultMap="SysUserResult">
+	    <include refid="selectUserVo"/>
+		where u.log_name = #{userName} and  u.status = '0' and u.del_flag = '0' 
+	</select>
+	
+	<select id="selectUserByPhoneNumber" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.phone = #{phonenumber} and  u.status = '0' and u.del_flag = '0' 
+	</select>
+	
+	<select id="selectUserByEmail" parameterType="String" resultMap="SysUserResult">
+	    <include refid="selectUserVo"/>
+		where u.email = #{email} and  u.status = '0' and u.del_flag = '0' 
+	</select>
+	
+	<select id="checkLoginNameUnique" parameterType="String" resultType="int">
+		select count(1) from sys_user where log_name=#{loginName} and del_flag = '0' 
+	</select>
+	
+	<select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
+		select id, phone from sys_user where phone=#{phonenumber} and del_flag = '0' 
+	</select>
+	
+	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
+		select id, email from sys_user where email=#{email} and del_flag = '0' 
+	</select>
+	
+	<select id="selectUserById" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.id = #{id} and u.del_flag = '0' 
+	</select>
+	
+	<delete id="deleteUserById" parameterType="String">
+ 		update sys_user set del_flag = '2' where id = #{id}
+ 	</delete>
+ 	
+ 	<delete id="deleteUserByIds" parameterType="String">
+ 		update sys_user set del_flag = '2' where id in
+ 		<foreach collection="array" item="id" open="(" separator="," close=")">
+ 			#{id}
+        </foreach> 
+ 	</delete>
+ 	
+ 	<update id="updateUser" parameterType="SysUser">
+		update sys_user
+ 		<trim prefix="SET" suffixOverrides=",">
+            <if test="number != null  and number != ''  ">number = #{number},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="logName != null  and logName != ''  ">log_name = #{logName},</if>
+            <if test="name != null  and name != ''  ">name = #{name},</if>
+            <if test="namePy != null  and namePy != ''  ">name_py = #{namePy},</if>
+            <if test="pid != null  and pid != ''  ">pid = #{pid},</if>
+            <if test="pwd != null  and pwd != ''  ">pwd = #{pwd},</if>
+            <if test="sex != null  ">sex = #{sex},</if>
+            <if test="born != null  ">born = #{born},</if>
+            <if test="title != null  and title != ''  ">title = #{title},</if>
+            <if test="position != null  and position != ''  ">position = #{position},</if>
+            <if test="tel != null  and tel != ''  ">tel = #{tel},</if>
+            <if test="mobile != null  and mobile != ''  ">mobile = #{mobile},</if>
+            <if test="phone != null  and phone != ''  ">phone = #{phone},</if>
+            <if test="flowId != null  ">flow_id = #{flowId},</if>
+            <if test="mailName != null  and mailName != ''  ">mail_name = #{mailName},</if>
+            <if test="worktype != null  and worktype != ''  ">worktype = #{worktype},</if>
+            <if test="home != null  and home != ''  ">home = #{home},</if>
+            <if test="address != null  and address != ''  ">address = #{address},</if>
+            <if test="politics != null  and politics != ''  ">politics = #{politics},</if>
+            <if test="joinDate != null  ">join_date = #{joinDate},</if>
+            <if test="grade != null  and grade != ''  ">grade = #{grade},</if>
+            <if test="crtr != null  and crtr != ''  ">crtr = #{crtr},</if>
+            <if test="crtrdate != null  ">crtrdate = #{crtrdate},</if>
+            <if test="chiefType != null  and chiefType != ''  ">chief_type = #{chiefType},</if>
+            <if test="lastNumber != null  and lastNumber != ''  ">last_number = #{lastNumber},</if>
+            <if test="photoId != null  and photoId != ''  ">photo_id = #{photoId},</if>
+            <if test="desc != null  and desc != ''  ">`desc` = #{desc},</if>
+            <if test="fileid != null  and fileid != ''  ">fileid = #{fileid},</if>
+            <if test="mobileAccount != null  ">mobile_account = #{mobileAccount},</if>
+            <if test="imei != null  and imei != ''  ">imei = #{imei},</if>
+            <if test="status != null  ">`status` = #{status},</if>
+            <if test="sort != null  ">`sort` = #{sort},</if>
+            <if test="delFlag != null  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="realName != null  and realName != ''  ">real_name = #{realName},</if>
+            <if test="email != null  and email != ''  ">email = #{email},</if>
+            <if test="avatar != null  and avatar != ''  ">avatar = #{avatar},</if>
+            <if test="isStaff != null    ">is_staff = #{isStaff},</if>
+            <if test="isAccount != null ">is_account = #{isAccount},</if>			
+            update_time = sysdate()
+        </trim>
+ 		where id = #{id}
+	</update>
+ 	
+ 	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+ 		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">id,</if>
+			<if test="number != null  and number != ''  ">number,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="logName != null  and logName != ''  ">log_name,</if>
+			<if test="name != null  and name != ''  ">`name`,</if>
+			<if test="namePy != null  and namePy != ''  ">name_py,</if>
+			<if test="pid != null  and pid != ''  ">pid,</if>
+			<if test="pwd != null  and pwd != ''  ">pwd,</if>
+			<if test="sex != null  ">sex,</if>
+			<if test="born != null  ">born,</if>
+			<if test="title != null  and title != ''  ">title,</if>
+			<if test="position != null  and position != ''  ">position,</if>
+			<if test="tel != null  and tel != ''  ">tel,</if>
+			<if test="mobile != null  and mobile != ''  ">mobile,</if>
+			<if test="phone != null  and phone != ''  ">phone,</if>
+			<if test="flowId != null  ">flow_id,</if>
+			<if test="mailName != null  and mailName != ''  ">mail_name,</if>
+			<if test="worktype != null  and worktype != ''  ">worktype,</if>
+			<if test="home != null  and home != ''  ">home,</if>
+			<if test="address != null  and address != ''  ">address,</if>
+			<if test="politics != null  and politics != ''  ">politics,</if>
+			<if test="joinDate != null  ">join_date,</if>
+			<if test="grade != null  and grade != ''  ">grade,</if>
+			<if test="crtr != null  and crtr != ''  ">crtr,</if>
+			<if test="crtrdate != null  ">crtrdate,</if>
+			<if test="chiefType != null  and chiefType != ''  ">chief_type,</if>
+			<if test="lastNumber != null  and lastNumber != ''  ">last_number,</if>
+			<if test="photoId != null  and photoId != ''  ">photo_id,</if>
+			<if test="desc != null  and desc != ''  ">`desc`,</if>
+			<if test="fileid != null  and fileid != ''  ">fileid,</if>
+			<if test="mobileAccount != null  ">mobile_account,</if>
+			<if test="imei != null  and imei != ''  ">imei,</if>
+			<if test="status != null  ">`status`,</if>
+			<if test="sort != null  ">`sort`,</if>
+			<if test="delFlag != null  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="realName != null  and realName != ''  ">real_name,</if>
+			<if test="email != null  and email != ''  ">email,</if>
+			<if test="avatar != null  and avatar != ''  ">avatar,</if>
+			<if test="isStaff != null    ">is_staff ,</if>
+            <if test="isAccount != null ">is_account,</if>				
+			create_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  and id != ''  ">#{id},</if>
+			<if test="number != null  and number != ''  ">#{number},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="logName != null  and logName != ''  ">#{logName},</if>
+			<if test="name != null  and name != ''  ">#{name},</if>
+			<if test="namePy != null  and namePy != ''  ">#{namePy},</if>
+			<if test="pid != null  and pid != ''  ">#{pid},</if>
+			<if test="pwd != null  and pwd != ''  ">#{pwd},</if>
+			<if test="sex != null  ">#{sex},</if>
+			<if test="born != null  ">#{born},</if>
+			<if test="title != null  and title != ''  ">#{title},</if>
+			<if test="position != null  and position != ''  ">#{position},</if>
+			<if test="tel != null  and tel != ''  ">#{tel},</if>
+			<if test="mobile != null  and mobile != ''  ">#{mobile},</if>
+			<if test="phone != null  and phone != ''  ">#{phone},</if>
+			<if test="flowId != null  ">#{flowId},</if>
+			<if test="mailName != null  and mailName != ''  ">#{mailName},</if>
+			<if test="worktype != null  and worktype != ''  ">#{worktype},</if>
+			<if test="home != null  and home != ''  ">#{home},</if>
+			<if test="address != null  and address != ''  ">#{address},</if>
+			<if test="politics != null  and politics != ''  ">#{politics},</if>
+			<if test="joinDate != null  ">#{joinDate},</if>
+			<if test="grade != null  and grade != ''  ">#{grade},</if>
+			<if test="crtr != null  and crtr != ''  ">#{crtr},</if>
+			<if test="crtrdate != null  ">#{crtrdate},</if>
+			<if test="chiefType != null  and chiefType != ''  ">#{chiefType},</if>
+			<if test="lastNumber != null  and lastNumber != ''  ">#{lastNumber},</if>
+			<if test="photoId != null  and photoId != ''  ">#{photoId},</if>
+			<if test="desc != null  and desc != ''  ">#{desc},</if>
+			<if test="fileid != null  and fileid != ''  ">#{fileid},</if>
+			<if test="mobileAccount != null  ">#{mobileAccount},</if>
+			<if test="imei != null  and imei != ''  ">#{imei},</if>
+			<if test="status != null  ">#{status},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="delFlag != null  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="realName != null  and realName != ''  ">#{realName},</if>
+			<if test="email != null  and email != ''  ">#{email},</if>
+			<if test="avatar != null  and avatar != ''  ">#{avatar},</if>
+			<if test="isStaff != null    ">#{isStaff},</if>
+            <if test="isAccount != null ">#{isAccount},</if>	
+			sysdate()
+         </trim>
+	</insert>
+	<select id="selectRoleUserTree" parameterType="String" resultType="String">
+		select concat(u.id, u.log_name) as user_name
+		from sys_user u
+			left join sys_user_role ur on u.id = ur.user_id
+		where u.del_flag = '0' and ur.role_id = #{roleId} and u.status = '0'
+		order by u.sort
+	</select>
+</mapper> 

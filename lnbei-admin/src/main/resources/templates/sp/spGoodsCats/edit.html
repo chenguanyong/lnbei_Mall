@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-spGoodsCats-edit" th:object="${spGoodsCats}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分类名称：</label>
+				<div class="col-sm-8">
+					<input id="catName" name="catName" th:field="*{catName}" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">副标题：</label>
+				<div class="col-sm-8">
+					<input id="subTitle" name="subTitle" th:field="*{subTitle}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">简称：</label>
+				<div class="col-sm-8">
+					<input id="simpleName" name="simpleName" th:field="*{simpleName}" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">SEO标题：</label>
+				<div class="col-sm-8">
+					<input id="seoTitle" name="seoTitle" th:field="*{seoTitle}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">SEO关键字：</label>
+				<div class="col-sm-8">
+					<input id="seoKeywords" name="seoKeywords" th:field="*{seoKeywords}" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">SEO描述：</label>
+				<div class="col-sm-8">
+					<input id="seoDes" name="seoDes" th:field="*{seoDes}" class="form-control" type="text">
+				</div>
+			</div>					
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">返佣：</label>
+				<div class="col-sm-8">
+					<input id="commissionRate" name="commissionRate" th:field="*{commissionRate}" class="form-control" type="text">%
+				</div>
+			</div>						
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分类图片：</label>
+				<div class="col-sm-3">
+				    <input id="catImg" name="catImg" th:field="*{catImg}" class="form-control" type="hidden">
+				
+					 <button type="button" class="btn btn-success" id="catImgIN" >请选择文件</button>
+				</div>
+					<div class="col-sm-6 layer-photos-demo" id="catImgYL">
+				  		<img style="width :120px" th:if="${spGoodsCats.catImg != ''}" th:src="*{catImg}" />
+				</div>				
+			</div>
+
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">是否楼层：</label>
+				<div class="col-sm-8">
+					
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="isFloor" th:value="${dict.dictValue}"  th:checked="${dict.dictValue == spGoodsCats.isFloor ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>					
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+				<div class="col-sm-8">
+					
+				    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+						<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${dict.dictValue == 1 ? true : false}">
+						<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+					</div>					
+				</div>
+			</div>
+
+		
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>	
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "spadmin/spGoodsCats";
+		$("#form-spGoodsCats-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-spGoodsCats-edit').serialize());
+	        }
+	    }
+		layui.use('upload', function(){
+			 var $ = layui.jquery
+			  ,upload = layui.upload;
+			$.common.uplodFile("catImgIN","catImg","catImgYL",false,upload);
+		});			
+	</script>
+</body>
+</html>

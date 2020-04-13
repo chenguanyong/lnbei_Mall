@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.system.mapper.AreasMapper">
+    
+    <resultMap type="Areas" id="AreasResult">
+        <result property="mid"    column="mid"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="sort"    column="sort"    />
+        <result property="areaKey"    column="area_key"    />
+        <result property="areaType"    column="area_type"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="userId"    column="user_id"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="flag"    column="flag"    />
+        <result property="childCount"    column="child_count"    />
+         <result property="level"    column="level"    />
+     <result property="path"    column="path"    />         
+    </resultMap>
+	
+	<sql id="selectAreasVo">
+        select mid, parent_id, area_name,path, is_show,level, sort, area_key, area_type, del_flag, create_time, update_time, create_by, update_by, remark, user_id, member_id, flag, child_count from sys_areas
+    </sql>
+	
+    <select id="selectAreasList" parameterType="Areas" resultMap="AreasResult">
+        <include refid="selectAreasVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="parentId != null  and parentId != '' "> and parent_id = #{parentId}</if>
+             <if test="areaName != null  and areaName != '' "> and area_name = #{areaName}</if>
+             <if test="isShow != null  and isShow != '' "> and is_show = #{isShow}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="areaKey != null  and areaKey != '' "> and area_key = #{areaKey}</if>
+             <if test="areaType != null  and areaType != '' "> and area_type = #{areaType}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="userId != null  and userId != '' "> and user_id = #{userId}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="flag != null  and flag != '' "> and flag = #{flag}</if>
+             <if test="level != null and level !='' "> and level = #{level}</if>
+         </where>
+    </select>
+    
+    <select id="selectAreasById" parameterType="String" resultMap="AreasResult">
+        <include refid="selectAreasVo"/>
+        where mid = #{mid}
+    </select>
+     
+    <select id="selectAreasByParentId" parameterType="String" resultMap="AreasResult">
+        <include refid="selectAreasVo"/>
+        where parent_id = #{mid}
+    </select> 
+           
+    <insert id="insertAreas" parameterType="Areas">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sys_areas
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="parentId != null  and parentId != ''  ">parent_id,</if>
+			<if test="areaName != null  and areaName != ''  ">area_name,</if>
+			<if test="isShow != null  and isShow != ''  ">is_show,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="areaKey != null  and areaKey != ''  ">area_key,</if>
+			<if test="areaType != null  and areaType != ''  ">area_type,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="userId != null  and userId != ''  ">user_id,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="flag != null  and flag != ''  ">flag,</if>
+			<if test="childCount != null  ">child_count,</if>
+			<if test="level != null and level !='' "> level,</if>
+			<if test="path != null and path !='' "> path,</if>			
+			create_time,
+			update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="parentId != null  and parentId != ''  ">#{parentId},</if>
+			<if test="areaName != null  and areaName != ''  ">#{areaName},</if>
+			<if test="isShow != null  and isShow != ''  ">#{isShow},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="areaKey != null  and areaKey != ''  ">#{areaKey},</if>
+			<if test="areaType != null  and areaType != ''  ">#{areaType},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="userId != null  and userId != ''  ">#{userId},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="flag != null  and flag != ''  ">#{flag},</if>
+			<if test="childCount != null  ">#{childCount},</if>
+			<if test="level != null and level !='' ">  #{level},</if>
+			<if test="path != null and path !='' ">#{path}</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateAreas" parameterType="Areas">
+        update sys_areas
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null  and parentId != ''  ">parent_id = #{parentId},</if>
+            <if test="areaName != null  and areaName != ''  ">area_name = #{areaName},</if>
+            <if test="isShow != null  and isShow != ''  ">is_show = #{isShow},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="areaKey != null  and areaKey != ''  ">area_key = #{areaKey},</if>
+            <if test="areaType != null  and areaType != ''  ">area_type = #{areaType},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>   
+  
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="userId != null  and userId != ''  ">user_id = #{userId},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="flag != null  and flag != ''  ">flag = #{flag},</if>
+            <if test="childCount != null  ">child_count = #{childCount},</if>
+            <if test="level != null and level !='' "> level = #{level},</if>
+			 <if test="path != null and path !='' "> path = #{path},</if>            
+            update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteAreasById" parameterType="String">
+        delete from sys_areas where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteAreasByIds" parameterType="String">
+        delete from sys_areas where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

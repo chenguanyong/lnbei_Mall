@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								文件编号：<input type="text" name="fileNum"/>
+							</li>
+							<li>
+								文件名字：<input type="text" name="fileName"/>
+							</li>
+
+							
+							<li class="select-time">
+								<label>创建日期： </label>
+								<input type="text" class="time-input" id="startTime" placeholder="开始时间" name="params[beginTime]"/>
+								<span>-</span>
+								<input type="text" class="time-input" id="endTime" placeholder="结束时间" name="params[endTime]"/>
+							</li>
+
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="oa:oaFile:add">
+					<i class="fa fa-plus"></i> 上传
+				</a>
+				<a class="btn btn-success disabled" onclick="dowload()" shiro:hasPermission="oa:oaFile:add">
+					<i class="fa fa-plus"></i> 下载
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="oa:oaFile:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="oa:oaFile:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" style="display:none" onclick="$.table.exportExcel()" shiro:hasPermission="oa:oaFile:export">
+						<i class="fa fa-download"></i> 导出
+			   </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('oa:oaFile:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('oa:oaFile:remove')}]];
+        var prefix = ctx + "oa/oaFile";
+        var accessType = [[${@dict.getType('sys_access_type')}]];//oa_file_type
+        var oafiletype = [[${@dict.getType('oa_file_type')}]];
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "文件管理",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'fileNum', 
+					title : '文件编号',
+				
+				},
+				{
+					field : 'fileName', 
+					title : '文件名字',
+				
+				},
+				{
+					field : 'filePath', 
+					title : '文件路径',
+					
+				},
+				{
+					field : 'fileUrl', 
+					title : '文件的网络地址',
+					
+				},
+				{
+					field : 'fileSize', 
+					title : '文件大小',
+					sortable: true
+				},
+
+				{
+					field : 'fileType', 
+					title : '文件类型',
+					sortable: true,
+				  	formatter: function (value, row, index) {//oa_file_type
+				  		return $.table.selectDictLabel(oafiletype, value);
+		        	}
+				},
+
+				{
+					field : 'accessType', 
+					title : '访问类型',
+					sortable: true,
+				  	formatter: function (value, row, index) {//oa_file_type
+				  		return $.table.selectDictLabel(accessType, value);
+		        	}
+				},
+				{
+					field : 'downSize', 
+					title : '下载量',
+					sortable: true
+				},
+				{
+					field : 'attentionSize', 
+					title : '关注量',
+					sortable: true
+				},
+				{
+					field : 'quote', 
+					title : '引用量',
+					sortable: true
+				},				
+				{
+					field : 'createTime', 
+					title : '创建日期',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            visible:false,
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }
+				]
+            };
+            $.table.init(options);
+        });
+
+    	function dowload(){
+    	   var ids = $.table.getIdSelections();
+	       	if(ids.length == 0){
+	    		$.modal.alertWarning("请选择一条数据");
+	    		return false;
+	    	}
+    	   window.location.href = prefix + "/download?mid="+ ids[0];
+    	}
+    </script>
+</body>
+</html>

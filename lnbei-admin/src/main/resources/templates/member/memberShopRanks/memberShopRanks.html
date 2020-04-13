@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								角色名称：<input type="text" name="rankName"/>
+							</li>
+							<li>
+								角色标识：<input type="text" name="rankKeys"/>
+							</li>
+
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="member:memberShopRanks:add">
+					<i class="fa fa-plus"></i> 添加
+				</a>
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="member:memberShopRanks:edit">
+					<i class="fa fa-edit"></i> 修改
+				</a>
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="member:memberShopRanks:remove">
+					<i class="fa fa-remove"></i> 删除
+				</a>
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="member:memberShopRanks:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('member:memberShopRanks:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('member:memberShopRanks:remove')}]];
+        var prefix = ctx + "member/memberShopRanks";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "商家等级",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'userrankImg', 
+					title : '等级图片',
+					formatter: function (value, row, index){
+						return $.operate.imgHtml(value);
+					}
+				},				
+				{
+					field : 'rankName', 
+					title : '角色名称',
+					
+				},
+				{
+					field : 'rankKeys', 
+					title : '角色标识',
+				},
+				{
+					field : 'startScore', 
+					title : '积分上限',					
+				},
+				{
+					field : 'endScore', 
+					title : '积分下限',
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true,
+					formatter: function (value, row, index){
+						return $.operate.statusTools(row, "该角色");
+					}
+				},			
+				{
+					field : 'createTime', 
+					title : '创建日期',
+					sortable: true
+				},
+				
+				{
+					field : 'remark', 
+					title : '备注',
+					
+				},
+			
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+		        {
+		            title: '操作',
+		            align: 'center',
+		            formatter: function(value, row, index) {
+		            	var actions = [];
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.mid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="rule(\'' + row.mid + '\')"><i class="fa fa-edit"></i>分配人员</a> ');
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="authUser(\'' + row.mid + '\')"><i class="fa fa-edit"></i>分配人员</a> ');
+		            	actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.mid + '\')"><i class="fa fa-remove"></i>删除</a>');
+						return actions.join('');
+		            }
+		        }]
+            };
+            $.table.init(options);
+        });
+		/* 角色管理-分配数据权限 */
+		function rule(roleId) {
+		    var url = prefix + '/rule/' + roleId;
+		    $.modal.open("分配数据权限", url);
+		}
+		/* 角色管理-分配用户 */
+		function authUser(roleId) {
+		    var url = prefix + '/authUser/' + roleId;
+		    $.modal.openTab("分配用户", url);
+		}
+    </script>
+</body>
+</html>

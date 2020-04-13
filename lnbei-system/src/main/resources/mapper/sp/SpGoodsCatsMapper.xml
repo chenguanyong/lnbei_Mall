@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpGoodsCatsMapper">
+    
+    <resultMap type="SpGoodsCats" id="SpGoodsCatsResult">
+        <result property="mid"    column="mid"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="catName"    column="cat_name"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="isFloor"    column="is_floor"    />
+        <result property="commissionRate"    column="commission_rate"    />
+        <result property="catImg"    column="cat_img"    />
+        <result property="subTitle"    column="sub_title"    />
+        <result property="simpleName"    column="simple_name"    />
+        <result property="seoTitle"    column="seo_title"    />
+        <result property="seoKeywords"    column="seo_keywords"    />
+        <result property="seoDes"    column="seo_des"    />
+        <result property="catlistTheme"    column="catlist_theme"    />
+        <result property="detailTheme"    column="detail_theme"    />
+        <result property="mobileCatListTheme"    column="mobile_cat_list_theme"    />
+        <result property="mobileDetailTheme"    column="mobile_detail_theme"    />
+        <result property="wechatCatListTheme"    column="wechat_cat_list_theme"    />
+        <result property="wechatDetailTheme"    column="wechat_detail_theme"    />
+        <result property="showway"    column="showway"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="deptId"    column="dept_id"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectSpGoodsCatsVo">
+        select mid, parent_id, cat_name, is_show, is_floor, commission_rate, cat_img, sub_title, simple_name, seo_title, seo_keywords, seo_des, catlist_theme, detail_theme, mobile_cat_list_theme, mobile_detail_theme, wechat_cat_list_theme, wechat_detail_theme, showway, del_flag, create_by, create_time, update_by, update_time, remark, dept_id, dept_name, sort from sp_goods_cats
+    </sql>
+	
+    <select id="selectSpGoodsCatsList" parameterType="SpGoodsCats" resultMap="SpGoodsCatsResult">
+        <include refid="selectSpGoodsCatsVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="parentId != null  and parentId != '' "> and parent_id = #{parentId}</if>
+             <if test="catName != null  and catName != '' "> and cat_name = #{catName}</if>
+             <if test="isShow != null  and isShow != '' "> and is_show = #{isShow}</if>
+             <if test="isFloor != null  and isFloor != '' "> and is_floor = #{isFloor}</if>
+        
+             <if test="catImg != null  and catImg != '' "> and cat_img = #{catImg}</if>
+             <if test="subTitle != null  and subTitle != '' "> and sub_title = #{subTitle}</if>
+             <if test="simpleName != null  and simpleName != '' "> and simple_name = #{simpleName}</if>
+             <if test="seoTitle != null  and seoTitle != '' "> and seo_title = #{seoTitle}</if>
+             <if test="seoKeywords != null  and seoKeywords != '' "> and seo_keywords = #{seoKeywords}</if>
+             <if test="seoDes != null  and seoDes != '' "> and seo_des = #{seoDes}</if>
+             <if test="catlistTheme != null  and catlistTheme != '' "> and catlist_theme = #{catlistTheme}</if>
+             <if test="detailTheme != null  and detailTheme != '' "> and detail_theme = #{detailTheme}</if>
+             <if test="mobileCatListTheme != null  and mobileCatListTheme != '' "> and mobile_cat_list_theme = #{mobileCatListTheme}</if>
+             <if test="mobileDetailTheme != null  and mobileDetailTheme != '' "> and mobile_detail_theme = #{mobileDetailTheme}</if>
+             <if test="wechatCatListTheme != null  and wechatCatListTheme != '' "> and wechat_cat_list_theme = #{wechatCatListTheme}</if>
+             <if test="wechatDetailTheme != null  and wechatDetailTheme != '' "> and wechat_detail_theme = #{wechatDetailTheme}</if>
+             <if test="showway != null  and showway != '' "> and showway = #{showway}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+          
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="deptId != null  and deptId != '' "> and dept_id = #{deptId}</if>
+             <if test="deptName != null  and deptName != '' "> and dept_name = #{deptName}</if>
+         
+         </where>
+    </select>
+    
+    <select id="selectSpGoodsCatsById" parameterType="String" resultMap="SpGoodsCatsResult">
+        <include refid="selectSpGoodsCatsVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpGoodsCats" parameterType="SpGoodsCats">
+        <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into sp_goods_cats
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="parentId != null  and parentId != ''  ">parent_id,</if>
+			<if test="catName != null  and catName != ''  ">cat_name,</if>
+			<if test="isShow != null  and isShow != ''  ">is_show,</if>
+			<if test="isFloor != null  and isFloor != ''  ">is_floor,</if>
+			<if test="commissionRate != null  ">commission_rate,</if>
+			<if test="catImg != null  and catImg != ''  ">cat_img,</if>
+			<if test="subTitle != null  and subTitle != ''  ">sub_title,</if>
+			<if test="simpleName != null  and simpleName != ''  ">simple_name,</if>
+			<if test="seoTitle != null  and seoTitle != ''  ">seo_title,</if>
+			<if test="seoKeywords != null  and seoKeywords != ''  ">seo_keywords,</if>
+			<if test="seoDes != null  and seoDes != ''  ">seo_des,</if>
+			<if test="catlistTheme != null  and catlistTheme != ''  ">catlist_theme,</if>
+			<if test="detailTheme != null  and detailTheme != ''  ">detail_theme,</if>
+			<if test="mobileCatListTheme != null  and mobileCatListTheme != ''  ">mobile_cat_list_theme,</if>
+			<if test="mobileDetailTheme != null  and mobileDetailTheme != ''  ">mobile_detail_theme,</if>
+			<if test="wechatCatListTheme != null  and wechatCatListTheme != ''  ">wechat_cat_list_theme,</if>
+			<if test="wechatDetailTheme != null  and wechatDetailTheme != ''  ">wechat_detail_theme,</if>
+			<if test="showway != null  and showway != ''  ">showway,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+	
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+		
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="deptId != null  and deptId != ''  ">dept_id,</if>
+			<if test="deptName != null  and deptName != ''  ">dept_name,</if>
+			<if test="sort != null  ">sort,</if>
+						create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="parentId != null  and parentId != ''  ">#{parentId},</if>
+			<if test="catName != null  and catName != ''  ">#{catName},</if>
+			<if test="isShow != null  and isShow != ''  ">#{isShow},</if>
+			<if test="isFloor != null  and isFloor != ''  ">#{isFloor},</if>
+			<if test="commissionRate != null  ">#{commissionRate},</if>
+			<if test="catImg != null  and catImg != ''  ">#{catImg},</if>
+			<if test="subTitle != null  and subTitle != ''  ">#{subTitle},</if>
+			<if test="simpleName != null  and simpleName != ''  ">#{simpleName},</if>
+			<if test="seoTitle != null  and seoTitle != ''  ">#{seoTitle},</if>
+			<if test="seoKeywords != null  and seoKeywords != ''  ">#{seoKeywords},</if>
+			<if test="seoDes != null  and seoDes != ''  ">#{seoDes},</if>
+			<if test="catlistTheme != null  and catlistTheme != ''  ">#{catlistTheme},</if>
+			<if test="detailTheme != null  and detailTheme != ''  ">#{detailTheme},</if>
+			<if test="mobileCatListTheme != null  and mobileCatListTheme != ''  ">#{mobileCatListTheme},</if>
+			<if test="mobileDetailTheme != null  and mobileDetailTheme != ''  ">#{mobileDetailTheme},</if>
+			<if test="wechatCatListTheme != null  and wechatCatListTheme != ''  ">#{wechatCatListTheme},</if>
+			<if test="wechatDetailTheme != null  and wechatDetailTheme != ''  ">#{wechatDetailTheme},</if>
+			<if test="showway != null  and showway != ''  ">#{showway},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+		
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+	
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="deptId != null  and deptId != ''  ">#{deptId},</if>
+			<if test="deptName != null  and deptName != ''  ">#{deptName},</if>
+			<if test="sort != null  ">#{sort},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpGoodsCats" parameterType="SpGoodsCats">
+        update sp_goods_cats
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null  and parentId != ''  ">parent_id = #{parentId},</if>
+            <if test="catName != null  and catName != ''  ">cat_name = #{catName},</if>
+            <if test="isShow != null  and isShow != ''  ">is_show = #{isShow},</if>
+            <if test="isFloor != null  and isFloor != ''  ">is_floor = #{isFloor},</if>
+            <if test="commissionRate != null  ">commission_rate = #{commissionRate},</if>
+            <if test="catImg != null  and catImg != ''  ">cat_img = #{catImg},</if>
+            <if test="subTitle != null  and subTitle != ''  ">sub_title = #{subTitle},</if>
+            <if test="simpleName != null  and simpleName != ''  ">simple_name = #{simpleName},</if>
+            <if test="seoTitle != null  and seoTitle != ''  ">seo_title = #{seoTitle},</if>
+            <if test="seoKeywords != null  and seoKeywords != ''  ">seo_keywords = #{seoKeywords},</if>
+            <if test="seoDes != null  and seoDes != ''  ">seo_des = #{seoDes},</if>
+            <if test="catlistTheme != null  and catlistTheme != ''  ">catlist_theme = #{catlistTheme},</if>
+            <if test="detailTheme != null  and detailTheme != ''  ">detail_theme = #{detailTheme},</if>
+            <if test="mobileCatListTheme != null  and mobileCatListTheme != ''  ">mobile_cat_list_theme = #{mobileCatListTheme},</if>
+            <if test="mobileDetailTheme != null  and mobileDetailTheme != ''  ">mobile_detail_theme = #{mobileDetailTheme},</if>
+            <if test="wechatCatListTheme != null  and wechatCatListTheme != ''  ">wechat_cat_list_theme = #{wechatCatListTheme},</if>
+            <if test="wechatDetailTheme != null  and wechatDetailTheme != ''  ">wechat_detail_theme = #{wechatDetailTheme},</if>
+            <if test="showway != null  and showway != ''  ">showway = #{showway},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="deptId != null  and deptId != ''  ">dept_id = #{deptId},</if>
+            <if test="deptName != null  and deptName != ''  ">dept_name = #{deptName},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+                  update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpGoodsCatsById" parameterType="String">
+        delete from sp_goods_cats where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpGoodsCatsByIds" parameterType="String">
+        delete from sp_goods_cats where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

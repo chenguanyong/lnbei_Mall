@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.sp.mapper.SpInvoicesMapper">
+    
+    <resultMap type="SpInvoices" id="SpInvoicesResult">
+        <result property="mid"    column="mid"    />
+        <result property="invoiceHead"    column="invoice_head"    />
+        <result property="invoiceCode"    column="invoice_code"    />
+        <result property="memberId"    column="member_id"    />
+        <result property="invoiceType"    column="invoice_type"    />
+        <result property="invoiceAddr"    column="invoice_addr"    />
+        <result property="invoicePhoneNumber"    column="invoice_phone_number"    />
+        <result property="invoiceBankName"    column="invoice_bank_name"    />
+        <result property="invoiceBankNo"    column="invoice_bank_no"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+        <result property="status"    column="status"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+	
+	<sql id="selectSpInvoicesVo">
+        select mid, invoice_head, invoice_code, member_id, invoice_type, invoice_addr, invoice_phone_number, invoice_bank_name, invoice_bank_no, del_flag, create_by, update_by, remark, sort, status, update_time, create_time from sp_invoices
+    </sql>
+	
+    <select id="selectSpInvoicesList" parameterType="SpInvoices" resultMap="SpInvoicesResult">
+        <include refid="selectSpInvoicesVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="invoiceHead != null  and invoiceHead != '' "> and invoice_head = #{invoiceHead}</if>
+             <if test="invoiceCode != null  and invoiceCode != '' "> and invoice_code = #{invoiceCode}</if>
+             <if test="memberId != null  and memberId != '' "> and member_id = #{memberId}</if>
+             <if test="invoiceType != null  and invoiceType != '' "> and invoice_type = #{invoiceType}</if>
+             <if test="invoiceAddr != null  and invoiceAddr != '' "> and invoice_addr = #{invoiceAddr}</if>
+             <if test="invoicePhoneNumber != null  and invoicePhoneNumber != '' "> and invoice_phone_number = #{invoicePhoneNumber}</if>
+             <if test="invoiceBankName != null  and invoiceBankName != '' "> and invoice_bank_name = #{invoiceBankName}</if>
+             <if test="invoiceBankNo != null  and invoiceBankNo != '' "> and invoice_bank_no = #{invoiceBankNo}</if>
+             <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectSpInvoicesById" parameterType="String" resultMap="SpInvoicesResult">
+        <include refid="selectSpInvoicesVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertSpInvoices" parameterType="SpInvoices">
+            <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>    
+        insert into sp_invoices
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="invoiceHead != null  and invoiceHead != ''  ">invoice_head,</if>
+			<if test="invoiceCode != null  and invoiceCode != ''  ">invoice_code,</if>
+			<if test="memberId != null  and memberId != ''  ">member_id,</if>
+			<if test="invoiceType != null  and invoiceType != ''  ">invoice_type,</if>
+			<if test="invoiceAddr != null  and invoiceAddr != ''  ">invoice_addr,</if>
+			<if test="invoicePhoneNumber != null  and invoicePhoneNumber != ''  ">invoice_phone_number,</if>
+			<if test="invoiceBankName != null  and invoiceBankName != ''  ">invoice_bank_name,</if>
+			<if test="invoiceBankNo != null  and invoiceBankNo != ''  ">invoice_bank_no,</if>
+			<if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			create_time,
+						update_time,
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="invoiceHead != null  and invoiceHead != ''  ">#{invoiceHead},</if>
+			<if test="invoiceCode != null  and invoiceCode != ''  ">#{invoiceCode},</if>
+			<if test="memberId != null  and memberId != ''  ">#{memberId},</if>
+			<if test="invoiceType != null  and invoiceType != ''  ">#{invoiceType},</if>
+			<if test="invoiceAddr != null  and invoiceAddr != ''  ">#{invoiceAddr},</if>
+			<if test="invoicePhoneNumber != null  and invoicePhoneNumber != ''  ">#{invoicePhoneNumber},</if>
+			<if test="invoiceBankName != null  and invoiceBankName != ''  ">#{invoiceBankName},</if>
+			<if test="invoiceBankNo != null  and invoiceBankNo != ''  ">#{invoiceBankNo},</if>
+			<if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			sysdate(),
+			sysdate(),
+         </trim>
+    </insert>
+	 
+    <update id="updateSpInvoices" parameterType="SpInvoices">
+        update sp_invoices
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="invoiceHead != null  and invoiceHead != ''  ">invoice_head = #{invoiceHead},</if>
+            <if test="invoiceCode != null  and invoiceCode != ''  ">invoice_code = #{invoiceCode},</if>
+            <if test="memberId != null  and memberId != ''  ">member_id = #{memberId},</if>
+            <if test="invoiceType != null  and invoiceType != ''  ">invoice_type = #{invoiceType},</if>
+            <if test="invoiceAddr != null  and invoiceAddr != ''  ">invoice_addr = #{invoiceAddr},</if>
+            <if test="invoicePhoneNumber != null  and invoicePhoneNumber != ''  ">invoice_phone_number = #{invoicePhoneNumber},</if>
+            <if test="invoiceBankName != null  and invoiceBankName != ''  ">invoice_bank_name = #{invoiceBankName},</if>
+            <if test="invoiceBankNo != null  and invoiceBankNo != ''  ">invoice_bank_no = #{invoiceBankNo},</if>
+            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+   update_time = sysdate(),
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteSpInvoicesById" parameterType="String">
+        delete from sp_invoices where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteSpInvoicesByIds" parameterType="String">
+        delete from sp_invoices where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>

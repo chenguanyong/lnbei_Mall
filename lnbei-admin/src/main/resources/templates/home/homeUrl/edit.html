@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-homeUrl-edit" th:object="${homeUrl}">
+            <input id="mid" name="mid" th:field="*{mid}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">url名称：</label>
+				<div class="col-sm-8">
+					<input id="urlName" name="urlName" th:field="*{urlName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">url链接：</label>
+				<div class="col-sm-8">
+					<input id="url" name="url" th:field="*{url}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">网站负责人：</label>
+				<div class="col-sm-8">
+					<input id="founder" name="founder" th:field="*{mHomeUrlInfo.founder}" class="form-control" type="text">
+				</div>
+			</div>	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">链接类型：</label>
+				<div class="col-sm-8">
+			
+			<select id="urlType"  name="urlType" th:field="*{urlType}" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_access_type')}">
+					  <option value="">所有</option>
+					  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+					  </option>
+					</select>						
+				</div>
+			</div>
+	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">类别：</label>
+				<div class="col-sm-8">
+				    <input id="classify" name="classify" onclick="selectCategoryTree('url_tree')"  th:field="*{classify}" class="form-control" type="text" readonly>
+					<input id="classifyId" name="classifyId"  th:field="*{classifyId}" class="form-control" type="hidden">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">访问类型：</label>
+				<div class="col-sm-8">
+			<select id="accessType" th:field="*{accessType}"  name="accessType" class="form-control select_font" style="width:200px;border: 1px solid #ddd;"  th:with="type=${@dict.getType('sys_access_type')}">
+								  <option value="">所有</option>
+								  <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}">
+								  </option>
+						</select>	
+				</div>
+			</div>
+	
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">状态：</label>
+					<div class="col-sm-8">
+					    <div required class="radio-box" th:each="dict : ${@dict.getType('sys_normal_disable')}">
+							<input type="radio" th:id="${dict.dictCode}" name="status" th:value="${dict.dictValue}"  th:checked="${homeUrl.status == dict.dictValue ? true : false}">
+							<label th:for="${dict.dictCode}" th:text="${dict.dictLabel}"></label>
+						</div>
+					</div>
+			</div>
+
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="sort" name="sort" th:field="*{sort}" class="form-control" type="text">
+				</div>
+			</div>
+
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">网站描述：</label>
+				<div class="col-sm-8">
+					<input id="describes" name="describes" th:field="*{mHomeUrlInfo.describes}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>			
+
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "home/homeUrl";
+		$("#form-homeUrl-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-homeUrl-edit').serialize());
+	        }
+	    }
+        function selectCategoryTree(flag) {
+
+        	var url = ctx + "home/homeCategory/categoryTree?flag=" + flag;
+			var options = {
+				title: '选择类别',
+				width: "380",
+				url: url,
+				callBack: doSubmit
+			};
+			$.modal.openOptions(options);
+		}
+		
+		function doSubmit(index, layero){
+			var tree = layero.find("iframe")[0].contentWindow.$._tree;
+		
+				var body = layer.getChildFrame('body', index);
+    			$("#classifyId").val(body.find('#treeId').val());
+    			$("#classify").val(body.find('#treeName').val());
+    			layer.close(index);
+		
+		}
+	</script>
+</body>
+</html>

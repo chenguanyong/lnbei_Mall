@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+    
+     <div class="container-div">
+		<div class="row">
+			<div class="col-sm-12 search-collapse">
+				<form id="formId">
+					<div class="select-list">
+						<ul>
+							<li>
+								用户类型：<input type="text" name="targetType"/>
+							</li>
+
+							<li>
+								持卡人：<input type="text" name="accUser"/>
+							</li>
+
+							<li>
+								创建日期：<input type="text" name="createTime"/>
+							</li>
+							
+							<li>
+								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+							</li>
+						</ul>
+					</div>
+				</form>
+			</div>
+			
+	        <div class="btn-group-sm" id="toolbar" role="group">
+
+				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="fi:fiCashConfigs:export">
+						<i class="fa fa-download"></i> 导出
+				 </a>
+			</div>
+			<div class="col-sm-12 select-table table-striped">
+				<table id="bootstrap-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</div>
+    <div th:include="include :: footer"></div>
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('fi:fiCashConfigs:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('fi:fiCashConfigs:remove')}]];
+        var prefix = ctx + "fi/fiCashConfigs";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+				exportUrl: prefix + "/export",
+                modalName: "提现账号管理",
+		        showExport: true,
+                columns: [{
+		            checkbox: true
+		        },
+				{
+					field : 'mid', 
+					title : '',
+					visible: false
+				},
+				{
+					field : 'targetType', 
+					title : '提现对象',
+				},
+
+				{
+					field : 'accType', 
+					title : '提现类型',
+					
+				},
+				{
+					field : 'accAreaId', 
+					title : '开户行',
+				
+				},
+				{
+					field : 'accNo', 
+					title : '银行卡号',
+					sortable: true
+				},
+				{
+					field : 'accUser', 
+					title : '持卡人',
+					sortable: true
+				},
+				{
+					field : 'createTime', 
+					title : '创建日期',
+					sortable: true
+				},
+				{
+					field : 'remark', 
+					title : '备注',
+				
+				},
+				{
+					field : 'sort', 
+					title : '排序',
+					sortable: true
+				},
+				{
+					field : 'status', 
+					title : '状态',
+					sortable: true
+				},
+		  ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

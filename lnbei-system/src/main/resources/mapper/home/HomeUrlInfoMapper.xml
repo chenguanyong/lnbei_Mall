@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lnbei.home.mapper.HomeUrlInfoMapper">
+    
+    <resultMap type="HomeUrlInfo" id="HomeUrlInfoResult">
+        <result property="mid"    column="mid"    />
+        <result property="urlId"    column="url_id"    />
+        <result property="founder"    column="founder"    />
+        <result property="describes"    column="describes"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+	
+	<sql id="selectHomeUrlInfoVo">
+        select mid, url_id, founder, describes, create_by, create_time, update_by, update_time, remark, sort from home_url_info
+    </sql>
+	
+    <select id="selectHomeUrlInfoList" parameterType="HomeUrlInfo" resultMap="HomeUrlInfoResult">
+        <include refid="selectHomeUrlInfoVo"/>
+        <where>  
+            <if test="mid != null  and mid != '' "> and mid = #{mid}</if>
+             <if test="urlId != null  and urlId != '' "> and url_id = #{urlId}</if>
+             <if test="founder != null  and founder != '' "> and founder = #{founder}</if>
+             <if test="describes != null  and describes != '' "> and describes = #{describes}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="sort != null "> and sort = #{sort}</if>
+  			<if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+				and date_format(create_time,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+			</if>
+			<if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+				and date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+			</if>             
+         </where>
+         	${params.dataScope}  
+    </select>
+    
+    <select id="selectHomeUrlInfoById" parameterType="String" resultMap="HomeUrlInfoResult">
+        <include refid="selectHomeUrlInfoVo"/>
+        where mid = #{mid}
+    </select>
+        
+    <insert id="insertHomeUrlInfo" parameterType="HomeUrlInfo">
+         <selectKey keyProperty="mid" order="BEFORE" resultType="java.lang.String">
+			SELECT UUID()
+		</selectKey>
+        insert into home_url_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">mid,</if>
+			<if test="urlId != null  and urlId != ''  ">url_id,</if>
+			<if test="founder != null  and founder != ''  ">founder,</if>
+			<if test="describes != null  and describes != ''  ">describes,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="sort != null  ">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="mid != null  and mid != ''  ">#{mid},</if>
+			<if test="urlId != null  and urlId != ''  ">#{urlId},</if>
+			<if test="founder != null  and founder != ''  ">#{founder},</if>
+			<if test="describes != null  and describes != ''  ">#{describes},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="sort != null  ">#{sort},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateHomeUrlInfo" parameterType="HomeUrlInfo">
+        update home_url_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="urlId != null  and urlId != ''  ">url_id = #{urlId},</if>
+            <if test="founder != null  and founder != ''  ">founder = #{founder},</if>
+            <if test="describes != null  and describes != ''  ">describes = #{describes},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="sort != null  ">sort = #{sort},</if>
+        </trim>
+        where mid = #{mid}
+    </update>
+
+	<delete id="deleteHomeUrlInfoById" parameterType="String">
+        delete from home_url_info where mid = #{mid}
+    </delete>
+	
+    <delete id="deleteHomeUrlInfoByIds" parameterType="String">
+        delete from home_url_info where mid in 
+        <foreach item="mid" collection="array" open="(" separator="," close=")">
+            #{mid}
+        </foreach>
+    </delete>
+    
+</mapper>
